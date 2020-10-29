@@ -119,7 +119,7 @@ namespace HandOdds
             try
             {
                 timer.Start();
-                Hand.HandWinOdds(pocketCards, txtBoard.Text, txtDeadCards.Text, wins, ties, losses, ref totalhands);
+                Hand.HandOdds(pocketCards, txtBoard.Text, txtDeadCards.Text, wins, ties, losses, ref totalhands);
                 //double duration = timer.Duration;
                 timer.Stop();
                 var duration = timer.Elapsed;

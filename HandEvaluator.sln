@@ -25,6 +25,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OddsGridApp", "Applications
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VideoPoker", "Applications\VideoPoker\VideoPoker.csproj", "{E28AC9D3-83F1-42AD-884A-A48C5633C327}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HandEvaluatorTest", "HandEvaluatorTest\HandEvaluatorTest.csproj", "{A89A596E-6E6F-46B1-A6E4-7AD3284B80F4}"
+EndProject
 
 Global
 	GlobalSection(DPCodeReviewSolutionGUID) = preSolution
@@ -191,6 +193,18 @@ Global
 		{62B463C7-2961-4E49-8D41-276365068975}.Release|Win32.Build.0 = Release|Any CPU
 		{E28AC9D3-83F1-42AD-884A-A48C5633C327}.Debug|Win32.Build.0 = Debug|Any CPU
 		{E28AC9D3-83F1-42AD-884A-A48C5633C327}.Release|Win32.Build.0 = Release|Any CPU
+		{A89A596E-6E6F-46B1-A6E4-7AD3284B80F4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A89A596E-6E6F-46B1-A6E4-7AD3284B80F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A89A596E-6E6F-46B1-A6E4-7AD3284B80F4}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{A89A596E-6E6F-46B1-A6E4-7AD3284B80F4}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{A89A596E-6E6F-46B1-A6E4-7AD3284B80F4}.Debug|Win32.ActiveCfg = Debug|Any CPU
+		{A89A596E-6E6F-46B1-A6E4-7AD3284B80F4}.Debug|Win32.Build.0 = Debug|Any CPU
+		{A89A596E-6E6F-46B1-A6E4-7AD3284B80F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A89A596E-6E6F-46B1-A6E4-7AD3284B80F4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A89A596E-6E6F-46B1-A6E4-7AD3284B80F4}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{A89A596E-6E6F-46B1-A6E4-7AD3284B80F4}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{A89A596E-6E6F-46B1-A6E4-7AD3284B80F4}.Release|Win32.ActiveCfg = Release|Any CPU
+		{A89A596E-6E6F-46B1-A6E4-7AD3284B80F4}.Release|Win32.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
