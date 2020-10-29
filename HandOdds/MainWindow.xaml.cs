@@ -1,8 +1,10 @@
+using System;
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 
-namespace HandOdds.Views
+namespace HandOdds
 {
     public class MainWindow : Window
     {
@@ -14,6 +16,11 @@ namespace HandOdds.Views
         private void InitializeComponent()
         {
             AvaloniaXamlLoader.Load(this);
+        }
+
+        private void btnCalculate_Click(object sender, RoutedEventArgs e)
+        {
+            
         }
     }
 }

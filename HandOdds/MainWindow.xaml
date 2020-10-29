@@ -1,0 +1,71 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="HandOdds.MainWindow"
+        Title="Hand Odds"
+        Width="560"
+        Height="230">
+    
+    <Grid Margin="10" Column="1" Row="3">
+        <Grid.ColumnDefinitions>
+            
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        
+        <StackPanel Grid.Column="0" Grid.Row="0" Orientation="Horizontal" Margin="0 0 0 20">
+            <TextBlock Text="Board" Margin="0 0 10 0" VerticalAlignment="Center"></TextBlock>
+            <TextBox Name="txtBoard" Text="Ac Kc 7d" Width="200" Margin="0 0 10 0"></TextBox>
+            <TextBlock Text="Dead Cards" Margin="0 0 10 0" VerticalAlignment="Center"/>
+            <TextBox Name="txtDeadCards" Width="200"></TextBox>
+        </StackPanel>
+        
+        <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Center">
+            <Border BorderThickness="1" BorderBrush="Gainsboro" Background="GhostWhite" Padding="10" Margin="0 0 10 0">
+                <StackPanel>
+                    <TextBlock Text="Player 1" FontWeight="Bold"/>
+                    <TextBox Name="txtPlayer1" Text="Jc Tc" Width="100"/>
+                    <TextBlock Name="player1Pct" Text="11.11%" />
+                </StackPanel>
+            </Border>
+            <Border BorderThickness="1" BorderBrush="Gainsboro" Background="GhostWhite" Padding="10" Margin="0 0 10 0">
+                <StackPanel>
+                    <TextBlock Text="Player 2" FontWeight="Bold"/>
+                    <TextBox Name="txtPlayer2" Text="Ad Ah" Width="100"/>
+                    <TextBlock Name="player2Pct" Text="11.11%" />
+                </StackPanel>
+            </Border>
+            <Border BorderThickness="1" BorderBrush="Gainsboro" Background="GhostWhite" Padding="10" Margin="0 0 10 0">
+                <StackPanel>
+                    <TextBlock Text="Player 3" FontWeight="Bold"/>
+                    <TextBox Name="txtPlayer3" Text="6d 8d" Width="100"/>
+                    <TextBlock Name="player3Pct" Text="11.11%" />
+                </StackPanel>
+            </Border>
+            <Border BorderThickness="1" BorderBrush="Gainsboro" Background="GhostWhite" Padding="10">
+                <StackPanel>
+                    <TextBlock Text="Player 4" FontWeight="Bold"/>
+                    <TextBox Name="txtPlayer4" Text="Qd Qc" Width="100"/>
+                    <TextBlock Name="player4Pct" Text="11.11%" />
+                </StackPanel>
+            </Border>
+        </StackPanel>
+        
+        <StackPanel Grid.Row="2" Grid.Column="0">
+            <Border Padding="25" HorizontalAlignment="Center">
+                <TextBlock Text="1,234,567 hands evaluated in 0.193 seconds."></TextBlock>
+            </Border>
+            <Panel HorizontalAlignment="Center">
+                <Button Name="btnCalculate" Click="btnCalculate_Click">
+                    <TextBlock Text="Calculate"></TextBlock>
+                </Button>
+            </Panel>
+        </StackPanel>
+        
+    </Grid>
+</Window>
