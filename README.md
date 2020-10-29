@@ -7,3 +7,4 @@ Source code is directly taken from https://www.codeproject.com/Articles/12279/Fa
 
 UI applications require the AvaloniaUI Library: https://github.com/AvaloniaUI/avalonia-dotnet-templates
  
+ ![Image of Yaktocat](/HandOdds/handodds.png)
