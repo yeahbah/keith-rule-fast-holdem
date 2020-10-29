@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
+    <AssemblyVersion>1.2.0.0</AssemblyVersion>
+    <FileVersion>1.2.0.0</FileVersion>
+    <Copyright>Copyright Keith Rule © 2005-2006</Copyright>
+    <Description>This assembly is released under the LGPL software license.</Description>
+    <AssemblyTitle>HandEvaluator</AssemblyTitle>
+  </PropertyGroup>
+
+</Project>
