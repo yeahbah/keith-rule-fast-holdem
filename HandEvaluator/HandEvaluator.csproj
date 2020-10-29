@@ -10,4 +10,14 @@
     <AssemblyTitle>HandEvaluator</AssemblyTitle>
   </PropertyGroup>
 
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DefineConstants>TRACE;DEBUG;GENTIME</DefineConstants>
+    <DocumentationFile>bin\Debug\HandEvaluator.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <DefineConstants>TRACE;GENTIME</DefineConstants>
+    <DocumentationFile>bin\Release\HandEvaluator.xml</DocumentationFile>
+  </PropertyGroup>
+
 </Project>

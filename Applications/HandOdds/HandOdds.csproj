@@ -1,0 +1,32 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Update="**\*.xaml.cs">
+      <DependentUpon>%(Filename)</DependentUpon>
+    </Compile>
+    <AvaloniaResource Include="**\*.xaml">
+      <SubType>Designer</SubType>
+    </AvaloniaResource>
+    <AvaloniaResource Remove="Old\**" />
+    <Compile Remove="Old\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Avalonia" Version="0.9.12" />
+    <PackageReference Include="Avalonia.Desktop" Version="0.9.12" />
+  </ItemGroup>
+  <ItemGroup>
+    <AvaloniaXaml Remove="Old\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Remove="Old\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Old\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\HandEvaluator\HandEvaluator.csproj" />
+  </ItemGroup>
+</Project>

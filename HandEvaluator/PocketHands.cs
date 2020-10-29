@@ -1,22 +1,21 @@
-
 // Much of this code is derived from poker.eval (look for it on sourceforge.net).
-// This library is covered by the LGPL Gnu license. See http://www.gnu.org/copyleft/lesser.html 
+// This library is covered by the GPL Gnu license. See http://www.gnu.org/licenses/old-licenses/gpl-2.0.html 
 // for more information on this license.
 
-// This code is a very fast, native C# Texas Holdem hand evaluator (containing no interop or unsafe code). 
+// This code is a very fast, native C# Texas Holdem mask evaluator (containing no interop or unsafe code). 
 // This code can enumarate 35 million 5 card hands per second and 29 million 7 card hands per second on my desktop machine.
 // That's not nearly as fast as the heavily macro-ed poker.eval C library. However, this implementation is
 // in roughly the same ballpark for speed and is quite usable in C#.
 
 // The speed ups are mostly table driven. That means that there are several very large tables included in this file. 
 // The code is divided up into several files they are:
-//      HandEvaluator.cs - base hand evaluator
-//      HandIterator.cs - methods that support IEnumerable and methods that validate the hand evaluator
+//      HandEvaluator.cs - base mask evaluator
+//      HandIterator.cs - methods that support IEnumerable and methods that validate the mask evaluator
 //      HandAnalysis.cs - methods to aid in analysis of Texas Holdem Hands.
 //      PocketHands.cs - a class to manipulate pocket hands.
-//      PocketQueryParser - a parser used to interprete pocket hand query language statements.
+//      PocketQueryParser - a parser used to interprete pocket mask query language statements.
 
-// Written (ported) by Keith Rule - Sept 2005, updated Feb 2006
+// Written (ported) by Keith Rule - Sept 2005, updated May 2007
 
 using System;
 using System.Collections;
@@ -981,7 +980,7 @@ namespace HoldemHand
 
         #region Misc 169 Tables
         /// <summary>
-        /// This table contains the gap count for each of the 169 hand types. The index cooresponds PocketHand169Enum.
+        /// This table contains the gap count for each of the 169 mask types. The index cooresponds PocketHand169Enum.
         /// </summary>
         static internal readonly int[] _PocketCards169Gap = {
 		    -1, -1, -1, -1, -1, 
@@ -1061,7 +1060,7 @@ namespace HoldemHand
         };
 
         /// <summary>
-        /// This table contains the suited boolean value for each of the 169 hand types. The index cooresponds PocketHand169Enum.
+        /// This table contains the suited boolean value for each of the 169 mask types. The index cooresponds PocketHand169Enum.
         /// </summary>
         static internal readonly bool[] _PocketCards169Suited = {
 		    false, false, false, false, false, false, false, false, false, false, false, false, false, 
@@ -1091,7 +1090,7 @@ namespace HoldemHand
         /// The 1326 possible pocket cards ordered by the 169 unique holdem combinations. The
         /// index is equivalent to the number value of Hand.PocketHand169Enum.
         /// </summary>
-        public static readonly ulong[][] _Pocket169Combinations = {
+        internal static readonly ulong[][] _Pocket169Combinations = {
 	        new ulong [] {0x8004000000000, 0x8000002000000, 0x8000000001000, 0x4002000000, 0x4000001000, 0x2001000},
 	        new ulong [] {0x4002000000000, 0x4000001000000, 0x4000000000800, 0x2001000000, 0x2000000800, 0x1000800},
 	        new ulong [] {0x2001000000000, 0x2000000800000, 0x2000000000400, 0x1000800000, 0x1000000400, 0x800400},
@@ -1266,7 +1265,7 @@ namespace HoldemHand
         /// <summary>
         /// The 1326 pocket card combinations.
         /// </summary>
-        public static ulong[] PocketTableMasks =
+        internal static ulong[] PocketTableMasks =
         {
 		    0xA000000000000,
 		    0x9000000000000,
@@ -2602,7 +2601,7 @@ namespace HoldemHand
         /// The index of each string should correspond to the integer value
         /// associated with enumerator entry.
         /// </summary>
-        static public readonly string[] PocketCards169Strings = {
+        static internal readonly string[] PocketCards169Strings = {
 		    "AA", "KK", "QQ", "JJ", "TT", "99", "88", "77", "66", "55", "44", "33", "22", 
 		    "AKs", "AKo", "AQs", "AQo", "AJs", "AJo", "ATs", "ATo", "A9s", "A9o", 
             "A8s", "A8o", "A7s", "A7o", "A6s", "A6o", "A5s", "A5o", "A4s", "A4o",
@@ -2830,10 +2829,10 @@ namespace HoldemHand
         };
 
         /// <summary>
-        /// Returns the probablity of the specified two card pocket hand winning against
+        /// Returns the probablity of the specified two card pocket mask winning against
         /// a random opponent. This is just a table lookup so the results are fairly quick.
         /// </summary>
-        /// <param name="mask">2 card pocket hand</param>
+        /// <param name="mask">2 card pocket mask</param>
         static public double WinOdds(ulong mask)
         {
 #if DEBUG
@@ -2857,7 +2856,7 @@ namespace HoldemHand
         }
 
         /// <summary>
-        /// Returns true if the 2 card pocket hand passed is connected. This function is a lookup so
+        /// Returns true if the 2 card pocket mask passed is connected. This function is a lookup so
         /// it is reasonably fast.
         /// </summary>
         /// <param name="mask"></param>
@@ -2868,7 +2867,7 @@ namespace HoldemHand
         }
 
         /// <summary>
-        /// Returns true if the two card pocket hand passed is suited. This method is a lookup so it is 
+        /// Returns true if the two card pocket mask passed is suited. This method is a lookup so it is 
         /// quite fast.
         /// </summary>
         /// <param name="mask"></param>
@@ -2899,7 +2898,7 @@ namespace HoldemHand
         static internal Dictionary<string, Hand.PocketHand169Enum> _card169ToTypeTable = new Dictionary<string, Hand.PocketHand169Enum>();
 
         /// <summary>
-        /// 
+        /// Given a string, the corresponding PocketHand169Enum is returned.
         /// </summary>
         /// <param name="s"></param>
         /// <returns></returns>
@@ -2921,7 +2920,11 @@ namespace HoldemHand
         static internal Dictionary<string, string> _card169fixtable = new Dictionary<string, string>();
 
         /// <summary>
-        /// 
+        /// I goofed up the text description of the 169 card hands. I originally
+        /// used my own syntax rather than the one Sklansky uses in his book. I released
+        /// after working through is books, that I should have used his syntax (even
+        /// though I think it's a bit confusing). This functions converts the Sklansky 
+        /// syntax to mine. 
         /// </summary>
         /// <param name="s"></param>
         /// <returns></returns>
@@ -2932,7 +2935,7 @@ namespace HoldemHand
         }
 
         /// <summary>
-        /// 
+        /// See FindFixCard169() description.
         /// </summary>
         /// <param name="s"></param>
         /// <returns></returns>
@@ -2943,7 +2946,7 @@ namespace HoldemHand
         }
 
         /// <summary>
-        /// 
+        /// See FindFixCard169 description
         /// </summary>
         static internal void BuildFix169Table()
         {
@@ -3971,7 +3974,7 @@ namespace HoldemHand
 
         /// <summary>
         /// This methods reduces the hands passed in hands to a set of that represents one of each of the
-        /// 169 hand types (if such a hand exists).
+        /// 169 mask types (if such a mask exists).
         /// </summary>
         /// <param name="hands"></param>
         /// <returns></returns>
@@ -4646,7 +4649,7 @@ namespace HoldemHand
         }
 
         /// <summary>
-        /// This operator compares two pocket hand collections for inequality.
+        /// This operator compares two pocket mask collections for inequality.
         /// </summary>
         /// <param name="arg1"></param>
         /// <param name="arg2"></param>
@@ -4669,7 +4672,7 @@ namespace HoldemHand
         }
 
         /// <summary>
-        /// This operator compares two pocket hand collections for inequality.
+        /// This operator compares two pocket mask collections for inequality.
         /// </summary>
         /// <param name="arg1"></param>
         /// <param name="arg2"></param>
@@ -4692,7 +4695,7 @@ namespace HoldemHand
         }
 
         /// <summary>
-        /// This operator compares two pocket hand collections for inequality.
+        /// This operator compares two pocket mask collections for inequality.
         /// </summary>
         /// <param name="arg1"></param>
         /// <param name="arg2"></param>
@@ -4715,7 +4718,7 @@ namespace HoldemHand
         }
 
         /// <summary>
-        /// This operator compares two pocket hand collections for inequality.
+        /// This operator compares two pocket mask collections for inequality.
         /// </summary>
         /// <param name="arg1"></param>
         /// <param name="arg2"></param>
@@ -4804,7 +4807,7 @@ namespace HoldemHand
 
         /// <summary>
         /// This operator returns all PocketHands that are in arg and are less than or equal to the
-        /// 169 hand type specified in the argument type.
+        /// 169 mask type specified in the argument type.
         /// </summary>
         /// <param name="arg"></param>
         /// <param name="type"></param>
@@ -4821,7 +4824,7 @@ namespace HoldemHand
 
         /// <summary>
         /// This operator returns all PocketHands that are in arg and are less than to the
-        /// 169 hand type specified in the argument type.
+        /// 169 mask type specified in the argument type.
         /// </summary>
         /// <param name="arg1"></param>
         /// <param name="type"></param>
@@ -4840,7 +4843,7 @@ namespace HoldemHand
 
         /// <summary>
         /// This operator returns all PocketHands that are in arg and are greater than to the
-        /// 169 hand type specified in the argument type.
+        /// 169 mask type specified in the argument type.
         /// </summary>
         /// <param name="arg"></param>
         /// <param name="type"></param>
@@ -4859,7 +4862,7 @@ namespace HoldemHand
 
         /// <summary>
         /// This operator returns all PocketHands that are in arg and are greater than or equal to the
-        /// 169 hand type specified in the argument type.
+        /// 169 mask type specified in the argument type.
         /// </summary>
         /// <param name="arg"></param>
         /// <param name="type"></param>
@@ -5025,9 +5028,9 @@ namespace HoldemHand
 
         #endregion   
 
-        #region Hand169 IEnumerable Members
+        #region IEnumerable Members
         /// <summary>
-        /// This method allows only one of each representative type of pocket hand to
+        /// This method allows only one of each representative type of pocket mask to
         /// be iterated through. It might be preferred of over Hand.Hands() if you wish
         /// to reduce the number of pocket hands considered, but still cover all of the types of 
         /// pocket hands.
@@ -5054,8 +5057,8 @@ namespace HoldemHand
         ///     }
         /// }
         /// </code>
-        /// <param name="shared">The cards must be in the pocket hand</param>
-        /// <param name="dead">These cards must not be in the pocket hand</param>
+        /// <param name="shared">The cards must be in the pocket mask</param>
+        /// <param name="dead">These cards must not be in the pocket mask</param>
         /// <returns></returns>
         static public IEnumerable<ulong> Hands169(ulong shared, ulong dead)
         {
@@ -5073,7 +5076,7 @@ namespace HoldemHand
         }
 
         /// <summary>
-        /// This method allows only one of each representative type of pocket hand to
+        /// This method allows only one of each representative type of pocket mask to
         /// be iterated through. It might be preferred of over Hand.Hands() if you wish
         /// to reduce the number of pocket hands considered, but still cover all of the types of 
         /// pocket hands.
@@ -5100,7 +5103,7 @@ namespace HoldemHand
         ///     }
         /// }
         /// </code>
-        /// <param name="dead">These cards must not be in the pocket hand</param>
+        /// <param name="dead">These cards must not be in the pocket mask</param>
         /// <returns></returns>
         static public IEnumerable<ulong> Hands169(ulong dead)
         {
@@ -5108,7 +5111,7 @@ namespace HoldemHand
         }
 
         /// <summary>
-        /// This method allows only one of each representative type of pocket hand to
+        /// This method allows only one of each representative type of pocket mask to
         /// be iterated through. It might be preferred of over Hand.Hands() if you wish
         /// to reduce the number of pocket hands considered, but still cover all of the types of 
         /// pocket hands.
@@ -5140,9 +5143,85 @@ namespace HoldemHand
         {
             return Hands169(0UL, 0UL);
         }
-        #endregion
 
-        #region IEnumerable Members
+        /// <summary>
+        /// This method iterates through the all of the hands with the specified number of
+        /// cards that contain one of the sets of cards in the list array. 
+        /// </summary>
+        /// <param name="list">The list of cards sets (probably pocket hands) that one of which must be in the returned mask</param>
+        /// <param name="dead">A mask of the cards that must not be in the returned mask</param>
+        /// <param name="numberOfCards">The number of cards in the returned mask</param>
+        /// <returns></returns>
+        private static IEnumerable<ulong> Hands(ulong[] list, ulong dead, int numberOfCards)
+        {
+            ulong shared = 0UL;
+
+            if (list == null || list.Length == 0)
+                yield break;
+
+            foreach (ulong mask in list)
+            {
+                shared |= mask;
+            }
+
+            foreach (ulong mask in Hand.Hands(0UL, dead, numberOfCards))
+            {
+                if ((mask & shared) != 0)
+                {
+                    foreach (ulong pocket in list)
+                    {
+                        if ((pocket & mask) == pocket)
+                        {
+                            yield return mask;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Iterates through all of the hands that contain a pocket mask from the set
+        /// pocket hands defined in the query string.
+        /// </summary>
+        /// <param name="query">A pocket mask query string</param>
+        /// <param name="dead">A mask of cards that must no be included in the returned mask</param>
+        /// <param name="numberOfCards">The number of cards in the returned mask</param>
+        /// <returns>Hand mask</returns>
+        /// <example>
+        /// <code>
+        /// using System;
+        /// using HoldemHand;
+        /// 
+        /// namespace ConsoleApplication1
+        /// {
+        ///     class Program
+        ///     {
+        ///         static void Main(string[] args)
+        ///         {
+        ///             long count = 0;
+        ///             foreach (ulong mask in PocketHands.Hands("AKs", 0UL, 7))
+        ///             {
+        ///                 count++;
+        ///             }
+        ///             Console.WriteLine("count: {0}", count);
+        ///          }
+        ///     }
+        /// }
+        /// </code>
+        /// </example>
+        public static IEnumerable<ulong> Hands(string query, ulong dead, int numberOfCards)
+        {
+            ulong[] list = new ulong[0];
+            try
+            {
+                list = PocketHands.Query(query);
+            }
+            catch
+            {
+            }
+            return Hands(list, dead, numberOfCards);
+        }
 
         /// <summary>
         /// This method makes it possible to use the foreach statement
@@ -5180,7 +5259,7 @@ namespace HoldemHand
         }
 
         /// <summary>
-        /// Returns the number of ulong values in the pocket hand collection.
+        /// Returns the number of ulong values in the pocket mask collection.
         /// </summary>
         public int Count
         {
@@ -5224,7 +5303,7 @@ namespace HoldemHand
         }
 
         /// <summary>
-        /// Checks this pocket hand collection with another for equality.
+        /// Checks this pocket mask collection with another for equality.
         /// </summary>
         /// <param name="obj"></param>
         /// <returns></returns>
