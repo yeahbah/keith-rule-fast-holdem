@@ -12,4 +12,4 @@ https://www.codeproject.com/Articles/19092/More-Texas-Holdem-Analysis-in-C-Part-
 
 UI applications require the AvaloniaUI Library: https://github.com/AvaloniaUI/avalonia-dotnet-templates
  
- ![Image of Yaktocat](/HandOdds/handodds.png)
+ ![Image of HandOdds](/Applications/HandOdds/handodds.png)
