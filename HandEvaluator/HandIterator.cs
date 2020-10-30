@@ -1,38 +1,40 @@
 // Much of this code is derived from poker.eval (look for it on sourceforge.net).
-// This library is covered by the LGPL Gnu license. See http://www.gnu.org/copyleft/lesser.html 
+// This library is covered by the GPL Gnu license. See http://www.gnu.org/licenses/old-licenses/gpl-2.0.html 
 // for more information on this license.
 
-// This code is a very fast, native C# Texas Holdem hand evaluator (containing no interop or unsafe code). 
+// This code is a very fast, native C# Texas Holdem mask evaluator (containing no interop or unsafe code). 
 // This code can enumarate 35 million 5 card hands per second and 29 million 7 card hands per second on my desktop machine.
 // That's not nearly as fast as the heavily macro-ed poker.eval C library. However, this implementation is
 // in roughly the same ballpark for speed and is quite usable in C#.
 
 // The speed ups are mostly table driven. That means that there are several very large tables included in this file. 
 // The code is divided up into several files they are:
-//      HandEvaluator.cs - base hand evaluator
-//      HandIterator.cs - methods that support IEnumerable and methods that validate the hand evaluator
+//      HandEvaluator.cs - base mask evaluator
+//      HandIterator.cs - methods that support IEnumerable and methods that validate the mask evaluator
 //      HandAnalysis.cs - methods to aid in analysis of Texas Holdem Hands.
+//      PocketHands.cs - a class to manipulate pocket hands.
+//      PocketQueryParser - a parser used to interprete pocket mask query language statements.
+//                          The runtime portion of the query parser is copyrighted by Malcolm Crowe (but is freely distributable)
 
-// Written (ported) by Keith Rule - Sept 2005
+// Written (ported) by Keith Rule - Sept 2005, updated May 2007
 
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
 using System.ComponentModel;
 using System.Threading;
 using System.Diagnostics;
+using System.Runtime.InteropServices;
 
 namespace HoldemHand
 {
     public partial class Hand : IComparable
     {
         #region Hand Tables
-       
         /// <summary>
         /// 1326 ulong cards masks for all hold cards.
         /// </summary>
-        private static readonly ulong[] TwoCardTable = {
+        public static readonly ulong[] TwoCardMaskTable = {
             0xc000000000000, 0xa000000000000, 0x9000000000000, 0x8800000000000, 0x8400000000000, 
             0x8200000000000, 0x8100000000000, 0x8080000000000, 0x8040000000000, 0x8020000000000, 
             0x8010000000000, 0x8008000000000, 0x8004000000000, 0x8002000000000, 0x8001000000000, 
@@ -300,6 +302,9 @@ namespace HoldemHand
             0xc, 0xa, 0x9, 0x6, 0x5, 
             0x3
         };
+
+        /// <exclude/>
+        public static readonly int TwoCardMaskTableSize = TwoCardMaskTable.Length;
         #endregion
 
         #region Pocket169
@@ -309,7 +314,7 @@ namespace HoldemHand
         /// The 1326 possible pocket cards ordered by the 169 unique holdem combinations. The
         /// index is equivalent to the number value of Hand.PocketPairType.
         /// </summary>
-        public static readonly ulong[][] Pocket169Table = {
+        internal static readonly ulong[][] Pocket169Table = {
 	        new ulong [] {0x8004000000000, 0x8000002000000, 0x8000000001000, 0x4002000000, 0x4000001000, 0x2001000},
 	        new ulong [] {0x4002000000000, 0x4000001000000, 0x4000000000800, 0x2001000000, 0x2000000800, 0x1000800},
 	        new ulong [] {0x2001000000000, 0x2000000800000, 0x2000000000400, 0x1000800000, 0x1000000400, 0x800400},
@@ -490,7 +495,7 @@ namespace HoldemHand
         public enum PocketHand169Enum : int
         {
             /// <summary>
-            /// Not a PocketPairType
+            /// Not a PocketHand169Enum
             /// </summary>
             None = -1,
             /// <summary>
@@ -1175,10 +1180,10 @@ namespace HoldemHand
         #region Pocket169 Mask/Enum Lookup
 
         /// <exclude/>
-        static private Dictionary<ulong, PocketHand169Enum> pocketdict = new Dictionary<ulong, PocketHand169Enum>();
+        static internal Dictionary<ulong, PocketHand169Enum> pocketdict = new Dictionary<ulong, PocketHand169Enum>();
 
         /// <summary>
-        /// Given a pocket pair mask, the PocketPairType cooresponding to this mask
+        /// Given a pocket pair mask, the PocketHand169Enum cooresponding to this mask
         /// will be returned. 
         /// </summary>
         /// <param name="mask"></param>
@@ -1216,7 +1221,7 @@ namespace HoldemHand
         /// <summary>
         /// Enables a foreach command to enumerate all possible ncard hands.
         /// </summary>
-        /// <param name="numberOfCards">the number of cards in the hand (must be between 1 and 7)</param>
+        /// <param name="numberOfCards">the number of cards in the mask (must be between 1 and 7)</param>
         /// <returns></returns>
         /// <example>
         /// <code>
@@ -1239,7 +1244,7 @@ namespace HoldemHand
         /// </example>
         public static IEnumerable<ulong> Hands(int numberOfCards)
         {
-            int _i1, _i2, _i3, _i4, _i5, _i6, _i7, length;
+            int a, b, c, d, e, f, g;
             ulong _card1, _n2, _n3, _n4, _n5, _n6;
 
 #if DEBUG
@@ -1251,27 +1256,27 @@ namespace HoldemHand
             switch (numberOfCards)
             {
                 case 7:
-                    for (_i1 = NumberOfCards - 1; _i1 >= 0; _i1--)
+                    for (a = 0; a < CardMasksTableSize-6; a++)
                     {
-                        _card1 = CardMasksTable[_i1];
-                        for (_i2 = _i1 - 1; _i2 >= 0; _i2--)
+                        _card1 = CardMasksTable[a];
+                        for (b = a + 1; b < CardMasksTableSize-5; b++)
                         {
-                            _n2 = _card1 | CardMasksTable[_i2];
-                            for (_i3 = _i2 - 1; _i3 >= 0; _i3--)
+                            _n2 = _card1 | CardMasksTable[b];
+                            for (c = b + 1; c < CardMasksTableSize-4; c++)
                             {
-                                _n3 = _n2 | CardMasksTable[_i3];
-                                for (_i4 = _i3 - 1; _i4 >= 0; _i4--)
+                                _n3 = _n2 | CardMasksTable[c];
+                                for (d = c + 1; d < CardMasksTableSize-3; d++)
                                 {
-                                    _n4 = _n3 | CardMasksTable[_i4];
-                                    for (_i5 = _i4 - 1; _i5 >= 0; _i5--)
+                                    _n4 = _n3 | CardMasksTable[d];
+                                    for (e = d + 1; e < CardMasksTableSize-2; e++)
                                     {
-                                        _n5 = _n4 | CardMasksTable[_i5];
-                                        for (_i6 = _i5 - 1; _i6 >= 0; _i6--)
+                                        _n5 = _n4 | CardMasksTable[e];
+                                        for (f = e + 1; f < CardMasksTableSize-1; f++)
                                         {
-                                            _n6 = _n5 | CardMasksTable[_i6];
-                                            for (_i7 = _i6 - 1; _i7 >= 0; _i7--)
+                                            _n6 = _n5 | CardMasksTable[f];
+                                            for (g = f + 1; g < CardMasksTableSize; g++)
                                             {
-                                                yield return _n6 | CardMasksTable[_i7];
+                                                yield return _n6 | CardMasksTable[g];
                                             }
                                         }
                                     }
@@ -1281,24 +1286,24 @@ namespace HoldemHand
                     }
                     break;
                 case 6:
-                    for (_i1 = NumberOfCards - 1; _i1 >= 0; _i1--)
+                    for (a = 0; a < CardMasksTableSize-5; a++)
                     {
-                        _card1 = CardMasksTable[_i1];
-                        for (_i2 = _i1 - 1; _i2 >= 0; _i2--)
+                        _card1 = CardMasksTable[a];
+                        for (b = a + 1; b < CardMasksTableSize-4; b++)
                         {
-                            _n2 = _card1 | CardMasksTable[_i2];
-                            for (_i3 = _i2 - 1; _i3 >= 0; _i3--)
+                            _n2 = _card1 | CardMasksTable[b];
+                            for (c = b + 1; c < CardMasksTableSize-3; c++)
                             {
-                                _n3 = _n2 | CardMasksTable[_i3];
-                                for (_i4 = _i3 - 1; _i4 >= 0; _i4--)
+                                _n3 = _n2 | CardMasksTable[c];
+                                for (d = c + 1; d < CardMasksTableSize-2; d++)
                                 {
-                                    _n4 = _n3 | CardMasksTable[_i4];
-                                    for (_i5 = _i4 - 1; _i5 >= 0; _i5--)
+                                    _n4 = _n3 | CardMasksTable[d];
+                                    for (e = d + 1; e < CardMasksTableSize-1; e++)
                                     {
-                                        _n5 = _n4 | CardMasksTable[_i5];
-                                        for (_i6 = _i5 - 1; _i6 >= 0; _i6--)
+                                        _n5 = _n4 | CardMasksTable[e];
+                                        for (f = e + 1; f < CardMasksTableSize; f++)
                                         {
-                                            yield return _n5 | CardMasksTable[_i6];
+                                            yield return _n5 | CardMasksTable[f];
                                         }
                                     }
                                 }
@@ -1307,21 +1312,21 @@ namespace HoldemHand
                     }
                     break;
                 case 5:
-                    for (_i1 = NumberOfCards - 1; _i1 >= 0; _i1--)
+                    for (a = 0; a < CardMasksTableSize-4; a++)
                     {
-                        _card1 = CardMasksTable[_i1];
-                        for (_i2 = _i1 - 1; _i2 >= 0; _i2--)
+                        _card1 = CardMasksTable[a];
+                        for (b = a + 1; b < CardMasksTableSize-3; b++)
                         {
-                            _n2 = _card1 | CardMasksTable[_i2];
-                            for (_i3 = _i2 - 1; _i3 >= 0; _i3--)
+                            _n2 = _card1 | CardMasksTable[b];
+                            for (c = b + 1; c < CardMasksTableSize-2; c++)
                             {
-                                _n3 = _n2 | CardMasksTable[_i3];
-                                for (_i4 = _i3 - 1; _i4 >= 0; _i4--)
+                                _n3 = _n2 | CardMasksTable[c];
+                                for (d = c + 1; d < CardMasksTableSize-1; d++)
                                 {
-                                    _n4 = _n3 | CardMasksTable[_i4];
-                                    for (_i5 = _i4 - 1; _i5 >= 0; _i5--)
+                                    _n4 = _n3 | CardMasksTable[d];
+                                    for (e = d + 1; e < CardMasksTableSize; e++)
                                     {
-                                        yield return _n4 | CardMasksTable[_i5];
+                                        yield return _n4 | CardMasksTable[e];
                                     }
                                 }
                             }
@@ -1329,50 +1334,47 @@ namespace HoldemHand
                     }
                     break;
                 case 4:
-                    for (_i1 = NumberOfCards - 1; _i1 >= 0; _i1--)
+                    for (a = 0; a < CardMasksTableSize-3; a++)
                     {
-                        _card1 = CardMasksTable[_i1];
-                        for (_i2 = _i1 - 1; _i2 >= 0; _i2--)
+                        _card1 = CardMasksTable[a];
+                        for (b = a + 1; b < CardMasksTableSize-2; b++)
                         {
-                            _n2 = _card1 | CardMasksTable[_i2];
-                            for (_i3 = _i2 - 1; _i3 >= 0; _i3--)
+                            _n2 = _card1 | CardMasksTable[b];
+                            for (c = b + 1; c < CardMasksTableSize-1; c++)
                             {
-                                _n3 = _n2 | CardMasksTable[_i3];
-                                for (_i4 = _i3 - 1; _i4 >= 0; _i4--)
+                                _n3 = _n2 | CardMasksTable[c];
+                                for (d = c + 1; d < CardMasksTableSize; d++)
                                 {
-                                    yield return _n3 | CardMasksTable[_i4];
+                                    yield return _n3 | CardMasksTable[d];
                                 }
                             }
                         }
                     }
-
                     break;
                 case 3:
-                    for (_i1 = NumberOfCards - 1; _i1 >= 0; _i1--)
+                    for (a = 0; a < CardMasksTableSize-2; a++)
                     {
-                        _card1 = CardMasksTable[_i1];
-                        for (_i2 = _i1 - 1; _i2 >= 0; _i2--)
+                        _card1 = CardMasksTable[a];
+                        for (b = a + 1; b < CardMasksTableSize-1; b++)
                         {
-                            _n2 = _card1 | CardMasksTable[_i2];
-                            for (_i3 = _i2 - 1; _i3 >= 0; _i3--)
+                            _n2 = _card1 | CardMasksTable[b];
+                            for (c = b + 1; c < CardMasksTableSize; c++ )
                             {
-                                yield return _n2 | CardMasksTable[_i3];
+                                yield return _n2 | CardMasksTable[c];
                             }
                         }
                     }
                     break;
                 case 2:
-                    length = TwoCardTable.Length;
-                    for (_i1 = 0; _i1 < length; _i1++)
+                    for (a = 0; a < TwoCardMaskTableSize; a++)
                     {
-                        yield return TwoCardTable[_i1];
+                        yield return TwoCardMaskTable[a];
                     }
                     break;
                 case 1:
-                    length = CardMasksTable.Length;
-                    for (_i1 = 0; _i1 < length; _i1++)
+                    for (a = 0; a < CardMasksTableSize; a++)
                     {
-                        yield return CardMasksTable[_i1];
+                        yield return CardMasksTable[a];
                     }
                     break;
                 default:
@@ -1387,19 +1389,19 @@ namespace HoldemHand
         /// </summary>
         /// <param name="shared">A bitfield containing the cards that must be in the enumerated hands</param>
         /// <param name="dead">A bitfield containing the cards that must not be in the enumerated hands</param>
-        /// <param name="numberOfCards">the number of cards in the hand (must be between 1 and 7)</param>
+        /// <param name="numberOfCards">the number of cards in the mask (must be between 1 and 7)</param>
         /// <returns></returns>
         /// <example>
         /// <code>
-        /// // Counts all remaining hands in a 7 card holdem hand.
+        /// // Counts all remaining hands in a 7 card holdem mask.
         /// static long CountHands(string partialHand)
         /// {
         ///     long count = 0;
         /// 
-        ///     // Parse hand and create a mask
+        ///     // Parse mask and create a mask
         ///     ulong partialHandmask = Hand.ParseHand(partialHand);
         /// 
-        ///     // iterate through all 7 card hands that share the cards in our partial hand.
+        ///     // iterate through all 7 card hands that share the cards in our partial mask.
         ///    foreach (ulong handmask in Hand.Hands(partialHandmask, 0UL, 7))
         ///    {
         ///        count++;
@@ -1411,7 +1413,7 @@ namespace HoldemHand
         /// </example>
         public static IEnumerable<ulong> Hands(ulong shared, ulong dead, int numberOfCards)
         {
-            int _i1, _i2, _i3, _i4, _i5, _i6, _i7, length;
+            int a, b, c, d, e, f, g;
             ulong _card1, _card2, _card3, _card4, _card5, _card6, _card7;
             ulong _n2, _n3, _n4, _n5, _n6;
 
@@ -1420,38 +1422,38 @@ namespace HoldemHand
             switch (numberOfCards - BitCount(shared))
             {
                 case 7:
-                    for (_i1 = NumberOfCards - 1; _i1 >= 0; _i1--)
+                    for (a = 0; a < CardMasksTableSize-6; a++)
                     {
-                        _card1 = CardMasksTable[_i1];
+                        _card1 = CardMasksTable[a];
                         if ((dead & _card1) != 0) continue;
-                        for (_i2 = _i1 - 1; _i2 >= 0; _i2--)
+                        for (b = a + 1; b < CardMasksTableSize-5; b++)
                         {
-                            _card2 = CardMasksTable[_i2];
+                            _card2 = CardMasksTable[b];
                             if ((dead & _card2) != 0) continue;
                             _n2 = _card1 | _card2;
-                            for (_i3 = _i2 - 1; _i3 >= 0; _i3--)
+                            for (c = b + 1; c < CardMasksTableSize-4; c++)
                             {
-                                _card3 = CardMasksTable[_i3];
+                                _card3 = CardMasksTable[c];
                                 if ((dead & _card3) != 0) continue;
                                 _n3 = _n2 | _card3;
-                                for (_i4 = _i3 - 1; _i4 >= 0; _i4--)
+                                for (d = c + 1; d < CardMasksTableSize-3; d++)
                                 {
-                                    _card4 = CardMasksTable[_i4];
+                                    _card4 = CardMasksTable[d];
                                     if ((dead & _card4) != 0) continue;
                                     _n4 = _n3 | _card4;
-                                    for (_i5 = _i4 - 1; _i5 >= 0; _i5--)
+                                    for (e = d + 1; e < CardMasksTableSize-2; e++)
                                     {
-                                        _card5 = CardMasksTable[_i5];
+                                        _card5 = CardMasksTable[e];
                                         if ((dead & _card5) != 0) continue;
                                         _n5 = _n4 | _card5;
-                                        for (_i6 = _i5 - 1; _i6 >= 0; _i6--)
+                                        for (f = e + 1; f < CardMasksTableSize-1; f++)
                                         {
-                                            _card6 = CardMasksTable[_i6];
+                                            _card6 = CardMasksTable[f];
                                             if ((dead & _card6) != 0) continue;
                                             _n6 = _n5 | _card6;
-                                            for (_i7 = _i6 - 1; _i7 >= 0; _i7--)
+                                            for (g = f + 1; g < CardMasksTableSize; g++)
                                             {
-                                                _card7 = CardMasksTable[_i7];
+                                                _card7 = CardMasksTable[g];
                                                 if ((dead & _card7) != 0) continue;
                                                 yield return _n6 | _card7 | shared;
                                             }
@@ -1463,35 +1465,34 @@ namespace HoldemHand
                     }
                     break;
                 case 6:
-                    for (_i1 = NumberOfCards - 1; _i1 >= 0; _i1--)
+                    for (a = 0; a < CardMasksTableSize-5; a++)
                     {
-                        _card1 = CardMasksTable[_i1];
+                        _card1 = CardMasksTable[a];
                         if ((dead & _card1) != 0) continue;
-                        for (_i2 = _i1 - 1; _i2 >= 0; _i2--)
+                        for (b = a + 1; b < CardMasksTableSize-4; b++)
                         {
-                            _card2 = CardMasksTable[_i2];
+                            _card2 = CardMasksTable[b];
                             if ((dead & _card2) != 0) continue;
                             _n2 = _card1 | _card2;
-                            for (_i3 = _i2 - 1; _i3 >= 0; _i3--)
+                            for (c = b + 1; c < CardMasksTableSize-3; c++)
                             {
-                                _card3 = CardMasksTable[_i3];
+                                _card3 = CardMasksTable[c];
                                 if ((dead & _card3) != 0) continue;
                                 _n3 = _n2 | _card3;
-                                for (_i4 = _i3 - 1; _i4 >= 0; _i4--)
+                                for (d = c + 1; d < CardMasksTableSize-2; d++)
                                 {
-                                    _card4 = CardMasksTable[_i4];
+                                    _card4 = CardMasksTable[d];
                                     if ((dead & _card4) != 0) continue;
                                     _n4 = _n3 | _card4;
-                                    for (_i5 = _i4 - 1; _i5 >= 0; _i5--)
+                                    for (e = d + 1; e < CardMasksTableSize-1; e++)
                                     {
-                                        _card5 = CardMasksTable[_i5];
+                                        _card5 = CardMasksTable[e];
                                         if ((dead & _card5) != 0) continue;
                                         _n5 = _n4 | _card5;
-                                        for (_i6 = _i5 - 1; _i6 >= 0; _i6--)
+                                        for (f = e + 1; f < CardMasksTableSize; f++)
                                         {
-                                            _card6 = CardMasksTable[_i6];
-                                            if ((dead & _card6) != 0)
-                                                continue;
+                                            _card6 = CardMasksTable[f];
+                                            if ((dead & _card6) != 0) continue;
                                             yield return _n5 | _card6 | shared;
                                         }
                                     }
@@ -1501,28 +1502,28 @@ namespace HoldemHand
                     }
                     break;
                 case 5:
-                    for (_i1 = NumberOfCards - 1; _i1 >= 0; _i1--)
+                    for (a = 0; a < CardMasksTableSize-4; a++)
                     {
-                        _card1 = CardMasksTable[_i1];
+                        _card1 = CardMasksTable[a];
                         if ((dead & _card1) != 0) continue;
-                        for (_i2 = _i1 - 1; _i2 >= 0; _i2--)
+                        for (b = a + 1; b < CardMasksTableSize-3; b++)
                         {
-                            _card2 = CardMasksTable[_i2];
+                            _card2 = CardMasksTable[b];
                             if ((dead & _card2) != 0) continue;
                             _n2 = _card1 | _card2;
-                            for (_i3 = _i2 - 1; _i3 >= 0; _i3--)
+                            for (c = b + 1; c < CardMasksTableSize-2; c++)
                             {
-                                _card3 = CardMasksTable[_i3];
+                                _card3 = CardMasksTable[c];
                                 if ((dead & _card3) != 0) continue;
                                 _n3 = _n2 | _card3;
-                                for (_i4 = _i3 - 1; _i4 >= 0; _i4--)
+                                for (d = c + 1; d < CardMasksTableSize-1; d++)
                                 {
-                                    _card4 = CardMasksTable[_i4];
+                                    _card4 = CardMasksTable[d];
                                     if ((dead & _card4) != 0) continue;
                                     _n4 = _n3 | _card4;
-                                    for (_i5 = _i4 - 1; _i5 >= 0; _i5--)
+                                    for (e = d + 1; e < CardMasksTableSize; e++)
                                     {
-                                        _card5 = CardMasksTable[_i5];
+                                        _card5 = CardMasksTable[e];
                                         if ((dead & _card5) != 0) continue;
                                         yield return _n4 | _card5 | shared;
                                     }
@@ -1532,23 +1533,23 @@ namespace HoldemHand
                     }
                     break;
                 case 4:
-                    for (_i1 = NumberOfCards - 1; _i1 >= 0; _i1--)
+                    for (a = 0; a < CardMasksTableSize-3; a++)
                     {
-                        _card1 = CardMasksTable[_i1];
+                        _card1 = CardMasksTable[a];
                         if ((dead & _card1) != 0) continue;
-                        for (_i2 = _i1 - 1; _i2 >= 0; _i2--)
+                        for (b = a + 1; b < CardMasksTableSize-2; b++)
                         {
-                            _card2 = CardMasksTable[_i2];
+                            _card2 = CardMasksTable[b];
                             if ((dead & _card2) != 0) continue;
                             _n2 = _card1 | _card2;
-                            for (_i3 = _i2 - 1; _i3 >= 0; _i3--)
+                            for (c = b + 1; c < CardMasksTableSize-1; c++)
                             {
-                                _card3 = CardMasksTable[_i3];
+                                _card3 = CardMasksTable[c];
                                 if ((dead & _card3) != 0) continue;
                                 _n3 = _n2 | _card3;
-                                for (_i4 = _i3 - 1; _i4 >= 0; _i4--)
+                                for (d = c + 1; d < CardMasksTableSize; d++)
                                 {
-                                    _card4 = CardMasksTable[_i4];
+                                    _card4 = CardMasksTable[d];
                                     if ((dead & _card4) != 0) continue;
                                     yield return _n3 | _card4 | shared;
                                 }
@@ -1558,18 +1559,18 @@ namespace HoldemHand
 
                     break;
                 case 3:
-                    for (_i1 = NumberOfCards - 1; _i1 >= 0; _i1--)
+                    for (a = 0; a < CardMasksTableSize-2; a++)
                     {
-                        _card1 = CardMasksTable[_i1];
+                        _card1 = CardMasksTable[a];
                         if ((dead & _card1) != 0) continue;
-                        for (_i2 = _i1 - 1; _i2 >= 0; _i2--)
+                        for (b = a + 1; b < CardMasksTableSize-1; b++)
                         {
-                            _card2 = CardMasksTable[_i2];
+                            _card2 = CardMasksTable[b];
                             if ((dead & _card2) != 0) continue;
                             _n2 = _card1 | _card2;
-                            for (_i3 = _i2 - 1; _i3 >= 0; _i3--)
+                            for (c = b + 1; c < CardMasksTableSize; c++)
                             {
-                                _card3 = CardMasksTable[_i3];
+                                _card3 = CardMasksTable[c];
                                 if ((dead & _card3) != 0) continue;
                                 yield return _n2 | _card3 | shared;
                             }
@@ -1577,19 +1578,22 @@ namespace HoldemHand
                     }
                     break;
                 case 2:
-                    length = TwoCardTable.Length;
-                    for (_i1 = 0; _i1 < length; _i1++)
+                    for (a = 0; a < CardMasksTableSize - 1; a++)
                     {
-                        _card1 = TwoCardTable[_i1];
+                        _card1 = CardMasksTable[a];
                         if ((dead & _card1) != 0) continue;
-                        yield return _card1 | shared;
+                        for (b = a + 1; b < CardMasksTableSize; b++)
+                        {
+                            _card2 = CardMasksTable[b];
+                            if ((dead & _card2) != 0) continue;
+                            yield return _card1 | _card2 | shared;
+                        }
                     }
                     break;
                 case 1:
-                    length = CardMasksTable.Length;
-                    for (_i1 = 0; _i1 < length; _i1++)
+                    for (a = 0; a < CardMasksTableSize; a++)
                     {
-                        _card1 = CardMasksTable[_i1];
+                        _card1 = CardMasksTable[a];
                         if ((dead & _card1) != 0) continue;
                         yield return _card1 | shared;
                     }
@@ -1605,80 +1609,35 @@ namespace HoldemHand
 
         #endregion
 
-        #region Random Enumerators
-
+        #region Card Enumerators
         /// <summary>
-        /// Returns a rand hand with the specified number of cards and constrained
-        /// to not contain any of the passed dead cards.
+        /// This method allows a foreach statement to iterate through each
+        /// card in a card mask.
         /// </summary>
-        /// <param name="dead">Mask for the cards that must not be returned.</param>
-        /// <param name="ncards">The number of cards to return in this hand.</param>
-        /// <param name="rand">An instance of the Random class.</param>
-        /// <returns>A randomly chosen hand containing the number of cards requested.</returns>
-        static private ulong GetRandomHand(ulong dead, int ncards, Random rand)
+        /// <param name="mask"></param>
+        /// <returns></returns>
+        public static IEnumerable<string> Cards(ulong mask)
         {
-            // Return a random hand.
-            ulong mask = 0UL, card;
-
-            for (int i = 0; i < ncards; i++)
+            for (int i = 51; i >= 0; i--)
             {
-                do
+                if (((1UL << i) & mask) != 0)
                 {
-                    card = CardMasksTable[rand.Next(52)];
-                } while (((dead | mask) & card) != 0);
-                mask |= card;
-            }
-
-            return mask;
-        }
-
-        /// <summary>
-        /// This function iterates through random hands returning the number of random hands specified
-        /// in trials. Please note that a mask can be repeated.
-        /// </summary>
-        /// <param name="shared">Cards that must be in the hand.</param>
-        /// <param name="dead">Cards that must not be in the hand.</param>
-        /// <param name="ncards">The total number of cards in the hand.</param>
-        /// <param name="trials">The total number of random hands to return.</param>
-        /// <returns>Returns a random hand mask meeting the input specifications.</returns>
-        public static IEnumerable<ulong> RandomHands(ulong shared, ulong dead, int ncards, int trials)
-        {
-#if DEBUG
-            // Check Preconditions
-            if (ncards < 0 || ncards > 7)
-                throw new ArgumentOutOfRangeException("ncards");
-#endif
-
-            ulong deadmask = dead | shared;
-            int cardcount = ncards - Hand.BitCount(shared);
-            System.Random rand = new Random();
-
-            for (int count = 0; count < trials; count++)
-            {
-                yield return GetRandomHand(deadmask, cardcount, rand) | shared;
+                    yield return CardTable[i];
+                }
             }
         }
 
-        /// <summary>
-        /// Iterates through random hands with ncards number of cards. This iterator
-        /// will return the number of masks specifed in trials. Masks can be repeated.
-        /// </summary>
-        /// <param name="ncards">Number of cards required to be in the hand.</param>
-        /// <param name="trials">Number of total mask to return.</param>
-        /// <returns>A random hand as a hand mask.</returns>
-        public static IEnumerable<ulong> RandomHands(int ncards, int trials)
-        {
-            return RandomHands(0UL, 0UL, ncards, trials);
-        }
+        #endregion
 
+        #region CurrentTime
         /// <summary>
         /// C# Interop call to Win32 QueryPerformanceCount. This function should be removed
         /// if you need an interop free class definition.
         /// </summary>
         /// <param name="lpPerformanceCount">returns performance counter</param>
         /// <returns>True if successful, false otherwise</returns>
-        [DllImport("Kernel32.dll")]
-        private static extern bool QueryPerformanceCounter(out long lpPerformanceCount);
+        // [DllImport("Kernel32.dll")]
+        // private static extern bool QueryPerformanceCounter(out long lpPerformanceCount);
 
         /// <summary>
         /// C# Interop call to Win32 QueryPerformanceFrequency. This function should be removed
@@ -1686,25 +1645,265 @@ namespace HoldemHand
         /// </summary>
         /// <param name="lpFrequency">returns performance frequence</param>
         /// <returns>True if successful, false otherwise</returns>
-        [DllImport("Kernel32.dll")]
-        private static extern bool QueryPerformanceFrequency(out long lpFrequency);
+        // [DllImport("Kernel32.dll")]
+        // private static extern bool QueryPerformanceFrequency(out long lpFrequency);
+
+        /// <exclude/>
+        private static long QueryFrequency = -1;
 
         /// <summary>
-        /// Iterates through random hands that meets the specified requirements until the specified
-        /// time duration has elapse. 
-        /// 
-        /// Please note that this iterator requires interop. If you need
-        /// and interop free hand evaluator you should remove this function along with the other interop
-        /// functions in this file.
+        /// Returns a current time indicator that is useful for doing time delta measurements.
         /// </summary>
-        /// <param name="shared">These cards must be included in the returned hand</param>
-        /// <param name="dead">These cards must not be included in the returned hand</param>
-        /// <param name="ncards">The number of cards in the returned random hand.</param>
-        /// <param name="duration">The amount of time to allow the generation of hands to occur. When elapsed, the iterator will terminate.</param>
-        /// <returns>A hand mask</returns>
-        public static IEnumerable<ulong> RandomHands(ulong shared, ulong dead, int ncards, double duration)
+        /// <returns></returns>
+        static public double CurrentTime
         {
-            long start, freq, curtime;
+            get
+            {
+                long current = 0;
+        
+                if (QueryFrequency < 0)
+                {
+                    //QueryPerformanceFrequency(out QueryFrequency);
+                    QueryFrequency = Stopwatch.Frequency;
+                }
+        
+                //QueryPerformanceCounter(out current);
+                current = Stopwatch.GetTimestamp();
+
+                return ((double)current) / ((double)QueryFrequency);
+            }
+        }
+        #endregion
+
+        #region Random Enumerators
+
+        /// <summary>
+        /// 
+        /// </summary>
+        static private Random srand = new Random();
+
+        /// <summary>
+        /// This method randomly picks from a list of possible masks.
+        /// </summary>
+        /// <param name="list">The list of masks to pick from.</param>
+        /// <param name="dead">A mask containing cards that must not be chosen</param>
+        /// <param name="ncards">The number of cards to return</param>
+        /// <returns></returns>
+        static public ulong RandomHand(ulong[] list, ulong dead, int ncards)
+        {
+            lock (srand)
+            {
+                return RandomHand(srand, list, dead, ncards);
+            }
+        }
+
+        /// <summary>
+        /// This method randomly picks from a list of possible masks. 
+        /// </summary>
+        /// <param name="rand">Random number generator.</param>
+        /// <param name="list">The list of masks to pick from.</param>
+        /// <param name="dead">A mask containing cards that must not be chosen</param>
+        /// <param name="ncards">The number of cards to return</param>
+        /// <returns></returns>
+        static public ulong RandomHand(Random rand, ulong[] list, ulong dead, int ncards)
+        {
+            ulong mask = 0UL;
+#if DEBUG
+            if (list == null || list.Length == 0) throw new ArgumentException("list");
+            if (ncards <= 1 || ncards > 7) throw new ArgumentException("ncards");
+#endif
+            do
+            {
+                mask = list[rand.Next(list.Length - 1)];
+            } while ((mask & dead) != 0);
+#if DEBUG
+            if (BitCount(mask) > ncards) throw new ArgumentException("ncards");
+#endif
+            return RandomHand(rand, mask, dead, ncards);
+        }
+
+        /// <summary>
+        /// This method will randomly chose a pocket mask from the query string that doesn't contain any of the specified dead cards.
+        /// That pocket mask will be used as a set of shared cards that must be used in the final generated mask. The mask will contain
+        /// the number of cards specified in the ncards argument.
+        /// </summary>
+        /// <param name="rand">Random number generator.</param>
+        /// <param name="query">A pocket mask query string</param>
+        /// <param name="dead">A set of cards that may not be used in the generated mask as a mask mask</param>
+        /// <param name="ncards">The number of cards that must be in the final mask.</param>
+        /// <returns>A randomly chosen mask mask that meets the input criterion</returns>
+        static public ulong RandomHand(Random rand, string query, ulong dead, int ncards)
+        {
+            return RandomHand(rand, PocketHands.Query(query), dead, ncards);
+        }
+
+        /// <summary>
+        /// Returns a rand mask with the specified number of cards and constrained
+        /// to not contain any of the passed dead cards. This method is not thread safe!
+        /// </summary>
+        /// <param name="shared"></param>
+        /// <param name="dead">Mask for the cards that must not be returned.</param>
+        /// <param name="ncards">The number of cards to return in this mask.</param>
+        /// <returns>A randomly chosen mask containing the number of cards requested.</returns>
+        static public ulong RandomHand(ulong shared, ulong dead, int ncards)
+        {
+            // Return a random mask.
+            ulong mask = shared;
+            ulong card;
+            int count = ncards - BitCount(shared);
+
+            // Random is not thread safe,
+            // this should fix that
+            lock (srand)
+            {
+                for (int i = 0; i < count; i++)
+                {
+                    do
+                    {
+                        card = (1UL << srand.Next(52));
+                    } while (((dead | mask) & card) != 0);
+                    mask |= card;
+                }
+            }
+
+            return mask | shared;
+        }
+
+        /// <summary>
+        /// Returns a rand mask with the specified number of cards and constrained
+        /// to not contain any of the passed dead cards.
+        /// </summary>
+        /// <param name="rand">Random number generator</param>
+        /// <param name="shared"></param>
+        /// <param name="dead">Mask for the cards that must not be returned.</param>
+        /// <param name="ncards">The number of cards to return in this mask.</param>
+        /// <returns>A randomly chosen mask containing the number of cards requested.</returns>
+        static public ulong RandomHand(Random rand, ulong shared, ulong dead, int ncards)
+        {
+            // Return a random mask.
+            ulong mask = shared;
+            ulong card;
+            int count = ncards - BitCount(shared);
+
+            for (int i = 0; i < count; i++)
+            {
+                do
+                {
+                    card = (1UL << rand.Next(52));
+                } while (((dead | mask) & card) != 0);
+                mask |= card;
+            }
+
+            return mask | shared;
+        }
+
+        /// <summary>
+        /// Returns a randomly generated mask that doesn't include any of the cards in the
+        /// dead card mask. The mask will return the number of card in the ncards argument.
+        /// </summary>
+        /// <param name="rand">Random number generator.</param>
+        /// <param name="dead">The mask of cards that may not be used in the generated mask</param>
+        /// <param name="ncards">The number of cards to return in the generated mask</param>
+        /// <returns>The generated mask as a mask mask</returns>
+        static public ulong RandomHand(Random rand, ulong dead, int ncards)
+        {
+            return RandomHand(rand, 0UL, dead, ncards);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="dead"></param>
+        /// <param name="ncards"></param>
+        /// <returns></returns>
+        static public ulong RandomHand(ulong dead, int ncards)
+        {
+            lock (srand)
+            {
+                return RandomHand(srand, 0UL, dead, ncards);
+            }
+        }
+
+        /// <summary>
+        /// This method will return a random mask with the number of cards specified.
+        /// </summary>
+        /// <param name="rand">Random number generator.</param>
+        /// <param name="ncards">The number of cards to return</param>
+        /// <returns>A randomly chosen mask returned as a mask mask</returns>
+        static public ulong RandomHand(Random rand, int ncards)
+        {
+            return RandomHand(rand, 0UL, 0UL, ncards);
+        } 
+
+        /// <summary>
+        /// This function iterates through random hands returning the number of random hands specified
+        /// in trials. Please note that a mask can be repeated.
+        /// </summary>
+        /// <param name="shared">Cards that must be in the mask.</param>
+        /// <param name="dead">Cards that must not be in the mask.</param>
+        /// <param name="ncards">The total number of cards in the mask.</param>
+        /// <param name="trials">The total number of random hands to return.</param>
+        /// <returns>Returns a random mask mask meeting the input specifications.</returns>
+        public static IEnumerable<ulong> RandomHands(ulong shared, ulong dead, int ncards, int trials)
+        {
+#if DEBUG
+            // Check Preconditions
+            if (ncards < 0 || ncards > 7)
+                throw new ArgumentOutOfRangeException("ncards");
+#endif
+            Random rand = new Random();
+            ulong deadmask = dead | shared;
+            int cardcount = ncards - Hand.BitCount(shared);
+        
+            for (int count = 0; count < trials; count++)
+            {
+                yield return RandomHand(rand, deadmask, cardcount) | shared;
+            }
+        }
+
+        /// <summary>
+        /// Iterates through random hands with ncards number of cards. This iterator
+        /// will return the number of masks specifed in trials. Masks can be repeated.
+        /// </summary>
+        /// <param name="ncards">Number of cards required to be in the mask.</param>
+        /// <param name="trials">Number of total mask to return.</param>
+        /// <returns>A random mask as a mask mask.</returns>
+        public static IEnumerable<ulong> RandomHands(int ncards, int trials)
+        {
+            return RandomHands(0UL, 0UL, ncards, trials);
+        }
+
+        /// <summary>
+        /// Interate through the hands defined in the pocket mask definition.
+        /// </summary>
+        /// <param name="query">Pocket card string</param>
+        /// <param name="dead">Cards not allowed.</param>
+        /// <param name="ncards">The number of cards the returned mask</param>
+        /// <param name="duration">The time allowed for iterating</param>
+        /// <returns></returns>
+        public static IEnumerable<ulong> RandomHands(string query, ulong dead, int ncards, double duration)
+        {
+#if DEBUG
+            // Check Preconditions
+            if (ncards < 0 || ncards > 7) throw new ArgumentOutOfRangeException("ncards");
+            if (duration < 0.0) throw new ArgumentOutOfRangeException("duration");
+            if (PocketHands.ValidateQuery(query, dead)) throw new ArgumentException("query");
+#endif
+            return RandomHands(PocketHands.Query(query), dead, ncards, duration);
+        }
+
+        /// <summary>
+        /// Returns random hands out of the list of mask provided.
+        /// </summary>
+        /// <param name="list">List of possible hands</param>
+        /// <param name="dead">Cards not allowed</param>
+        /// <param name="ncards">Total number of cards in returned mask</param>
+        /// <param name="duration">The time allowed for iterating</param>
+        /// <returns></returns>
+        public static IEnumerable<ulong> RandomHands(ulong [] list, ulong dead, int ncards, double duration)
+        {
+            double start = CurrentTime;
+            Random rand = new Random();
 
 #if DEBUG
             // Check Preconditions
@@ -1712,18 +1911,10 @@ namespace HoldemHand
             if (duration < 0.0) throw new ArgumentOutOfRangeException("duration");
 #endif
 
-            int cardcount = ncards - BitCount(shared);
-            ulong deadmask = dead | shared;
-            Random rand = new Random();
-
-            QueryPerformanceFrequency(out freq);
-            QueryPerformanceCounter(out start);
-
             do
             {
-                yield return GetRandomHand(deadmask, ncards, rand) | shared;
-                QueryPerformanceCounter(out curtime);
-            } while (((curtime - start) / ((double)freq)) < duration);
+                yield return RandomHand(rand, list, dead, ncards);
+            } while ((CurrentTime - start) < duration);
         }
 
         /// <summary>
@@ -1731,12 +1922,41 @@ namespace HoldemHand
         /// time duration has elapse. 
         /// 
         /// Please note that this iterator requires interop. If you need
-        /// and interop free hand evaluator you should remove this function along with the other interop
+        /// and interop free mask evaluator you should remove this function along with the other interop
         /// functions in this file.
         /// </summary>
-        /// <param name="ncards">The number of cards in the returned hand.</param>
+        /// <param name="shared">These cards must be included in the returned mask</param>
+        /// <param name="dead">These cards must not be included in the returned mask</param>
+        /// <param name="ncards">The number of cards in the returned random mask.</param>
         /// <param name="duration">The amount of time to allow the generation of hands to occur. When elapsed, the iterator will terminate.</param>
-        /// <returns>A hand mask.</returns>
+        /// <returns>A mask mask</returns>
+        public static IEnumerable<ulong> RandomHands(ulong shared, ulong dead, int ncards, double duration)
+        {
+            double start = CurrentTime;
+            Random rand = new Random();
+#if DEBUG
+            // Check Preconditions
+            if (ncards < 0 || ncards > 7) throw new ArgumentOutOfRangeException("ncards");
+            if (duration < 0.0) throw new ArgumentOutOfRangeException("duration");
+#endif
+          
+            do
+            {
+                yield return RandomHand(rand, shared, dead, ncards);
+            } while ((CurrentTime - start) < duration);
+        }
+
+        /// <summary>
+        /// Iterates through random hands that meets the specified requirements until the specified
+        /// time duration has elapse. 
+        /// 
+        /// Please note that this iterator requires interop. If you need
+        /// and interop free mask evaluator you should remove this function along with the other interop
+        /// functions in this file.
+        /// </summary>
+        /// <param name="ncards">The number of cards in the returned mask.</param>
+        /// <param name="duration">The amount of time to allow the generation of hands to occur. When elapsed, the iterator will terminate.</param>
+        /// <returns>A mask mask.</returns>
         public static IEnumerable<ulong> RandomHands(int ncards, double duration)
         {
             return RandomHands(0UL, 0UL, ncards, duration);
