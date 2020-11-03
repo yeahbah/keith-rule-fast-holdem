@@ -29,4 +29,7 @@
   <ItemGroup>
     <None Remove="Old\**" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\HandEvaluator\HandEvaluator.csproj" />
+  </ItemGroup>
 </Project>
