@@ -134,7 +134,7 @@ namespace HandEvaluatorTest
         [Fact]
         public void TestRandomIterators()
         {
-            long start, freq, curtime;
+            long freq;
             int count = 0;
             // Test Random Hand Trials Iteration
             foreach (ulong mask in Hand.RandomHands(7, 20000))

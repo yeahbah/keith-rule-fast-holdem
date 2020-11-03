@@ -1,0 +1,119 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="clr-namespace:Benchmark.ViewModels;assembly=Benchmark"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="Benchmark.Views.MainWindow"
+        Icon="/Assets/avalonia-logo.ico"
+        Title="Benchmark"
+        Width="400"
+        Height="350">
+    
+    <Window.Styles>
+        <Style Selector="Border.BenchmarkItem">
+            <Setter Property="Padding" Value="5 0 0 0" />
+        </Style>
+    </Window.Styles>
+    
+    <Design.DataContext>
+        <vm:MainWindowViewModel/>
+    </Design.DataContext>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        
+        <Border HorizontalAlignment="Center">
+            <TextBlock Text="Benchmark" FontWeight="Bold"></TextBlock>
+        </Border>
+        
+        <Border Grid.Column="1" HorizontalAlignment="Center">
+            <TextBlock Text="Result" FontWeight="Bold"></TextBlock>
+        </Border>
+        
+        <!-- Five card hand type iterator -->
+        <Border Grid.Column="0" Grid.Row="1" Classes="BenchmarkItem">
+            <TextBlock  Text="5-Card Hand Type (Hands Iterator)"></TextBlock>
+        </Border>
+        <Border Grid.Column="1" Grid.Row="1"  Classes="BenchmarkItem">
+            <TextBlock Text="{Binding FiveCardHandIteratorResult}"></TextBlock>
+        </Border>
+        
+        <!-- Five card hand type inlined iterator -->
+        <Border Grid.Column="0" Grid.Row="2" Classes="BenchmarkItem">
+            <TextBlock  Text="5-Card Hand Type (Inlined Iteration)"></TextBlock>
+        </Border>
+        <Border Grid.Column="1" Grid.Row="2"  Classes="BenchmarkItem">
+            <TextBlock Text="{Binding FiveCardHandInlinedResult}"></TextBlock>
+        </Border>
+        
+        <!-- 7 card hand type hands iterator -->
+        <Border Grid.Column="0" Grid.Row="3" Classes="BenchmarkItem">
+            <TextBlock  Text="7-Card Hand Type (Hand Iterator)"></TextBlock>
+        </Border>
+        <Border Grid.Column="1" Grid.Row="3"  Classes="BenchmarkItem">
+            <TextBlock Text="{Binding SevenCardHandIteratorResult}"></TextBlock>
+        </Border>
+        
+        <!-- 7 card hand type inlined iterator -->
+        <Border Grid.Column="0" Grid.Row="4" Classes="BenchmarkItem">
+            <TextBlock  Text="7-Card Hand Type (Inlined Iterator)"></TextBlock>
+        </Border>
+        <Border Grid.Column="1" Grid.Row="4"  Classes="BenchmarkItem">
+            <TextBlock Text="{Binding SevenCardHandInlinedResult}"></TextBlock>
+        </Border>
+        
+        <!-- 5 card evaluate hand iterator -->
+        <Border Grid.Column="0" Grid.Row="5" Classes="BenchmarkItem">
+            <TextBlock  Text="5-Card Evaluate() (Hands Iterator)"></TextBlock>
+        </Border>
+        <Border Grid.Column="1" Grid.Row="5"  Classes="BenchmarkItem">
+            <TextBlock Text="{Binding FiveCardHandEvaluateIteratorResult}"></TextBlock>
+        </Border>
+        
+        <!-- 5 card evaluate inlined iterator -->
+        <Border Grid.Column="0" Grid.Row="6" Classes="BenchmarkItem">
+            <TextBlock  Text="5-Card Evaluate() (Inlined Iterator)"></TextBlock>
+        </Border>
+        <Border Grid.Column="1" Grid.Row="6"  Classes="BenchmarkItem">
+            <TextBlock Text="{Binding FiveCardHandEvaluateInlinedResult}"></TextBlock>
+        </Border>
+        
+        <!-- 7 card evaluate hands iterator -->
+        <Border Grid.Column="0" Grid.Row="7" Classes="BenchmarkItem">
+            <TextBlock  Text="7-Card Evaluate() (Hands Iterator)"></TextBlock>
+        </Border>
+        <Border Grid.Column="1" Grid.Row="7"  Classes="BenchmarkItem">
+            <TextBlock Text="{Binding SevenCardHandEvaluateIteratorResult}"></TextBlock>
+        </Border>
+        
+        <!-- 7 card evaluate inlined iterator -->
+        <Border Grid.Column="0" Grid.Row="8" Classes="BenchmarkItem">
+            <TextBlock  Text="7-Card Evaluate() (Inlined Iterator)"></TextBlock>
+        </Border>
+        <Border Grid.Column="1" Grid.Row="8"  Classes="BenchmarkItem">
+            <TextBlock Text="{Binding SevenCardHandEvaluateInlinedResult}"></TextBlock>
+        </Border>
+            
+        <Button Grid.ColumnSpan="2" Grid.Row="9" Command="{Binding StartBenchmarkCommand}">
+            <TextBlock Text="Start"></TextBlock>
+        </Button>
+    </Grid>
+
+</Window>
