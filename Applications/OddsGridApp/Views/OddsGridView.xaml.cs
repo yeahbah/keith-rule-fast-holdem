@@ -1,6 +1,5 @@
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
-using OddsGridApp.ViewModels;
 
 namespace OddsGridApp.Views
 {
@@ -14,7 +13,6 @@ namespace OddsGridApp.Views
         private void InitializeComponent()
         {
             AvaloniaXamlLoader.Load(this);
-            //DataContext = new OddsGridViewModel();
         }
     }
 }
