@@ -15,6 +15,6 @@
 
     <ItemGroup>
       <ProjectReference Include="..\HandEvaluator\HandEvaluator.csproj" />
-    </ItemGroup>
+    </ItemGroup>    
 
 </Project>
