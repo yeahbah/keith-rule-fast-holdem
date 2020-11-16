@@ -1,12 +1,11 @@
-using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 
 namespace MultiOddsApp.Views
 {
-    public class MainWindow : Window
+    public class OddsGridView : UserControl
     {
-        public MainWindow()
+        public OddsGridView()
         {
             InitializeComponent();
         }

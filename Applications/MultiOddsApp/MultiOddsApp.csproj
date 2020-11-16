@@ -22,13 +22,8 @@
     <PackageReference Include="Avalonia" Version="0.9.12" />
     <PackageReference Include="Avalonia.Desktop" Version="0.9.12" />
     <PackageReference Include="Avalonia.ReactiveUI" Version="0.9.12" />
-    <PackageReference Include="OxyPlot.Avalonia" Version="2.1.0-20200605.6" />
-    <PackageReference Include="System.Drawing.Common" Version="4.7.0" />
   </ItemGroup>
   <ItemGroup>
-    <AvaloniaXaml Remove="Old\**" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Remove="Old\**" />
+    <ProjectReference Include="..\..\HandEvaluator\HandEvaluator.csproj" />
   </ItemGroup>
 </Project>

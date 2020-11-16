@@ -1,0 +1,71 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:OddsGridApp.ViewModels;assembly=OddsGridApp"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="MultiOddsApp.Views.OddsGridView">
+    
+    <UserControl.Styles>
+        <Style Selector="Border.Cell">
+            <Setter Property="Padding" Value="5 5 5 5"></Setter>
+            <Setter Property="Width" Value="100"></Setter>
+        </Style>
+        <Style Selector="TextBlock.CellText">
+            <Setter Property="HorizontalAlignment" Value="Center"></Setter>
+        </Style>
+        
+        <Style Selector="Border.HeaderBorder">
+            <Setter Property="BorderThickness" Value="1"></Setter>
+            <Setter Property="Background" Value="Black"></Setter>
+            <Setter Property="Padding" Value="5 5 5 5"></Setter>
+            <Setter Property="Width" Value="100"></Setter>
+            <Setter Property="CornerRadius" Value="5"></Setter>
+        </Style>
+        
+        <Style Selector="TextBlock.HeaderText">
+            <Setter Property="Foreground" Value="White"></Setter>
+            <Setter Property="HorizontalAlignment" Value="Center"></Setter>
+        </Style>
+        
+    </UserControl.Styles>
+  
+    <Design.DataContext>
+        <vm:OddsGridViewModel />
+    </Design.DataContext>
+    
+    <StackPanel>
+        <StackPanel Orientation="Horizontal">
+            <Border Classes="HeaderBorder">
+                <TextBlock Text="Player" Classes="HeaderText"></TextBlock>
+            </Border>
+            <Border Classes="HeaderBorder">
+                <TextBlock Text="Hand Value" Classes="HeaderText"></TextBlock>
+            </Border>
+            <Border Classes="HeaderBorder">
+                <TextBlock Text="Opponent" Classes="HeaderText"></TextBlock>
+            </Border>
+        </StackPanel>
+        
+        <ItemsControl Items="{Binding HandOdds}">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <Border Classes="Cell">
+                                <TextBlock Text="{Binding PlayerOdds}" Classes="CellText"></TextBlock>
+                            </Border>
+                            <Border Classes="Cell">
+                                <TextBlock Text="{Binding Description}" Classes="CellText"></TextBlock>
+                            </Border>
+                            <Border Classes="Cell">
+                                <TextBlock Text="{Binding OpponentOdds}" Classes="CellText"></TextBlock>
+                            </Border>
+                        </StackPanel>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+        
+        
+    </StackPanel>
+    
+</UserControl>

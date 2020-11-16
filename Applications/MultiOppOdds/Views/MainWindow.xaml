@@ -1,17 +1,57 @@
 <Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:vm="clr-namespace:MultiOppOdds.ViewModels;assembly=MultiOppOdds"
+        xmlns:vm="clr-namespace:MultiOddsApp.ViewModels;assembly=MultiOddsApp"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:oxy="http://oxyplot.org/avalonia"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-        x:Class="MultiOppOdds.Views.MainWindow"
+        x:Class="MultiOddsApp.Views.MainWindow"
         Icon="/Assets/avalonia-logo.ico"
-        Title="MultiOppOdds">
+        Title="MultiOddsApp"
+        Width="675"
+        Height="500">
 
     <Design.DataContext>
         <vm:MainWindowViewModel/>
     </Design.DataContext>
-
-    <TextBlock Text="{Binding Greeting}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+    
+    <DockPanel>
+        <Border DockPanel.Dock="Top" Padding="10 10 10 10">
+            <StackPanel Orientation="Horizontal">
+                <StackPanel>
+                    <Grid ColumnDefinitions="Auto,Auto" RowDefinitions="Auto,Auto">
+                        <TextBlock Text="Player Pocket:" Grid.Column="0" Grid.Row="0" 
+                                   VerticalAlignment="Center" 
+                                   TextAlignment="Right" 
+                                   Margin="0 0 10 0"></TextBlock>
+                        <TextBox Text="{Binding PocketHand}" Width="120" Grid.Column="1" Grid.Row="0" 
+                                 Margin="0 0 10 0"></TextBox>
+                        <TextBlock Text="Board:" Grid.Column="0" Grid.Row="1" VerticalAlignment="Center" TextAlignment="Right" Margin="0 0 10 0"></TextBlock>
+                        <TextBox Text="{Binding Board}" Grid.Column="1" Grid.Row="1" Width="120" Margin="0 10 10 0"></TextBox>
+                    </Grid>
+                </StackPanel>
+            
+                <StackPanel>
+                    <Border Padding="20 0 30 0">
+                        <StackPanel>
+                            <CheckBox Margin="0 0 0 5" IsChecked="{Binding Win}}">Win</CheckBox>
+                            <CheckBox Margin="0 0 0 5" IsChecked="{Binding HandStrength}">Hand Strength</CheckBox>
+                            <CheckBox Margin="0 0 0 5" IsChecked="{Binding Potential}">Pos/Neg Potential</CheckBox>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+                
+                <StackPanel>
+                    <Button Margin="0 0 0 20" Width="75" Command="{Binding CalculateCommand}">Calculate</Button>
+                    <DockPanel>
+                        <TextBlock Text="Fast" DockPanel.Dock="Left"></TextBlock>
+                        <TextBlock Text="Accurate" DockPanel.Dock="Right"></TextBlock>
+                        <Slider Maximum="12" Minimum="1" IsSnapToTickEnabled="True" Width="150" Value="{Binding AccuracyLevel}"></Slider>
+                    </DockPanel>
+                </StackPanel>
+            </StackPanel>
+        </Border>
+        <oxy:PlotView Model="{Binding PlotModel}" />
+    </DockPanel>
 
 </Window>

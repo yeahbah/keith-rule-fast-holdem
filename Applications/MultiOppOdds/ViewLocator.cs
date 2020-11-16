@@ -4,9 +4,9 @@
 using System;
 using Avalonia.Controls;
 using Avalonia.Controls.Templates;
-using MultiOppOdds.ViewModels;
+using MultiOddsApp.ViewModels;
 
-namespace MultiOppOdds
+namespace MultiOddsApp
 {
     public class ViewLocator : IDataTemplate
     {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using ReactiveUI;
 
-namespace MultiOppOdds.ViewModels
+namespace MultiOddsApp.ViewModels
 {
     public class ViewModelBase : ReactiveObject
     {

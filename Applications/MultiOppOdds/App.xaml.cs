@@ -1,10 +1,10 @@
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
-using MultiOppOdds.ViewModels;
-using MultiOppOdds.Views;
+using MultiOddsApp.ViewModels;
+using MultiOddsApp.Views;
 
-namespace MultiOppOdds
+namespace MultiOddsApp
 {
     public class App : Application
     {

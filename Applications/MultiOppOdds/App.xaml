@@ -1,7 +1,7 @@
 <Application xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:MultiOppOdds"
-             x:Class="MultiOppOdds.App">
+             xmlns:local="clr-namespace:MultiOddsApp"
+             x:Class="MultiOddsApp.App">
     <Application.DataTemplates>
         <local:ViewLocator/>
     </Application.DataTemplates>
@@ -9,5 +9,6 @@
     <Application.Styles>
         <StyleInclude Source="avares://Avalonia.Themes.Default/DefaultTheme.xaml"/>
         <StyleInclude Source="avares://Avalonia.Themes.Default/Accents/BaseLight.xaml"/>
+        <StyleInclude Source="resm:OxyPlot.Avalonia.Themes.Default.xaml?assembly=OxyPlot.Avalonia"/>
     </Application.Styles>
 </Application>
