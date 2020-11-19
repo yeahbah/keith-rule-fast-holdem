@@ -5,9 +5,9 @@ namespace MultiOddsApp.ViewModels
 {
     public class MainWindowViewModel : ViewModelBase
     {
-        private string _pocketHand = "AA, KK, QQ, JJ";
+        private string _pocketHand = "As Ac";
         private string _board = "Ts Qs 2d";
-        private string _opponentHand = "99";
+        private int _numberOfOpponentsIndex = 0;
 
         public MainWindowViewModel()
         {
@@ -21,10 +21,10 @@ namespace MultiOddsApp.ViewModels
             set => this.RaiseAndSetIfChanged(ref _pocketHand, value);             
         }
 
-        public string OpponentHand
+        public int NumberOfOpponentsIndex
         {
-            get => _opponentHand;
-            set => this.RaiseAndSetIfChanged(ref _opponentHand, value);
+            get => _numberOfOpponentsIndex;
+            set => this.RaiseAndSetIfChanged(ref _numberOfOpponentsIndex, value);
         }
 
         public string Board
@@ -38,8 +38,8 @@ namespace MultiOddsApp.ViewModels
         
         public void ReloadOddsAction()
         {
-            OddsGridViewModel?.ReloadHandOdds(PocketHand, Board);
-        }
+            OddsGridViewModel?.ReloadHandOdds(PocketHand, Board, NumberOfOpponentsIndex + 1);
+        }        
 
         public OddsGridViewModel OddsGridViewModel { get; set; }
     }

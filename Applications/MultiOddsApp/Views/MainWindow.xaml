@@ -1,6 +1,6 @@
 <Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:vm="clr-namespace:OddsGridApp.ViewModels;assembly=OddsGridApp"
+        xmlns:vm="clr-namespace:MultiOddsApp.ViewModels;assembly=MultiOddsApp"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
@@ -8,7 +8,7 @@
         Icon="/Assets/avalonia-logo.ico"
         Title="MultiOddsApp"
         Width="330"
-        Height="350">
+        Height="400">
     
     <Window.Styles>
         <Style Selector="TextBlock.HandParameter">
@@ -33,18 +33,29 @@
                     <StackPanel>
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="Player:" Classes="HandParameter"></TextBlock>
-                            <TextBox Text="{Binding PocketHand}" ></TextBox>
-                        </StackPanel>
-
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="Opponent:" Classes="HandParameter"></TextBlock>
-                            <TextBox Text="{Binding OpponentHand}" ></TextBox>
-                        </StackPanel>
+                            <TextBox Text="{Binding PocketHand}"></TextBox>
+                        </StackPanel>                        
                         
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="Board:" Classes="HandParameter"></TextBlock>
                             <TextBox Text="{Binding Board}" ></TextBox>
-                        </StackPanel>
+                        </StackPanel>                        
+
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Opponent:" Classes="HandParameter"></TextBlock>
+                            <!-- <TextBox Text="{Binding OpponentHand}" ></TextBox> -->
+                            <ComboBox SelectedIndex="{Binding NumberOfOpponentsIndex}">
+                                <ComboBoxItem>1</ComboBoxItem>
+                                <ComboBoxItem>2</ComboBoxItem>
+                                <ComboBoxItem>3</ComboBoxItem>
+                                <ComboBoxItem>4</ComboBoxItem>
+                                <ComboBoxItem>5</ComboBoxItem>
+                                <ComboBoxItem>6</ComboBoxItem>
+                                <ComboBoxItem>7</ComboBoxItem>
+                                <ComboBoxItem>8</ComboBoxItem>
+                                <ComboBoxItem>9</ComboBoxItem>
+                            </ComboBox>
+                        </StackPanel>                        
                     </StackPanel>
                 </StackPanel>
                 <Button Command="{Binding ReloadOddsCommand}" Margin="5 0 0 0" Width="75" Height="30" 
