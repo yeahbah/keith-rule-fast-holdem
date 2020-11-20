@@ -3,7 +3,7 @@
         xmlns:vm="clr-namespace:MultiOddsApp.ViewModels;assembly=MultiOddsApp"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:oxy="http://oxyplot.org/avalonia"
+        xmlns:oxy="clr-namespace:OxyPlot.Avalonia;assembly=OxyPlot.Avalonia" 
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="MultiOddsApp.Views.MainWindow"
         Icon="/Assets/avalonia-logo.ico"
@@ -50,8 +50,10 @@
                     </DockPanel>
                 </StackPanel>
             </StackPanel>
-        </Border>
-        <oxy:PlotView Model="{Binding PlotModel}" />
-    </DockPanel>
+        </Border>       
+        <TextBlock DockPanel.Dock="Bottom" Text="{Binding StatusText}" IsVisible="{Binding ShowStatusBar}" />
+        <oxy:PlotView Model="{Binding PlotModel}"  />
+    
+    </DockPanel>    
 
 </Window>

@@ -19,10 +19,16 @@
     <None Remove="Old\**" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="JetBrains.Annotations" Version="11.0.0" />
+    <PackageReference Include="OxyPlot.Avalonia-alpha-2020-04-15" Version="1.0.0" />
+    <PackageReference Include="Serilog.Sinks.Trace" Version="2.1.0" />
+    <!-- <PackageReference Include="Avalonia" Version="0.10.0-preview1" />    
+    <PackageReference Include="Avalonia.Desktop" Version="0.10.0-preview1" />
+    <PackageReference Include="Avalonia.ReactiveUI" Version="0.10.0-preview1" />
+    <PackageReference Include="Avalonia.Diagnostics" Version="0.10.0-preview1" /> -->
     <PackageReference Include="Avalonia" Version="0.9.12" />
     <PackageReference Include="Avalonia.Desktop" Version="0.9.12" />
     <PackageReference Include="Avalonia.ReactiveUI" Version="0.9.12" />
-    <PackageReference Include="OxyPlot.Avalonia" Version="2.1.0-20200605.6" />
     <PackageReference Include="System.Drawing.Common" Version="4.7.0" />
   </ItemGroup>
   <ItemGroup>
@@ -30,5 +36,9 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Remove="Old\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\HandEvaluator\HandEvaluator.csproj" />
+    <!-- <ProjectReference Include="..\..\oxyplot-avalonia\Source\OxyPlot.Avalonia\OxyPlot.Avalonia.csproj" /> -->
   </ItemGroup>
 </Project>
