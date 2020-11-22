@@ -20,11 +20,11 @@ namespace Benchmark
         {
             InitializeComponent();
             evaluateToolStripMenuItem.Checked = true;
-            lowestToolStripMenuItem.Checked = false;
-            belowNormalToolStripMenuItem.Checked = false;
-            normalToolStripMenuItem.Checked = false;
-            aboveNormalToolStripMenuItem.Checked = true;
-            highestToolStripMenuItem.Checked = false;
+            evaluateTypeToolStripMenuItem.Checked = true;
+            inlineIterationToolStripMenuItem.Checked = true;
+            cIterationToolStripMenuItem.Checked = true;
+            evaluateIterateToolStripMenuItem.Checked = true;
+            threadPoolEvaluateIterateToolStripMenuItem.Checked = true;
         }
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
@@ -37,7 +37,7 @@ namespace Benchmark
             if (t != null)
             {
                 t.Priority = ThreadPriority.Lowest;
-                t.Abort();
+                t.Abort(); // TODO
             }
             base.OnClosing(e);
         }
@@ -47,7 +47,7 @@ namespace Benchmark
             if (t != null)
             {
                 t.Priority = ThreadPriority.Lowest;
-                t.Abort();
+                t.Abort(); // 
                 t = null;
             }
         }
