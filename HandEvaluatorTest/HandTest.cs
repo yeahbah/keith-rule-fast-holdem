@@ -369,5 +369,44 @@ namespace HandEvaluatorTest
             Assert.True(h1 != h2);
         }
 
+        [Fact]
+        public void TestEvaluate()
+        {
+        //    var hand = Hand.Evaluate("2s 3c 4s 5d 6h As Ks");
+        //    var handType = Hand.HandType(hand);
+        //    Assert.True(handType == (uint)Hand.HandTypes.Straight);
+
+        //    hand = THand.Evaluate('2s 3c 4s 5d 6s As Ks');
+        //    handType:= THand.HandType(hand);
+        //    Assert.IsTrue(handType = integer(THandTypes.Flush));
+
+        //hand:= THand.Evaluate('2s 3c 8s 5d 7s Ac Jc');
+        //handType:= THand.HandType(hand);
+        //    Assert.IsTrue(handType = integer(THandTypes.HighCard));
+
+            var hand = Hand.Evaluate("2s 3c 8s 5d 7s Ac As");
+            var handType = Hand.HandType(hand);
+            Assert.True(handType == (uint)Hand.HandTypes.Pair);
+
+        //hand:= THand.Evaluate('2s 3c 8s 7d 7s Ac As');
+        //handType:= THand.HandType(hand);
+        //    Assert.IsTrue(handType = integer(THandTypes.TwoPair));
+
+        //hand:= THand.Evaluate('2s 3c 8s 7d Ad Ac As');
+        //handType:= THand.HandType(hand);
+        //    Assert.IsTrue(handType = integer(THandTypes.Trips));
+
+        //hand:= THand.Evaluate('2s 3c 8s Ah Ad Ac As');
+        //handType:= THand.HandType(hand);
+        //    Assert.IsTrue(handType = integer(THandTypes.FourOfAKind));
+
+        //hand:= THand.Evaluate('2s 3c 7s 7h 7d Ac As');
+        //handType:= THand.HandType(hand);
+        //    Assert.IsTrue(handType = integer(THandTypes.FullHouse));
+
+        //hand:= THand.Evaluate('2s 3c Qs Ts Js As Ks');
+        //handType:= THand.HandType(hand);
+        //    Assert.IsTrue(handType = integer(THandTypes.StraightFlush));
+        }
     }
 }

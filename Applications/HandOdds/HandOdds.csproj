@@ -14,8 +14,8 @@
     <Compile Remove="Old\**" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Avalonia" Version="0.9.12" />
-    <PackageReference Include="Avalonia.Desktop" Version="0.9.12" />
+    <PackageReference Include="Avalonia" Version="0.10.10" />
+    <PackageReference Include="Avalonia.Desktop" Version="0.10.10" />
   </ItemGroup>
   <ItemGroup>
     <AvaloniaXaml Remove="Old\**" />

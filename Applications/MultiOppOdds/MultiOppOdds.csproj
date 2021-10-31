@@ -19,17 +19,17 @@
     <None Remove="Old\**" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="JetBrains.Annotations" Version="11.0.0" />
+    <PackageReference Include="JetBrains.Annotations" Version="2021.3.0" />
     <PackageReference Include="OxyPlot.Avalonia-alpha-2020-04-15" Version="1.0.0" />
-    <PackageReference Include="Serilog.Sinks.Trace" Version="2.1.0" />
+    <PackageReference Include="Serilog.Sinks.Trace" Version="3.0.0" />
     <!-- <PackageReference Include="Avalonia" Version="0.10.0-preview1" />    
     <PackageReference Include="Avalonia.Desktop" Version="0.10.0-preview1" />
     <PackageReference Include="Avalonia.ReactiveUI" Version="0.10.0-preview1" />
     <PackageReference Include="Avalonia.Diagnostics" Version="0.10.0-preview1" /> -->
-    <PackageReference Include="Avalonia" Version="0.9.12" />
-    <PackageReference Include="Avalonia.Desktop" Version="0.9.12" />
-    <PackageReference Include="Avalonia.ReactiveUI" Version="0.9.12" />
-    <PackageReference Include="System.Drawing.Common" Version="4.7.0" />
+    <PackageReference Include="Avalonia" Version="0.10.10" />
+    <PackageReference Include="Avalonia.Desktop" Version="0.10.10" />
+    <PackageReference Include="Avalonia.ReactiveUI" Version="0.10.10" />
+    <PackageReference Include="System.Drawing.Common" Version="5.0.2" />
   </ItemGroup>
   <ItemGroup>
     <AvaloniaXaml Remove="Old\**" />

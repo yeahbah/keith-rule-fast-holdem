@@ -1545,10 +1545,11 @@ namespace HoldemHand
         /// <returns></returns>
         public static int BitCount(ulong bitField)
         {
-            return  nBitsTable[bitField & 0x1fff] +
+            var result =  nBitsTable[bitField & 0x1fff] +
                     nBitsTable[(bitField >> 13) & 0x1fff] +
                     nBitsTable[(bitField >> 26) & 0x1fff] +
                     nBitsTable[(bitField >> 39) & 0x1fff];
+            return result;
         }
         #endregion
 
