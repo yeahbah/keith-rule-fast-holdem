@@ -10,9 +10,10 @@ namespace PocketHandExamples
         static void Main(string[] args)
         {
             // This will iterate through all the possible "connected suited" pocket hands
-            foreach (ulong pocketmask in PocketHands.Query("Connected Suited"))
+            foreach (ulong pocketmask in PocketHands.Query("Card169"))
             {
                 // Insert calculation here.
+                Console.WriteLine(Hand.MaskToString(pocketmask));
             }
 
             // Looks at an AKs match up (specifically As Ks) against all possible 
@@ -21,6 +22,7 @@ namespace PocketHandExamples
             foreach (ulong oppmask in PocketHands.Query("Connected Suited", mask))
             {
                 // Insert calculation here.
+                //Console.WriteLine(Hand.MaskToString(oppmask));
             }
 
 
@@ -33,6 +35,7 @@ namespace PocketHandExamples
                     foreach (ulong board in Hand.Hands(0UL, playermask | oppmask, 5))
                     {
                         // Insert Calculation Here
+                       // Console.WriteLine(Hand.MaskToString(board));
                     }
                 }
             }
