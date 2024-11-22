@@ -23,6 +23,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VideoPoker", "Applications\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HandEvaluatorTest", "HandEvaluatorTest\HandEvaluatorTest.csproj", "{A89A596E-6E6F-46B1-A6E4-7AD3284B80F4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApp1", "Applications\ConsoleApp1\ConsoleApp1.csproj", "{B8B32E11-2F1C-4686-A6D8-E652F969F4CD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -139,6 +141,18 @@ Global
 		{A89A596E-6E6F-46B1-A6E4-7AD3284B80F4}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{A89A596E-6E6F-46B1-A6E4-7AD3284B80F4}.Release|Win32.ActiveCfg = Release|Any CPU
 		{A89A596E-6E6F-46B1-A6E4-7AD3284B80F4}.Release|Win32.Build.0 = Release|Any CPU
+		{B8B32E11-2F1C-4686-A6D8-E652F969F4CD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B8B32E11-2F1C-4686-A6D8-E652F969F4CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B8B32E11-2F1C-4686-A6D8-E652F969F4CD}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{B8B32E11-2F1C-4686-A6D8-E652F969F4CD}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{B8B32E11-2F1C-4686-A6D8-E652F969F4CD}.Debug|Win32.ActiveCfg = Debug|Any CPU
+		{B8B32E11-2F1C-4686-A6D8-E652F969F4CD}.Debug|Win32.Build.0 = Debug|Any CPU
+		{B8B32E11-2F1C-4686-A6D8-E652F969F4CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B8B32E11-2F1C-4686-A6D8-E652F969F4CD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B8B32E11-2F1C-4686-A6D8-E652F969F4CD}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{B8B32E11-2F1C-4686-A6D8-E652F969F4CD}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{B8B32E11-2F1C-4686-A6D8-E652F969F4CD}.Release|Win32.ActiveCfg = Release|Any CPU
+		{B8B32E11-2F1C-4686-A6D8-E652F969F4CD}.Release|Win32.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -151,6 +165,7 @@ Global
 		{FF508EA2-CD15-4660-85F8-BDD547F343DC} = {1C1AA6A1-BC9E-4F1C-A9D3-DF65D4813A22}
 		{62B463C7-2961-4E49-8D41-276365068975} = {1C1AA6A1-BC9E-4F1C-A9D3-DF65D4813A22}
 		{E28AC9D3-83F1-42AD-884A-A48C5633C327} = {1C1AA6A1-BC9E-4F1C-A9D3-DF65D4813A22}
+		{B8B32E11-2F1C-4686-A6D8-E652F969F4CD} = {1C1AA6A1-BC9E-4F1C-A9D3-DF65D4813A22}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D1D5EF5C-4953-439A-A8E1-9D20D19AC713}

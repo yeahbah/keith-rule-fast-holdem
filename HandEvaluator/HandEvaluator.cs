@@ -683,42 +683,42 @@ namespace HoldemHand
                 case HandTypes.Flush:
                     if (nBitsTable[ss] >= 5)
                     {
-                        return "Flush (Spades) with " + ranktbl[TopCard(handvalue)] + " high";
+                        return $"Flush (Spades) with {ranktbl[TopCard(handvalue)]} high";
                     }
                     else if (nBitsTable[sc] >= 5)
                     {
-                        return "Flush (Clubs) with " + ranktbl[TopCard(handvalue)] + " high";
+                        return $"Flush (Clubs) with {ranktbl[TopCard(handvalue)]} high";
                     }
                     else if (nBitsTable[sd] >= 5)
                     {
-                        return "Flush (Diamonds) with " + ranktbl[TopCard(handvalue)] + " high";
+                        return $"Flush (Diamonds) with {ranktbl[TopCard(handvalue)]} high";
                     }
                     else if (nBitsTable[sh] >= 5)
                     {
-                        return "Flush (Hearts) with " + ranktbl[TopCard(handvalue)] + " high";
+                        return $"Flush (Hearts) with {ranktbl[TopCard(handvalue)]} high";
                     }
                     break;
                 case HandTypes.StraightFlush:
                     if (nBitsTable[ss] >= 5)
                     {
-                        return "Straight Flush (Spades) with " + ranktbl[TopCard(handvalue)] + " high";
+                        return $"Straight Flush (Spades) with {ranktbl[TopCard(handvalue)]} high";
                     }
                     else if (nBitsTable[sc] >= 5)
                     {
-                        return "Straight (Clubs) with " + ranktbl[TopCard(handvalue)] + " high";
+                        return $"Straight (Clubs) with {ranktbl[TopCard(handvalue)]} high";
                     }
                     else if (nBitsTable[sd] >= 5)
                     {
-                        return "Straight (Diamonds) with " + ranktbl[TopCard(handvalue)] + " high";
+                        return $"Straight (Diamonds) with {ranktbl[TopCard(handvalue)]} high";
                     }
                     else if (nBitsTable[sh] >= 5)
                     {
-                        return "Straight  (Hearts) with " + ranktbl[TopCard(handvalue)] + " high";
+                        return $"Straight  (Hearts) with {ranktbl[TopCard(handvalue)]} high";
                     }
                     break;
             }
             Debug.Assert(false); // Should never get here
-            return "";
+            return string.Empty;
         }
 
         /// <summary>
@@ -763,7 +763,7 @@ namespace HoldemHand
         /// <returns></returns>
         public override string ToString()
         {
-            return PocketCards + " " + Board; ;
+            return $"{PocketCards} {Board}"; ;
         }
 
         /// <summary>

@@ -16,11 +16,11 @@ namespace HandEvaluatorTest
         [Fact]
         public void Test5CardHands()
         {
-            int[] handtypes = { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-            int count = 0;
+            int[] handtypes = [0, 0, 0, 0, 0, 0, 0, 0, 0];
+            var count = 0;
 
             // Iterate through all possible 5 card hands
-            foreach (ulong mask in Hand.Hands(5))
+            foreach (var mask in Hand.Hands(5))
             {
                 handtypes[(int)Hand.EvaluateType(mask, 5)]++;
                 count++;

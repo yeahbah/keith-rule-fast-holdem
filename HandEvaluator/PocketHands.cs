@@ -20,7 +20,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Text;
 
 namespace HoldemHand
 {
@@ -34,7 +33,7 @@ namespace HoldemHand
         /// <summary>
         /// Contains a list of the masks contains in this hole card collection.
         /// </summary>
-        private List<ulong> list = new List<ulong>();
+        private List<ulong> list = [];
         #endregion
 
         #region PreCalculated Tables
@@ -2917,7 +2916,7 @@ namespace HoldemHand
 
         #region Card169 Fix
         /// <exclude/>
-        static internal Dictionary<string, string> _card169fixtable = new Dictionary<string, string>();
+        private static Dictionary<string, string> _card169fixtable = new();
 
         /// <summary>
         /// I goofed up the text description of the 169 card hands. I originally

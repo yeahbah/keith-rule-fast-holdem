@@ -85,7 +85,6 @@ namespace HoldemHand
             double starttime = CurrentTime;
             ulong[] list = PocketHands.Query(pocketquery);
             ulong boardmask = ParseHand(board);
-            Random rand = new Random();
  
 #if DEBUG
             if (!PocketHands.ValidateQuery(pocketquery, Hand.ParseHand(board)))
@@ -101,9 +100,9 @@ namespace HoldemHand
                 case 1:
                     while ((CurrentTime - starttime) < duration)
                     {
-                        ulong pocketmask = RandomHand(rand, list, 0UL, 2);
+                        ulong pocketmask = RandomHand(list, 0UL, 2);
                         uint ourrank = Evaluate(pocketmask | boardmask);
-                        ulong oppcards = Hand.RandomHand(rand, 0UL, pocketmask | boardmask, 2);
+                        ulong oppcards = Hand.RandomHand(0UL, pocketmask | boardmask, 2);
                         uint opprank = Evaluate(oppcards | boardmask);
                         if (ourrank > opprank)
                         {
@@ -119,10 +118,10 @@ namespace HoldemHand
                 case 2:
                     while ((CurrentTime - starttime) < duration)
                     {
-                        ulong pocketmask = RandomHand(rand, list, 0UL, 2);
+                        ulong pocketmask = RandomHand(list, 0UL, 2);
                         uint ourrank = Evaluate(pocketmask | boardmask);
-                        ulong opp1cards = Hand.RandomHand(rand, 0UL, pocketmask | boardmask, 2);
-                        ulong opp2cards = Hand.RandomHand(rand, 0UL, pocketmask | boardmask | opp1cards, 2);
+                        ulong opp1cards = Hand.RandomHand(0UL, pocketmask | boardmask, 2);
+                        ulong opp2cards = Hand.RandomHand(0UL, pocketmask | boardmask | opp1cards, 2);
                         uint opp1rank = Evaluate(opp1cards | boardmask);
                         uint opp2rank = Evaluate(opp2cards | boardmask);
                        
@@ -141,11 +140,11 @@ namespace HoldemHand
                 case 3:
                     while ((CurrentTime - starttime) < duration)
                     {
-                        ulong pocketmask = RandomHand(rand, list, 0UL, 2);
+                        ulong pocketmask = RandomHand(list, 0UL, 2);
                         uint ourrank = Evaluate(pocketmask | boardmask);
-                        ulong opp1cards = Hand.RandomHand(rand, 0UL, pocketmask | boardmask, 2);
-                        ulong opp2cards = Hand.RandomHand(rand, 0UL, pocketmask | boardmask | opp1cards, 2);
-                        ulong opp3cards = Hand.RandomHand(rand, 0UL, pocketmask | boardmask | opp1cards | opp2cards, 2);
+                        ulong opp1cards = Hand.RandomHand(0UL, pocketmask | boardmask, 2);
+                        ulong opp2cards = Hand.RandomHand(0UL, pocketmask | boardmask | opp1cards, 2);
+                        ulong opp3cards = Hand.RandomHand(0UL, pocketmask | boardmask | opp1cards | opp2cards, 2);
                         uint opp1rank = Evaluate(opp1cards | boardmask);
                         uint opp2rank = Evaluate(opp2cards | boardmask);
                         uint opp3rank = Evaluate(opp3cards | boardmask);
@@ -165,12 +164,12 @@ namespace HoldemHand
                 case 4:
                     while ((CurrentTime - starttime) < duration)
                     {
-                        ulong pocketmask = RandomHand(rand, list, 0UL, 2);
+                        ulong pocketmask = RandomHand(list, 0UL, 2);
                         uint ourrank = Evaluate(pocketmask | boardmask);
-                        ulong opp1cards = Hand.RandomHand(rand, 0UL, pocketmask | boardmask, 2);
-                        ulong opp2cards = Hand.RandomHand(rand, 0UL, pocketmask | boardmask | opp1cards, 2);
-                        ulong opp3cards = Hand.RandomHand(rand, 0UL, pocketmask | boardmask | opp1cards | opp2cards, 2);
-                        ulong opp4cards = Hand.RandomHand(rand, 0UL, pocketmask | boardmask | opp1cards | opp2cards | opp3cards, 2);
+                        ulong opp1cards = Hand.RandomHand(0UL, pocketmask | boardmask, 2);
+                        ulong opp2cards = Hand.RandomHand(0UL, pocketmask | boardmask | opp1cards, 2);
+                        ulong opp3cards = Hand.RandomHand(0UL, pocketmask | boardmask | opp1cards | opp2cards, 2);
+                        ulong opp4cards = Hand.RandomHand(0UL, pocketmask | boardmask | opp1cards | opp2cards | opp3cards, 2);
                         uint opp1rank = Evaluate(opp1cards | boardmask);
                         uint opp2rank = Evaluate(opp2cards | boardmask);
                         uint opp3rank = Evaluate(opp3cards | boardmask);
@@ -193,13 +192,13 @@ namespace HoldemHand
                 case 5:
                     while ((CurrentTime - starttime) < duration)
                     {
-                        ulong pocketmask = RandomHand(rand, list, 0UL, 2);
+                        ulong pocketmask = RandomHand(list, 0UL, 2);
                         uint ourrank = Evaluate(pocketmask | boardmask);
-                        ulong opp1cards = Hand.RandomHand(rand, 0UL, pocketmask | boardmask, 2);
-                        ulong opp2cards = Hand.RandomHand(rand, 0UL, pocketmask | boardmask | opp1cards, 2);
-                        ulong opp3cards = Hand.RandomHand(rand, 0UL, pocketmask | boardmask | opp1cards | opp2cards, 2);
-                        ulong opp4cards = Hand.RandomHand(rand, 0UL, pocketmask | boardmask | opp1cards | opp2cards | opp3cards, 2);
-                        ulong opp5cards = Hand.RandomHand(rand, 0UL, pocketmask | boardmask | opp1cards | opp2cards | opp3cards | opp4cards, 2);
+                        ulong opp1cards = Hand.RandomHand(0UL, pocketmask | boardmask, 2);
+                        ulong opp2cards = Hand.RandomHand(0UL, pocketmask | boardmask | opp1cards, 2);
+                        ulong opp3cards = Hand.RandomHand(0UL, pocketmask | boardmask | opp1cards | opp2cards, 2);
+                        ulong opp4cards = Hand.RandomHand(0UL, pocketmask | boardmask | opp1cards | opp2cards | opp3cards, 2);
+                        ulong opp5cards = Hand.RandomHand(0UL, pocketmask | boardmask | opp1cards | opp2cards | opp3cards | opp4cards, 2);
                         uint opp1rank = Evaluate(opp1cards | boardmask);
                         uint opp2rank = Evaluate(opp2cards | boardmask);
                         uint opp3rank = Evaluate(opp3cards | boardmask);
@@ -225,14 +224,14 @@ namespace HoldemHand
                 case 6:
                     while ((CurrentTime - starttime) < duration)
                     {
-                        ulong pocketmask = RandomHand(rand, list, 0UL, 2);
+                        ulong pocketmask = RandomHand(list, 0UL, 2);
                         uint ourrank = Evaluate(pocketmask | boardmask);
-                        ulong opp1cards = Hand.RandomHand(rand, 0UL, pocketmask | boardmask, 2);
-                        ulong opp2cards = Hand.RandomHand(rand, 0UL, pocketmask | boardmask | opp1cards, 2);
-                        ulong opp3cards = Hand.RandomHand(rand, 0UL, pocketmask | boardmask | opp1cards | opp2cards, 2);
-                        ulong opp4cards = Hand.RandomHand(rand, 0UL, pocketmask | boardmask | opp1cards | opp2cards | opp3cards, 2);
-                        ulong opp5cards = Hand.RandomHand(rand, 0UL, pocketmask | boardmask | opp1cards | opp2cards | opp3cards | opp4cards, 2);
-                        ulong opp6cards = Hand.RandomHand(rand, 0UL, pocketmask | boardmask | opp1cards | opp2cards | opp3cards | opp4cards | opp5cards, 2);
+                        ulong opp1cards = Hand.RandomHand(0UL, pocketmask | boardmask, 2);
+                        ulong opp2cards = Hand.RandomHand(0UL, pocketmask | boardmask | opp1cards, 2);
+                        ulong opp3cards = Hand.RandomHand(0UL, pocketmask | boardmask | opp1cards | opp2cards, 2);
+                        ulong opp4cards = Hand.RandomHand(0UL, pocketmask | boardmask | opp1cards | opp2cards | opp3cards, 2);
+                        ulong opp5cards = Hand.RandomHand(0UL, pocketmask | boardmask | opp1cards | opp2cards | opp3cards | opp4cards, 2);
+                        ulong opp6cards = Hand.RandomHand(0UL, pocketmask | boardmask | opp1cards | opp2cards | opp3cards | opp4cards | opp5cards, 2);
                         uint opp1rank = Evaluate(opp1cards | boardmask);
                         uint opp2rank = Evaluate(opp2cards | boardmask);
                         uint opp3rank = Evaluate(opp3cards | boardmask);
@@ -258,15 +257,15 @@ namespace HoldemHand
                 case 7:
                     while ((CurrentTime - starttime) < duration)
                     {
-                        ulong pocketmask = RandomHand(rand, list, 0UL, 2);
+                        ulong pocketmask = RandomHand(list, 0UL, 2);
                         uint ourrank = Evaluate(pocketmask | boardmask);
-                        ulong opp1cards = Hand.RandomHand(rand, 0UL, pocketmask | boardmask, 2);
-                        ulong opp2cards = Hand.RandomHand(rand, 0UL, pocketmask | boardmask | opp1cards, 2);
-                        ulong opp3cards = Hand.RandomHand(rand, 0UL, pocketmask | boardmask | opp1cards | opp2cards, 2);
-                        ulong opp4cards = Hand.RandomHand(rand, 0UL, pocketmask | boardmask | opp1cards | opp2cards | opp3cards, 2);
-                        ulong opp5cards = Hand.RandomHand(rand, 0UL, pocketmask | boardmask | opp1cards | opp2cards | opp3cards | opp4cards, 2);
-                        ulong opp6cards = Hand.RandomHand(rand, 0UL, pocketmask | boardmask | opp1cards | opp2cards | opp3cards | opp4cards | opp5cards, 2);
-                        ulong opp7cards = Hand.RandomHand(rand, 0UL, pocketmask | boardmask | opp1cards | opp2cards | opp3cards | opp4cards | opp5cards | opp6cards, 2);
+                        ulong opp1cards = Hand.RandomHand(0UL, pocketmask | boardmask, 2);
+                        ulong opp2cards = Hand.RandomHand(0UL, pocketmask | boardmask | opp1cards, 2);
+                        ulong opp3cards = Hand.RandomHand(0UL, pocketmask | boardmask | opp1cards | opp2cards, 2);
+                        ulong opp4cards = Hand.RandomHand(0UL, pocketmask | boardmask | opp1cards | opp2cards | opp3cards, 2);
+                        ulong opp5cards = Hand.RandomHand(0UL, pocketmask | boardmask | opp1cards | opp2cards | opp3cards | opp4cards, 2);
+                        ulong opp6cards = Hand.RandomHand(0UL, pocketmask | boardmask | opp1cards | opp2cards | opp3cards | opp4cards | opp5cards, 2);
+                        ulong opp7cards = Hand.RandomHand(0UL, pocketmask | boardmask | opp1cards | opp2cards | opp3cards | opp4cards | opp5cards | opp6cards, 2);
                         uint opp1rank = Evaluate(opp1cards | boardmask);
                         uint opp2rank = Evaluate(opp2cards | boardmask);
                         uint opp3rank = Evaluate(opp3cards | boardmask);
@@ -295,16 +294,16 @@ namespace HoldemHand
                 case 8:
                     while ((CurrentTime - starttime) < duration)
                     {
-                        ulong pocketmask = RandomHand(rand, list, 0UL, 2);
+                        ulong pocketmask = RandomHand(list, 0UL, 2);
                         uint ourrank = Evaluate(pocketmask | boardmask);
-                        ulong opp1cards = Hand.RandomHand(rand, 0UL, pocketmask | boardmask, 2);
-                        ulong opp2cards = Hand.RandomHand(rand, 0UL, pocketmask | boardmask | opp1cards, 2);
-                        ulong opp3cards = Hand.RandomHand(rand, 0UL, pocketmask | boardmask | opp1cards | opp2cards, 2);
-                        ulong opp4cards = Hand.RandomHand(rand, 0UL, pocketmask | boardmask | opp1cards | opp2cards | opp3cards, 2);
-                        ulong opp5cards = Hand.RandomHand(rand, 0UL, pocketmask | boardmask | opp1cards | opp2cards | opp3cards | opp4cards, 2);
-                        ulong opp6cards = Hand.RandomHand(rand, 0UL, pocketmask | boardmask | opp1cards | opp2cards | opp3cards | opp4cards | opp5cards, 2);
-                        ulong opp7cards = Hand.RandomHand(rand, 0UL, pocketmask | boardmask | opp1cards | opp2cards | opp3cards | opp4cards | opp5cards | opp6cards, 2);
-                        ulong opp8cards = Hand.RandomHand(rand, 0UL, pocketmask | boardmask | opp1cards | opp2cards | opp3cards | opp4cards | opp5cards | opp6cards | opp7cards, 2);
+                        ulong opp1cards = Hand.RandomHand(0UL, pocketmask | boardmask, 2);
+                        ulong opp2cards = Hand.RandomHand(0UL, pocketmask | boardmask | opp1cards, 2);
+                        ulong opp3cards = Hand.RandomHand(0UL, pocketmask | boardmask | opp1cards | opp2cards, 2);
+                        ulong opp4cards = Hand.RandomHand(0UL, pocketmask | boardmask | opp1cards | opp2cards | opp3cards, 2);
+                        ulong opp5cards = Hand.RandomHand(0UL, pocketmask | boardmask | opp1cards | opp2cards | opp3cards | opp4cards, 2);
+                        ulong opp6cards = Hand.RandomHand(0UL, pocketmask | boardmask | opp1cards | opp2cards | opp3cards | opp4cards | opp5cards, 2);
+                        ulong opp7cards = Hand.RandomHand(0UL, pocketmask | boardmask | opp1cards | opp2cards | opp3cards | opp4cards | opp5cards | opp6cards, 2);
+                        ulong opp8cards = Hand.RandomHand(0UL, pocketmask | boardmask | opp1cards | opp2cards | opp3cards | opp4cards | opp5cards | opp6cards | opp7cards, 2);
                         uint opp1rank = Evaluate(opp1cards | boardmask);
                         uint opp2rank = Evaluate(opp2cards | boardmask);
                         uint opp3rank = Evaluate(opp3cards | boardmask);
@@ -334,17 +333,17 @@ namespace HoldemHand
                 case 9:
                     while ((CurrentTime - starttime) < duration)
                     {
-                        ulong pocketmask = RandomHand(rand, list, 0UL, 2);
+                        ulong pocketmask = RandomHand(list, 0UL, 2);
                         uint ourrank = Evaluate(pocketmask | boardmask);
-                        ulong opp1cards = Hand.RandomHand(rand, 0UL, pocketmask | boardmask, 2);
-                        ulong opp2cards = Hand.RandomHand(rand, 0UL, pocketmask | boardmask | opp1cards, 2);
-                        ulong opp3cards = Hand.RandomHand(rand, 0UL, pocketmask | boardmask | opp1cards | opp2cards, 2);
-                        ulong opp4cards = Hand.RandomHand(rand, 0UL, pocketmask | boardmask | opp1cards | opp2cards | opp3cards, 2);
-                        ulong opp5cards = Hand.RandomHand(rand, 0UL, pocketmask | boardmask | opp1cards | opp2cards | opp3cards | opp4cards, 2);
-                        ulong opp6cards = Hand.RandomHand(rand, 0UL, pocketmask | boardmask | opp1cards | opp2cards | opp3cards | opp4cards | opp5cards, 2);
-                        ulong opp7cards = Hand.RandomHand(rand, 0UL, pocketmask | boardmask | opp1cards | opp2cards | opp3cards | opp4cards | opp5cards | opp6cards, 2);
-                        ulong opp8cards = Hand.RandomHand(rand, 0UL, pocketmask | boardmask | opp1cards | opp2cards | opp3cards | opp4cards | opp5cards | opp6cards | opp7cards, 2);
-                        ulong opp9cards = Hand.RandomHand(rand, 0UL, pocketmask | boardmask | opp1cards | opp2cards | opp3cards | opp4cards | opp5cards | opp6cards | opp7cards | opp8cards, 2);
+                        ulong opp1cards = Hand.RandomHand(0UL, pocketmask | boardmask, 2);
+                        ulong opp2cards = Hand.RandomHand(0UL, pocketmask | boardmask | opp1cards, 2);
+                        ulong opp3cards = Hand.RandomHand(0UL, pocketmask | boardmask | opp1cards | opp2cards, 2);
+                        ulong opp4cards = Hand.RandomHand(0UL, pocketmask | boardmask | opp1cards | opp2cards | opp3cards, 2);
+                        ulong opp5cards = Hand.RandomHand(0UL, pocketmask | boardmask | opp1cards | opp2cards | opp3cards | opp4cards, 2);
+                        ulong opp6cards = Hand.RandomHand(0UL, pocketmask | boardmask | opp1cards | opp2cards | opp3cards | opp4cards | opp5cards, 2);
+                        ulong opp7cards = Hand.RandomHand(0UL, pocketmask | boardmask | opp1cards | opp2cards | opp3cards | opp4cards | opp5cards | opp6cards, 2);
+                        ulong opp8cards = Hand.RandomHand(0UL, pocketmask | boardmask | opp1cards | opp2cards | opp3cards | opp4cards | opp5cards | opp6cards | opp7cards, 2);
+                        ulong opp9cards = Hand.RandomHand(0UL, pocketmask | boardmask | opp1cards | opp2cards | opp3cards | opp4cards | opp5cards | opp6cards | opp7cards | opp8cards, 2);
                         uint opp1rank = Evaluate(opp1cards | boardmask);
                         uint opp2rank = Evaluate(opp2cards | boardmask);
                         uint opp3rank = Evaluate(opp3cards | boardmask);
@@ -391,7 +390,6 @@ namespace HoldemHand
         {
             double win = 0.0, count = 0.0;
             double starttime = CurrentTime;
-            Random rand = new Random();
 #if DEBUG
             if (BitCount(pocket) != 2)
                 throw new ArgumentException("pocket must have exactly two cards");
@@ -407,7 +405,7 @@ namespace HoldemHand
                 case 1:
                     while ((CurrentTime - starttime) < duration)
                     {
-                        ulong oppcards = Hand.RandomHand(rand, 0UL, pocket | board, 2);
+                        ulong oppcards = Hand.RandomHand(0UL, pocket | board, 2);
                         uint opprank = Evaluate(oppcards | board);
                         if (ourrank > opprank)
                         {
@@ -423,8 +421,8 @@ namespace HoldemHand
                 case 2:
                     while ((CurrentTime - starttime) < duration)
                     {
-                        ulong opp1cards = Hand.RandomHand(rand, 0UL, pocket | board, 2);
-                        ulong opp2cards = Hand.RandomHand(rand, 0UL, pocket | board | opp1cards, 2);
+                        ulong opp1cards = Hand.RandomHand(0UL, pocket | board, 2);
+                        ulong opp2cards = Hand.RandomHand(0UL, pocket | board | opp1cards, 2);
                         uint opp1rank = Evaluate(opp1cards | board);
                         uint opp2rank = Evaluate(opp2cards | board);
 
@@ -443,9 +441,9 @@ namespace HoldemHand
                 case 3:
                     while ((CurrentTime - starttime) < duration)
                     {
-                        ulong opp1cards = Hand.RandomHand(rand, 0UL, pocket | board, 2);
-                        ulong opp2cards = Hand.RandomHand(rand, 0UL, pocket | board | opp1cards, 2);
-                        ulong opp3cards = Hand.RandomHand(rand, 0UL, pocket | board | opp1cards | opp2cards, 2);
+                        ulong opp1cards = Hand.RandomHand(0UL, pocket | board, 2);
+                        ulong opp2cards = Hand.RandomHand(0UL, pocket | board | opp1cards, 2);
+                        ulong opp3cards = Hand.RandomHand(0UL, pocket | board | opp1cards | opp2cards, 2);
                         uint opp1rank = Evaluate(opp1cards | board);
                         uint opp2rank = Evaluate(opp2cards | board);
                         uint opp3rank = Evaluate(opp3cards | board);
@@ -465,10 +463,10 @@ namespace HoldemHand
                 case 4:
                     while ((CurrentTime - starttime) < duration)
                     {
-                        ulong opp1cards = Hand.RandomHand(rand, 0UL, pocket | board, 2);
-                        ulong opp2cards = Hand.RandomHand(rand, 0UL, pocket | board | opp1cards, 2);
-                        ulong opp3cards = Hand.RandomHand(rand, 0UL, pocket | board | opp1cards | opp2cards, 2);
-                        ulong opp4cards = Hand.RandomHand(rand, 0UL, pocket | board | opp1cards | opp2cards | opp3cards, 2);
+                        ulong opp1cards = Hand.RandomHand(0UL, pocket | board, 2);
+                        ulong opp2cards = Hand.RandomHand(0UL, pocket | board | opp1cards, 2);
+                        ulong opp3cards = Hand.RandomHand(0UL, pocket | board | opp1cards | opp2cards, 2);
+                        ulong opp4cards = Hand.RandomHand(0UL, pocket | board | opp1cards | opp2cards | opp3cards, 2);
                         uint opp1rank = Evaluate(opp1cards | board);
                         uint opp2rank = Evaluate(opp2cards | board);
                         uint opp3rank = Evaluate(opp3cards | board);
@@ -491,11 +489,11 @@ namespace HoldemHand
                 case 5:
                     while ((CurrentTime - starttime) < duration)
                     {
-                        ulong opp1cards = Hand.RandomHand(rand, 0UL, pocket | board, 2);
-                        ulong opp2cards = Hand.RandomHand(rand, 0UL, pocket | board | opp1cards, 2);
-                        ulong opp3cards = Hand.RandomHand(rand, 0UL, pocket | board | opp1cards | opp2cards, 2);
-                        ulong opp4cards = Hand.RandomHand(rand, 0UL, pocket | board | opp1cards | opp2cards | opp3cards, 2);
-                        ulong opp5cards = Hand.RandomHand(rand, 0UL, pocket | board | opp1cards | opp2cards | opp3cards | opp4cards, 2);
+                        ulong opp1cards = Hand.RandomHand(0UL, pocket | board, 2);
+                        ulong opp2cards = Hand.RandomHand(0UL, pocket | board | opp1cards, 2);
+                        ulong opp3cards = Hand.RandomHand(0UL, pocket | board | opp1cards | opp2cards, 2);
+                        ulong opp4cards = Hand.RandomHand(0UL, pocket | board | opp1cards | opp2cards | opp3cards, 2);
+                        ulong opp5cards = Hand.RandomHand(0UL, pocket | board | opp1cards | opp2cards | opp3cards | opp4cards, 2);
                         uint opp1rank = Evaluate(opp1cards | board);
                         uint opp2rank = Evaluate(opp2cards | board);
                         uint opp3rank = Evaluate(opp3cards | board);
@@ -521,12 +519,12 @@ namespace HoldemHand
                 case 6:
                     while ((CurrentTime - starttime) < duration)
                     {
-                        ulong opp1cards = Hand.RandomHand(rand, 0UL, pocket | board, 2);
-                        ulong opp2cards = Hand.RandomHand(rand, 0UL, pocket | board | opp1cards, 2);
-                        ulong opp3cards = Hand.RandomHand(rand, 0UL, pocket | board | opp1cards | opp2cards, 2);
-                        ulong opp4cards = Hand.RandomHand(rand, 0UL, pocket | board | opp1cards | opp2cards | opp3cards, 2);
-                        ulong opp5cards = Hand.RandomHand(rand, 0UL, pocket | board | opp1cards | opp2cards | opp3cards | opp4cards, 2);
-                        ulong opp6cards = Hand.RandomHand(rand, 0UL, pocket | board | opp1cards | opp2cards | opp3cards | opp4cards | opp5cards, 2);
+                        ulong opp1cards = Hand.RandomHand(0UL, pocket | board, 2);
+                        ulong opp2cards = Hand.RandomHand(0UL, pocket | board | opp1cards, 2);
+                        ulong opp3cards = Hand.RandomHand(0UL, pocket | board | opp1cards | opp2cards, 2);
+                        ulong opp4cards = Hand.RandomHand(0UL, pocket | board | opp1cards | opp2cards | opp3cards, 2);
+                        ulong opp5cards = Hand.RandomHand(0UL, pocket | board | opp1cards | opp2cards | opp3cards | opp4cards, 2);
+                        ulong opp6cards = Hand.RandomHand(0UL, pocket | board | opp1cards | opp2cards | opp3cards | opp4cards | opp5cards, 2);
                         uint opp1rank = Evaluate(opp1cards | board);
                         uint opp2rank = Evaluate(opp2cards | board);
                         uint opp3rank = Evaluate(opp3cards | board);
@@ -552,13 +550,13 @@ namespace HoldemHand
                 case 7:
                     while ((CurrentTime - starttime) < duration)
                     {
-                        ulong opp1cards = Hand.RandomHand(rand, 0UL, pocket | board, 2);
-                        ulong opp2cards = Hand.RandomHand(rand, 0UL, pocket | board | opp1cards, 2);
-                        ulong opp3cards = Hand.RandomHand(rand, 0UL, pocket | board | opp1cards | opp2cards, 2);
-                        ulong opp4cards = Hand.RandomHand(rand, 0UL, pocket | board | opp1cards | opp2cards | opp3cards, 2);
-                        ulong opp5cards = Hand.RandomHand(rand, 0UL, pocket | board | opp1cards | opp2cards | opp3cards | opp4cards, 2);
-                        ulong opp6cards = Hand.RandomHand(rand, 0UL, pocket | board | opp1cards | opp2cards | opp3cards | opp4cards | opp5cards, 2);
-                        ulong opp7cards = Hand.RandomHand(rand, 0UL, pocket | board | opp1cards | opp2cards | opp3cards | opp4cards | opp5cards | opp6cards, 2);
+                        ulong opp1cards = Hand.RandomHand(0UL, pocket | board, 2);
+                        ulong opp2cards = Hand.RandomHand(0UL, pocket | board | opp1cards, 2);
+                        ulong opp3cards = Hand.RandomHand(0UL, pocket | board | opp1cards | opp2cards, 2);
+                        ulong opp4cards = Hand.RandomHand(0UL, pocket | board | opp1cards | opp2cards | opp3cards, 2);
+                        ulong opp5cards = Hand.RandomHand(0UL, pocket | board | opp1cards | opp2cards | opp3cards | opp4cards, 2);
+                        ulong opp6cards = Hand.RandomHand(0UL, pocket | board | opp1cards | opp2cards | opp3cards | opp4cards | opp5cards, 2);
+                        ulong opp7cards = Hand.RandomHand(0UL, pocket | board | opp1cards | opp2cards | opp3cards | opp4cards | opp5cards | opp6cards, 2);
                         uint opp1rank = Evaluate(opp1cards | board);
                         uint opp2rank = Evaluate(opp2cards | board);
                         uint opp3rank = Evaluate(opp3cards | board);
@@ -587,14 +585,14 @@ namespace HoldemHand
                 case 8:
                     while ((CurrentTime - starttime) < duration)
                     {
-                        ulong opp1cards = Hand.RandomHand(rand, 0UL, pocket | board, 2);
-                        ulong opp2cards = Hand.RandomHand(rand, 0UL, pocket | board | opp1cards, 2);
-                        ulong opp3cards = Hand.RandomHand(rand, 0UL, pocket | board | opp1cards | opp2cards, 2);
-                        ulong opp4cards = Hand.RandomHand(rand, 0UL, pocket | board | opp1cards | opp2cards | opp3cards, 2);
-                        ulong opp5cards = Hand.RandomHand(rand, 0UL, pocket | board | opp1cards | opp2cards | opp3cards | opp4cards, 2);
-                        ulong opp6cards = Hand.RandomHand(rand, 0UL, pocket | board | opp1cards | opp2cards | opp3cards | opp4cards | opp5cards, 2);
-                        ulong opp7cards = Hand.RandomHand(rand, 0UL, pocket | board | opp1cards | opp2cards | opp3cards | opp4cards | opp5cards | opp6cards, 2);
-                        ulong opp8cards = Hand.RandomHand(rand, 0UL, pocket | board | opp1cards | opp2cards | opp3cards | opp4cards | opp5cards | opp6cards | opp7cards, 2);
+                        ulong opp1cards = Hand.RandomHand(0UL, pocket | board, 2);
+                        ulong opp2cards = Hand.RandomHand(0UL, pocket | board | opp1cards, 2);
+                        ulong opp3cards = Hand.RandomHand(0UL, pocket | board | opp1cards | opp2cards, 2);
+                        ulong opp4cards = Hand.RandomHand(0UL, pocket | board | opp1cards | opp2cards | opp3cards, 2);
+                        ulong opp5cards = Hand.RandomHand(0UL, pocket | board | opp1cards | opp2cards | opp3cards | opp4cards, 2);
+                        ulong opp6cards = Hand.RandomHand(0UL, pocket | board | opp1cards | opp2cards | opp3cards | opp4cards | opp5cards, 2);
+                        ulong opp7cards = Hand.RandomHand(0UL, pocket | board | opp1cards | opp2cards | opp3cards | opp4cards | opp5cards | opp6cards, 2);
+                        ulong opp8cards = Hand.RandomHand(0UL, pocket | board | opp1cards | opp2cards | opp3cards | opp4cards | opp5cards | opp6cards | opp7cards, 2);
                         uint opp1rank = Evaluate(opp1cards | board);
                         uint opp2rank = Evaluate(opp2cards | board);
                         uint opp3rank = Evaluate(opp3cards | board);
@@ -624,15 +622,15 @@ namespace HoldemHand
                 case 9:
                     while ((CurrentTime - starttime) < duration)
                     {
-                        ulong opp1cards = Hand.RandomHand(rand, 0UL, pocket | board, 2);
-                        ulong opp2cards = Hand.RandomHand(rand, 0UL, pocket | board | opp1cards, 2);
-                        ulong opp3cards = Hand.RandomHand(rand, 0UL, pocket | board | opp1cards | opp2cards, 2);
-                        ulong opp4cards = Hand.RandomHand(rand, 0UL, pocket | board | opp1cards | opp2cards | opp3cards, 2);
-                        ulong opp5cards = Hand.RandomHand(rand, 0UL, pocket | board | opp1cards | opp2cards | opp3cards | opp4cards, 2);
-                        ulong opp6cards = Hand.RandomHand(rand, 0UL, pocket | board | opp1cards | opp2cards | opp3cards | opp4cards | opp5cards, 2);
-                        ulong opp7cards = Hand.RandomHand(rand, 0UL, pocket | board | opp1cards | opp2cards | opp3cards | opp4cards | opp5cards | opp6cards, 2);
-                        ulong opp8cards = Hand.RandomHand(rand, 0UL, pocket | board | opp1cards | opp2cards | opp3cards | opp4cards | opp5cards | opp6cards | opp7cards, 2);
-                        ulong opp9cards = Hand.RandomHand(rand, 0UL, pocket | board | opp1cards | opp2cards | opp3cards | opp4cards | opp5cards | opp6cards | opp7cards | opp8cards, 2);
+                        ulong opp1cards = Hand.RandomHand(0UL, pocket | board, 2);
+                        ulong opp2cards = Hand.RandomHand(0UL, pocket | board | opp1cards, 2);
+                        ulong opp3cards = Hand.RandomHand(0UL, pocket | board | opp1cards | opp2cards, 2);
+                        ulong opp4cards = Hand.RandomHand(0UL, pocket | board | opp1cards | opp2cards | opp3cards, 2);
+                        ulong opp5cards = Hand.RandomHand(0UL, pocket | board | opp1cards | opp2cards | opp3cards | opp4cards, 2);
+                        ulong opp6cards = Hand.RandomHand(0UL, pocket | board | opp1cards | opp2cards | opp3cards | opp4cards | opp5cards, 2);
+                        ulong opp7cards = Hand.RandomHand(0UL, pocket | board | opp1cards | opp2cards | opp3cards | opp4cards | opp5cards | opp6cards, 2);
+                        ulong opp8cards = Hand.RandomHand(0UL, pocket | board | opp1cards | opp2cards | opp3cards | opp4cards | opp5cards | opp6cards | opp7cards, 2);
+                        ulong opp9cards = Hand.RandomHand(0UL, pocket | board | opp1cards | opp2cards | opp3cards | opp4cards | opp5cards | opp6cards | opp7cards | opp8cards, 2);
                         uint opp1rank = Evaluate(opp1cards | board);
                         uint opp2rank = Evaluate(opp2cards | board);
                         uint opp3rank = Evaluate(opp3cards | board);
@@ -2296,7 +2294,6 @@ namespace HoldemHand
             int count = 0;
             ulong deadmask = 0UL, finalboard = 0UL, pocketmask = 0UL;
             uint best;
-            Random rand = new Random();
 
             // Intermediate Results
             ulong[] opponent = new ulong[playerCount];
@@ -2320,19 +2317,19 @@ namespace HoldemHand
             // Loop until count equals trials
             while (count < trials)
             {
-                pocketmask = Hand.RandomHand(rand, pocketlist, boardmask | dead, 2);
+                pocketmask = Hand.RandomHand(pocketlist, boardmask | dead, 2);
 
                 // The order cards are dealt doesn't effect the resulting
                 // odds in a simulation like this. So for coding convienence
                 // we will draw the board cards before the opponents cards.
-                finalboard = Hand.RandomHand(rand, boardmask, dead | pocketmask, 5);
+                finalboard = Hand.RandomHand(boardmask, dead | pocketmask, 5);
                 deadmask = pocketmask | dead | finalboard;
 
                 // Assign opponents their hands and calculate their
                 // mask value.
                 for (int i = 0; i < playerCount; i++)
                 {
-                    deadmask |= opponent[i] = Hand.RandomHand(rand, 0UL, deadmask, 2);
+                    deadmask |= opponent[i] = Hand.RandomHand( 0UL, deadmask, 2);
                     oppHandVal[i] = Hand.Evaluate(opponent[i] | finalboard, 7);
                 }
 
@@ -2401,7 +2398,6 @@ namespace HoldemHand
             if (Hand.BitCount(Hand.ParseHand(board)) > 5) throw new ArgumentException();
             if (duration < 0.0) throw new ArgumentException();
 #endif
-            Random rand = new Random();
             ulong boardmask = Hand.ParseHand(board);
             ulong[] pocketlist = PocketHands.Query(pocket, boardmask | dead);
             double[] podds = { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 };
@@ -2415,17 +2411,17 @@ namespace HoldemHand
 
             while ((Hand.CurrentTime - start) < duration)
             {
-                pocketmask = Hand.RandomHand(rand, pocketlist, boardmask, 2);
+                pocketmask = Hand.RandomHand(pocketlist, boardmask, 2);
 
                 // The order cards are dealt doesn't effect the resulting
                 // odds in a simulation like this. So for coding convienence
                 // we will draw the board cards before the opponents cards.
-                finalboard = Hand.RandomHand(rand, boardmask, pocketmask | dead, 5);
+                finalboard = Hand.RandomHand(boardmask, pocketmask | dead, 5);
                 deadmask = pocketmask | dead | finalboard;
 
                 for (int i = 0; i < playerCount; i++)
                 {
-                    deadmask |= opponent[i] = Hand.RandomHand(rand, 0UL, deadmask, 2);
+                    deadmask |= opponent[i] = Hand.RandomHand( 0UL, deadmask, 2);
                     oppHandVal[i] = Hand.Evaluate(opponent[i] | finalboard, 7);
                 }
 
@@ -2497,7 +2493,7 @@ namespace HoldemHand
             // Intermediate Masks
             ulong deadmask, boardmask;
             uint best;
-            Random rand = new Random();
+            
 
             // Loop until count equals trials
             while (count < trials)
@@ -2505,14 +2501,14 @@ namespace HoldemHand
                 // The order cards are dealt doesn't effect the resulting
                 // odds in a simulation like this. So for coding convienence
                 // we will draw the board cards before the opponents cards.
-                boardmask = Hand.RandomHand(rand, board, pocket | dead, 5);
+                boardmask = Hand.RandomHand( board, pocket | dead, 5);
                 deadmask = pocket | dead | boardmask;
 
                 // Assign opponents their hands and calculate their
                 // mask value.
                 for (int i = 0; i < playerCount; i++)
                 {
-                    deadmask |= opponent[i] = Hand.RandomHand(rand, 0UL, deadmask, 2);
+                    deadmask |= opponent[i] = Hand.RandomHand( 0UL, deadmask, 2);
                     oppHandVal[i] = Hand.Evaluate(opponent[i] | boardmask, 7);
                 }
 
@@ -2589,19 +2585,19 @@ namespace HoldemHand
             int count = 0;
             ulong deadmask, boardmask;
             uint best;
-            Random rand = new Random();
+            
 
             while ((Hand.CurrentTime - start) < duration)
             {
                 // The order cards are dealt doesn't effect the resulting
                 // odds in a simulation like this. So for coding convienence
                 // we will draw the board cards before the opponents cards.
-                boardmask = Hand.RandomHand(rand, board, pocket | dead, 5);
+                boardmask = Hand.RandomHand( board, pocket | dead, 5);
                 deadmask = pocket | dead | boardmask;
 
                 for (int i = 0; i < playerCount; i++)
                 {
-                    deadmask |= opponent[i] = Hand.RandomHand(rand, 0UL, deadmask, 2);
+                    deadmask |= opponent[i] = Hand.RandomHand( 0UL, deadmask, 2);
                     oppHandVal[i] = Hand.Evaluate(opponent[i] | boardmask, 7);
                 }
 
@@ -2856,7 +2852,7 @@ namespace HoldemHand
 
             double[] podds = { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 };
             double[] oodds = { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 };
-            Random rand = new Random();
+            
 
             player = podds;
             opponent = oodds;
@@ -2866,7 +2862,7 @@ namespace HoldemHand
                 case 1:
                     foreach (ulong boardmask in Hand.RandomHands(board, ourcards, 5, duration))
                     {
-                        ulong oppcards = Hand.RandomHand(rand, 0UL, boardmask | ourcards, 2);
+                        ulong oppcards = Hand.RandomHand( 0UL, boardmask | ourcards, 2);
                         uint playerHandVal = Evaluate(ourcards | boardmask, 7);
                         uint oppHandVal = Evaluate(oppcards | boardmask, 7);
 
@@ -2890,8 +2886,8 @@ namespace HoldemHand
                 case 2:
                     foreach (ulong boardmask in Hand.RandomHands(board, ourcards, 5, duration))
                     {
-                        ulong opp1cards = Hand.RandomHand(rand, 0UL, boardmask | ourcards, 2);
-                        ulong opp2cards = Hand.RandomHand(rand, 0UL, boardmask | ourcards | opp1cards, 2);
+                        ulong opp1cards = Hand.RandomHand( 0UL, boardmask | ourcards, 2);
+                        ulong opp2cards = Hand.RandomHand( 0UL, boardmask | ourcards | opp1cards, 2);
                         uint playerHandVal = Evaluate(ourcards | boardmask, 7);
                         uint opp1HandVal = Evaluate(opp1cards | boardmask, 7);
                         uint opp2HandVal = Evaluate(opp2cards | boardmask, 7);
@@ -2922,9 +2918,9 @@ namespace HoldemHand
                 case 3:
                     foreach (ulong boardmask in Hand.RandomHands(board, ourcards, 5, duration))
                     {
-                        ulong opp1cards = Hand.RandomHand(rand, 0UL, boardmask | ourcards, 2);
-                        ulong opp2cards = Hand.RandomHand(rand, 0UL, boardmask | ourcards | opp1cards, 2);
-                        ulong opp3cards = Hand.RandomHand(rand, 0UL, boardmask | ourcards | opp1cards | opp2cards, 2);
+                        ulong opp1cards = Hand.RandomHand( 0UL, boardmask | ourcards, 2);
+                        ulong opp2cards = Hand.RandomHand( 0UL, boardmask | ourcards | opp1cards, 2);
+                        ulong opp3cards = Hand.RandomHand( 0UL, boardmask | ourcards | opp1cards | opp2cards, 2);
                         uint playerHandVal = Evaluate(ourcards | boardmask, 7);
                         uint opp1HandVal = Evaluate(opp1cards | boardmask, 7);
                         uint opp2HandVal = Evaluate(opp2cards | boardmask, 7);
@@ -2962,10 +2958,10 @@ namespace HoldemHand
                 case 4:
                     foreach (ulong boardmask in Hand.RandomHands(board, ourcards, 5, duration))
                     {
-                        ulong opp1cards = Hand.RandomHand(rand, 0UL, boardmask | ourcards, 2);
-                        ulong opp2cards = Hand.RandomHand(rand, 0UL, boardmask | ourcards | opp1cards, 2);
-                        ulong opp3cards = Hand.RandomHand(rand, 0UL, boardmask | ourcards | opp1cards | opp2cards, 2);
-                        ulong opp4cards = Hand.RandomHand(rand, 0UL, boardmask | ourcards | opp1cards | opp2cards | opp3cards, 2);
+                        ulong opp1cards = Hand.RandomHand( 0UL, boardmask | ourcards, 2);
+                        ulong opp2cards = Hand.RandomHand( 0UL, boardmask | ourcards | opp1cards, 2);
+                        ulong opp3cards = Hand.RandomHand( 0UL, boardmask | ourcards | opp1cards | opp2cards, 2);
+                        ulong opp4cards = Hand.RandomHand( 0UL, boardmask | ourcards | opp1cards | opp2cards | opp3cards, 2);
                         uint playerHandVal = Evaluate(ourcards | boardmask, 7);
                         uint opp1HandVal = Evaluate(opp1cards | boardmask, 7);
                         uint opp2HandVal = Evaluate(opp2cards | boardmask, 7);
@@ -3012,11 +3008,11 @@ namespace HoldemHand
                 case 5:
                     foreach (ulong boardmask in Hand.RandomHands(board, ourcards, 5, duration))
                     {
-                        ulong opp1cards = Hand.RandomHand(rand, 0UL, boardmask | ourcards, 2);
-                        ulong opp2cards = Hand.RandomHand(rand, 0UL, boardmask | ourcards | opp1cards, 2);
-                        ulong opp3cards = Hand.RandomHand(rand, 0UL, boardmask | ourcards | opp1cards | opp2cards, 2);
-                        ulong opp4cards = Hand.RandomHand(rand, 0UL, boardmask | ourcards | opp1cards | opp2cards | opp3cards, 2);
-                        ulong opp5cards = Hand.RandomHand(rand, 0UL, boardmask | ourcards | opp1cards | opp2cards | opp3cards | opp4cards, 2);
+                        ulong opp1cards = Hand.RandomHand( 0UL, boardmask | ourcards, 2);
+                        ulong opp2cards = Hand.RandomHand( 0UL, boardmask | ourcards | opp1cards, 2);
+                        ulong opp3cards = Hand.RandomHand( 0UL, boardmask | ourcards | opp1cards | opp2cards, 2);
+                        ulong opp4cards = Hand.RandomHand( 0UL, boardmask | ourcards | opp1cards | opp2cards | opp3cards, 2);
+                        ulong opp5cards = Hand.RandomHand( 0UL, boardmask | ourcards | opp1cards | opp2cards | opp3cards | opp4cards, 2);
                         uint playerHandVal = Evaluate(ourcards | boardmask, 7);
                         uint opp1HandVal = Evaluate(opp1cards | boardmask, 7);
                         uint opp2HandVal = Evaluate(opp2cards | boardmask, 7);
@@ -3071,12 +3067,12 @@ namespace HoldemHand
                 case 6:
                     foreach (ulong boardmask in Hand.RandomHands(board, ourcards, 5, duration))
                     {
-                        ulong opp1cards = Hand.RandomHand(rand, 0UL, boardmask | ourcards, 2);
-                        ulong opp2cards = Hand.RandomHand(rand, 0UL, boardmask | ourcards | opp1cards, 2);
-                        ulong opp3cards = Hand.RandomHand(rand, 0UL, boardmask | ourcards | opp1cards | opp2cards, 2);
-                        ulong opp4cards = Hand.RandomHand(rand, 0UL, boardmask | ourcards | opp1cards | opp2cards | opp3cards, 2);
-                        ulong opp5cards = Hand.RandomHand(rand, 0UL, boardmask | ourcards | opp1cards | opp2cards | opp3cards | opp4cards, 2);
-                        ulong opp6cards = Hand.RandomHand(rand, 0UL, boardmask | ourcards | opp1cards | opp2cards | opp3cards | opp4cards | opp5cards, 2);
+                        ulong opp1cards = Hand.RandomHand( 0UL, boardmask | ourcards, 2);
+                        ulong opp2cards = Hand.RandomHand( 0UL, boardmask | ourcards | opp1cards, 2);
+                        ulong opp3cards = Hand.RandomHand( 0UL, boardmask | ourcards | opp1cards | opp2cards, 2);
+                        ulong opp4cards = Hand.RandomHand( 0UL, boardmask | ourcards | opp1cards | opp2cards | opp3cards, 2);
+                        ulong opp5cards = Hand.RandomHand( 0UL, boardmask | ourcards | opp1cards | opp2cards | opp3cards | opp4cards, 2);
+                        ulong opp6cards = Hand.RandomHand( 0UL, boardmask | ourcards | opp1cards | opp2cards | opp3cards | opp4cards | opp5cards, 2);
                         uint playerHandVal = Evaluate(ourcards | boardmask, 7);
                         uint opp1HandVal = Evaluate(opp1cards | boardmask, 7);
                         uint opp2HandVal = Evaluate(opp2cards | boardmask, 7);
@@ -3143,13 +3139,13 @@ namespace HoldemHand
                 case 7:
                     foreach (ulong boardmask in Hand.RandomHands(board, ourcards, 5, duration))
                     {
-                        ulong opp1cards = Hand.RandomHand(rand, 0UL, boardmask | ourcards, 2);
-                        ulong opp2cards = Hand.RandomHand(rand, 0UL, boardmask | ourcards | opp1cards, 2);
-                        ulong opp3cards = Hand.RandomHand(rand, 0UL, boardmask | ourcards | opp1cards | opp2cards, 2);
-                        ulong opp4cards = Hand.RandomHand(rand, 0UL, boardmask | ourcards | opp1cards | opp2cards | opp3cards, 2);
-                        ulong opp5cards = Hand.RandomHand(rand, 0UL, boardmask | ourcards | opp1cards | opp2cards | opp3cards | opp4cards, 2);
-                        ulong opp6cards = Hand.RandomHand(rand, 0UL, boardmask | ourcards | opp1cards | opp2cards | opp3cards | opp4cards | opp5cards, 2);
-                        ulong opp7cards = Hand.RandomHand(rand, 0UL, boardmask | ourcards | opp1cards | opp2cards | opp3cards | opp4cards | opp5cards | opp6cards, 2);
+                        ulong opp1cards = Hand.RandomHand( 0UL, boardmask | ourcards, 2);
+                        ulong opp2cards = Hand.RandomHand( 0UL, boardmask | ourcards | opp1cards, 2);
+                        ulong opp3cards = Hand.RandomHand( 0UL, boardmask | ourcards | opp1cards | opp2cards, 2);
+                        ulong opp4cards = Hand.RandomHand( 0UL, boardmask | ourcards | opp1cards | opp2cards | opp3cards, 2);
+                        ulong opp5cards = Hand.RandomHand( 0UL, boardmask | ourcards | opp1cards | opp2cards | opp3cards | opp4cards, 2);
+                        ulong opp6cards = Hand.RandomHand( 0UL, boardmask | ourcards | opp1cards | opp2cards | opp3cards | opp4cards | opp5cards, 2);
+                        ulong opp7cards = Hand.RandomHand( 0UL, boardmask | ourcards | opp1cards | opp2cards | opp3cards | opp4cards | opp5cards | opp6cards, 2);
                         uint playerHandVal = Evaluate(ourcards | boardmask, 7);
                         uint opp1HandVal = Evaluate(opp1cards | boardmask, 7);
                         uint opp2HandVal = Evaluate(opp2cards | boardmask, 7);
@@ -3225,14 +3221,14 @@ namespace HoldemHand
                 case 8:
                     foreach (ulong boardmask in Hand.RandomHands(board, ourcards, 5, duration))
                     {
-                        ulong opp1cards = Hand.RandomHand(rand, 0UL, boardmask | ourcards, 2);
-                        ulong opp2cards = Hand.RandomHand(rand, 0UL, boardmask | ourcards | opp1cards, 2);
-                        ulong opp3cards = Hand.RandomHand(rand, 0UL, boardmask | ourcards | opp1cards | opp2cards, 2);
-                        ulong opp4cards = Hand.RandomHand(rand, 0UL, boardmask | ourcards | opp1cards | opp2cards | opp3cards, 2);
-                        ulong opp5cards = Hand.RandomHand(rand, 0UL, boardmask | ourcards | opp1cards | opp2cards | opp3cards | opp4cards, 2);
-                        ulong opp6cards = Hand.RandomHand(rand, 0UL, boardmask | ourcards | opp1cards | opp2cards | opp3cards | opp4cards | opp5cards, 2);
-                        ulong opp7cards = Hand.RandomHand(rand, 0UL, boardmask | ourcards | opp1cards | opp2cards | opp3cards | opp4cards | opp5cards | opp6cards, 2);
-                        ulong opp8cards = Hand.RandomHand(rand, 0UL, boardmask | ourcards | opp1cards | opp2cards | opp3cards | opp4cards | opp5cards | opp6cards | opp7cards, 2);
+                        ulong opp1cards = Hand.RandomHand( 0UL, boardmask | ourcards, 2);
+                        ulong opp2cards = Hand.RandomHand( 0UL, boardmask | ourcards | opp1cards, 2);
+                        ulong opp3cards = Hand.RandomHand( 0UL, boardmask | ourcards | opp1cards | opp2cards, 2);
+                        ulong opp4cards = Hand.RandomHand( 0UL, boardmask | ourcards | opp1cards | opp2cards | opp3cards, 2);
+                        ulong opp5cards = Hand.RandomHand( 0UL, boardmask | ourcards | opp1cards | opp2cards | opp3cards | opp4cards, 2);
+                        ulong opp6cards = Hand.RandomHand( 0UL, boardmask | ourcards | opp1cards | opp2cards | opp3cards | opp4cards | opp5cards, 2);
+                        ulong opp7cards = Hand.RandomHand( 0UL, boardmask | ourcards | opp1cards | opp2cards | opp3cards | opp4cards | opp5cards | opp6cards, 2);
+                        ulong opp8cards = Hand.RandomHand( 0UL, boardmask | ourcards | opp1cards | opp2cards | opp3cards | opp4cards | opp5cards | opp6cards | opp7cards, 2);
                         uint playerHandVal = Evaluate(ourcards | boardmask, 7);
                         uint opp1HandVal = Evaluate(opp1cards | boardmask, 7);
                         uint opp2HandVal = Evaluate(opp2cards | boardmask, 7);
@@ -3323,15 +3319,15 @@ namespace HoldemHand
                 case 9:
                     foreach (ulong boardmask in Hand.RandomHands(board, ourcards, 5, duration))
                     {
-                        ulong opp1cards = Hand.RandomHand(rand, 0UL, boardmask | ourcards, 2);
-                        ulong opp2cards = Hand.RandomHand(rand, 0UL, boardmask | ourcards | opp1cards, 2);
-                        ulong opp3cards = Hand.RandomHand(rand, 0UL, boardmask | ourcards | opp1cards | opp2cards, 2);
-                        ulong opp4cards = Hand.RandomHand(rand, 0UL, boardmask | ourcards | opp1cards | opp2cards | opp3cards, 2);
-                        ulong opp5cards = Hand.RandomHand(rand, 0UL, boardmask | ourcards | opp1cards | opp2cards | opp3cards | opp4cards, 2);
-                        ulong opp6cards = Hand.RandomHand(rand, 0UL, boardmask | ourcards | opp1cards | opp2cards | opp3cards | opp4cards | opp5cards, 2);
-                        ulong opp7cards = Hand.RandomHand(rand, 0UL, boardmask | ourcards | opp1cards | opp2cards | opp3cards | opp4cards | opp5cards | opp6cards, 2);
-                        ulong opp8cards = Hand.RandomHand(rand, 0UL, boardmask | ourcards | opp1cards | opp2cards | opp3cards | opp4cards | opp5cards | opp6cards | opp7cards, 2);
-                        ulong opp9cards = Hand.RandomHand(rand, 0UL, boardmask | ourcards | opp1cards | opp2cards | opp3cards | opp4cards | opp5cards | opp6cards | opp7cards | opp8cards, 2);
+                        ulong opp1cards = Hand.RandomHand( 0UL, boardmask | ourcards, 2);
+                        ulong opp2cards = Hand.RandomHand( 0UL, boardmask | ourcards | opp1cards, 2);
+                        ulong opp3cards = Hand.RandomHand( 0UL, boardmask | ourcards | opp1cards | opp2cards, 2);
+                        ulong opp4cards = Hand.RandomHand( 0UL, boardmask | ourcards | opp1cards | opp2cards | opp3cards, 2);
+                        ulong opp5cards = Hand.RandomHand( 0UL, boardmask | ourcards | opp1cards | opp2cards | opp3cards | opp4cards, 2);
+                        ulong opp6cards = Hand.RandomHand( 0UL, boardmask | ourcards | opp1cards | opp2cards | opp3cards | opp4cards | opp5cards, 2);
+                        ulong opp7cards = Hand.RandomHand( 0UL, boardmask | ourcards | opp1cards | opp2cards | opp3cards | opp4cards | opp5cards | opp6cards, 2);
+                        ulong opp8cards = Hand.RandomHand( 0UL, boardmask | ourcards | opp1cards | opp2cards | opp3cards | opp4cards | opp5cards | opp6cards | opp7cards, 2);
+                        ulong opp9cards = Hand.RandomHand( 0UL, boardmask | ourcards | opp1cards | opp2cards | opp3cards | opp4cards | opp5cards | opp6cards | opp7cards | opp8cards, 2);
                         uint playerHandVal = Evaluate(ourcards | boardmask, 7);
                         uint opp1HandVal = Evaluate(opp1cards | boardmask, 7);
                         uint opp2HandVal = Evaluate(opp2cards | boardmask, 7);
@@ -3453,7 +3449,7 @@ namespace HoldemHand
             long count = 0;
             ulong[] list = PocketHands.Query(ourcards);
             ulong boardhand = ParseHand(board);
-            Random rand = new Random();
+            
             double starttime = CurrentTime;
 
             double[] podds = { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 };
@@ -3466,9 +3462,9 @@ namespace HoldemHand
             {
                 case 1:
                     while ((CurrentTime - starttime) < duration) {
-                        ulong pocketmask = RandomHand(rand, list, boardhand, 2);
-                        ulong boardmask = Hand.RandomHand(rand, boardhand, pocketmask, 5);
-                        ulong oppcards = Hand.RandomHand(rand, 0UL, boardmask | pocketmask, 2);
+                        ulong pocketmask = RandomHand( list, boardhand, 2);
+                        ulong boardmask = Hand.RandomHand( boardhand, pocketmask, 5);
+                        ulong oppcards = Hand.RandomHand( 0UL, boardmask | pocketmask, 2);
                         uint playerHandVal = Evaluate(pocketmask | boardmask, 7);
                         uint oppHandVal = Evaluate(oppcards | boardmask, 7);
 
@@ -3492,10 +3488,10 @@ namespace HoldemHand
                 case 2:
                     while ((CurrentTime - starttime) < duration)
                     {
-                        ulong pocketmask = RandomHand(rand, list, boardhand, 2);
-                        ulong boardmask = Hand.RandomHand(rand, boardhand, pocketmask, 5);
-                        ulong opp1cards = Hand.RandomHand(rand, 0UL, boardmask | pocketmask, 2);
-                        ulong opp2cards = Hand.RandomHand(rand, 0UL, boardmask | pocketmask | opp1cards, 2);
+                        ulong pocketmask = RandomHand( list, boardhand, 2);
+                        ulong boardmask = Hand.RandomHand( boardhand, pocketmask, 5);
+                        ulong opp1cards = Hand.RandomHand( 0UL, boardmask | pocketmask, 2);
+                        ulong opp2cards = Hand.RandomHand( 0UL, boardmask | pocketmask | opp1cards, 2);
                         uint playerHandVal = Evaluate(pocketmask | boardmask, 7);
                         uint opp1HandVal = Evaluate(opp1cards | boardmask, 7);
                         uint opp2HandVal = Evaluate(opp2cards | boardmask, 7);
@@ -3526,11 +3522,11 @@ namespace HoldemHand
                 case 3:
                     while ((CurrentTime - starttime) < duration)
                     {
-                        ulong pocketmask = RandomHand(rand, list, boardhand, 2);
-                        ulong boardmask = Hand.RandomHand(rand, boardhand, pocketmask, 5);
-                        ulong opp1cards = Hand.RandomHand(rand, 0UL, boardmask | pocketmask, 2);
-                        ulong opp2cards = Hand.RandomHand(rand, 0UL, boardmask | pocketmask | opp1cards, 2);
-                        ulong opp3cards = Hand.RandomHand(rand, 0UL, boardmask | pocketmask | opp1cards | opp2cards, 2);
+                        ulong pocketmask = RandomHand( list, boardhand, 2);
+                        ulong boardmask = Hand.RandomHand( boardhand, pocketmask, 5);
+                        ulong opp1cards = Hand.RandomHand( 0UL, boardmask | pocketmask, 2);
+                        ulong opp2cards = Hand.RandomHand( 0UL, boardmask | pocketmask | opp1cards, 2);
+                        ulong opp3cards = Hand.RandomHand( 0UL, boardmask | pocketmask | opp1cards | opp2cards, 2);
                         uint playerHandVal = Evaluate(pocketmask | boardmask, 7);
                         uint opp1HandVal = Evaluate(opp1cards | boardmask, 7);
                         uint opp2HandVal = Evaluate(opp2cards | boardmask, 7);
@@ -3568,12 +3564,12 @@ namespace HoldemHand
                 case 4:
                     while ((CurrentTime - starttime) < duration)
                     {
-                        ulong pocketmask = RandomHand(rand, list, boardhand, 2);
-                        ulong boardmask = Hand.RandomHand(rand, boardhand, pocketmask, 5);
-                        ulong opp1cards = Hand.RandomHand(rand, 0UL, boardmask | pocketmask, 2);
-                        ulong opp2cards = Hand.RandomHand(rand, 0UL, boardmask | pocketmask | opp1cards, 2);
-                        ulong opp3cards = Hand.RandomHand(rand, 0UL, boardmask | pocketmask | opp1cards | opp2cards, 2);
-                        ulong opp4cards = Hand.RandomHand(rand, 0UL, boardmask | pocketmask | opp1cards | opp2cards | opp3cards, 2);
+                        ulong pocketmask = RandomHand( list, boardhand, 2);
+                        ulong boardmask = Hand.RandomHand( boardhand, pocketmask, 5);
+                        ulong opp1cards = Hand.RandomHand( 0UL, boardmask | pocketmask, 2);
+                        ulong opp2cards = Hand.RandomHand( 0UL, boardmask | pocketmask | opp1cards, 2);
+                        ulong opp3cards = Hand.RandomHand( 0UL, boardmask | pocketmask | opp1cards | opp2cards, 2);
+                        ulong opp4cards = Hand.RandomHand( 0UL, boardmask | pocketmask | opp1cards | opp2cards | opp3cards, 2);
                         uint playerHandVal = Evaluate(pocketmask | boardmask, 7);
                         uint opp1HandVal = Evaluate(opp1cards | boardmask, 7);
                         uint opp2HandVal = Evaluate(opp2cards | boardmask, 7);
@@ -3620,13 +3616,13 @@ namespace HoldemHand
                 case 5:
                     while ((CurrentTime - starttime) < duration)
                     {
-                        ulong pocketmask = RandomHand(rand, list, boardhand, 2);
-                        ulong boardmask = Hand.RandomHand(rand, boardhand, pocketmask, 5);
-                        ulong opp1cards = Hand.RandomHand(rand, 0UL, boardmask | pocketmask, 2);
-                        ulong opp2cards = Hand.RandomHand(rand, 0UL, boardmask | pocketmask | opp1cards, 2);
-                        ulong opp3cards = Hand.RandomHand(rand, 0UL, boardmask | pocketmask | opp1cards | opp2cards, 2);
-                        ulong opp4cards = Hand.RandomHand(rand, 0UL, boardmask | pocketmask | opp1cards | opp2cards | opp3cards, 2);
-                        ulong opp5cards = Hand.RandomHand(rand, 0UL, boardmask | pocketmask | opp1cards | opp2cards | opp3cards | opp4cards, 2);
+                        ulong pocketmask = RandomHand( list, boardhand, 2);
+                        ulong boardmask = Hand.RandomHand( boardhand, pocketmask, 5);
+                        ulong opp1cards = Hand.RandomHand( 0UL, boardmask | pocketmask, 2);
+                        ulong opp2cards = Hand.RandomHand( 0UL, boardmask | pocketmask | opp1cards, 2);
+                        ulong opp3cards = Hand.RandomHand( 0UL, boardmask | pocketmask | opp1cards | opp2cards, 2);
+                        ulong opp4cards = Hand.RandomHand( 0UL, boardmask | pocketmask | opp1cards | opp2cards | opp3cards, 2);
+                        ulong opp5cards = Hand.RandomHand( 0UL, boardmask | pocketmask | opp1cards | opp2cards | opp3cards | opp4cards, 2);
                         uint playerHandVal = Evaluate(pocketmask | boardmask, 7);
                         uint opp1HandVal = Evaluate(opp1cards | boardmask, 7);
                         uint opp2HandVal = Evaluate(opp2cards | boardmask, 7);
@@ -3681,14 +3677,14 @@ namespace HoldemHand
                 case 6:
                     while ((CurrentTime - starttime) < duration)
                     {
-                        ulong pocketmask = RandomHand(rand, list, boardhand, 2);
-                        ulong boardmask = Hand.RandomHand(rand, boardhand, pocketmask, 5);
-                        ulong opp1cards = Hand.RandomHand(rand, 0UL, boardmask | pocketmask, 2);
-                        ulong opp2cards = Hand.RandomHand(rand, 0UL, boardmask | pocketmask | opp1cards, 2);
-                        ulong opp3cards = Hand.RandomHand(rand, 0UL, boardmask | pocketmask | opp1cards | opp2cards, 2);
-                        ulong opp4cards = Hand.RandomHand(rand, 0UL, boardmask | pocketmask | opp1cards | opp2cards | opp3cards, 2);
-                        ulong opp5cards = Hand.RandomHand(rand, 0UL, boardmask | pocketmask | opp1cards | opp2cards | opp3cards | opp4cards, 2);
-                        ulong opp6cards = Hand.RandomHand(rand, 0UL, boardmask | pocketmask | opp1cards | opp2cards | opp3cards | opp4cards | opp5cards, 2);
+                        ulong pocketmask = RandomHand( list, boardhand, 2);
+                        ulong boardmask = Hand.RandomHand( boardhand, pocketmask, 5);
+                        ulong opp1cards = Hand.RandomHand( 0UL, boardmask | pocketmask, 2);
+                        ulong opp2cards = Hand.RandomHand( 0UL, boardmask | pocketmask | opp1cards, 2);
+                        ulong opp3cards = Hand.RandomHand( 0UL, boardmask | pocketmask | opp1cards | opp2cards, 2);
+                        ulong opp4cards = Hand.RandomHand( 0UL, boardmask | pocketmask | opp1cards | opp2cards | opp3cards, 2);
+                        ulong opp5cards = Hand.RandomHand( 0UL, boardmask | pocketmask | opp1cards | opp2cards | opp3cards | opp4cards, 2);
+                        ulong opp6cards = Hand.RandomHand( 0UL, boardmask | pocketmask | opp1cards | opp2cards | opp3cards | opp4cards | opp5cards, 2);
                         uint playerHandVal = Evaluate(pocketmask | boardmask, 7);
                         uint opp1HandVal = Evaluate(opp1cards | boardmask, 7);
                         uint opp2HandVal = Evaluate(opp2cards | boardmask, 7);
@@ -3755,15 +3751,15 @@ namespace HoldemHand
                 case 7:
                     while ((CurrentTime - starttime) < duration)
                     {
-                        ulong pocketmask = RandomHand(rand, list, boardhand, 2);
-                        ulong boardmask = Hand.RandomHand(rand, boardhand, pocketmask, 5);
-                        ulong opp1cards = Hand.RandomHand(rand, 0UL, boardmask | pocketmask, 2);
-                        ulong opp2cards = Hand.RandomHand(rand, 0UL, boardmask | pocketmask | opp1cards, 2);
-                        ulong opp3cards = Hand.RandomHand(rand, 0UL, boardmask | pocketmask | opp1cards | opp2cards, 2);
-                        ulong opp4cards = Hand.RandomHand(rand, 0UL, boardmask | pocketmask | opp1cards | opp2cards | opp3cards, 2);
-                        ulong opp5cards = Hand.RandomHand(rand, 0UL, boardmask | pocketmask | opp1cards | opp2cards | opp3cards | opp4cards, 2);
-                        ulong opp6cards = Hand.RandomHand(rand, 0UL, boardmask | pocketmask | opp1cards | opp2cards | opp3cards | opp4cards | opp5cards, 2);
-                        ulong opp7cards = Hand.RandomHand(rand, 0UL, boardmask | pocketmask | opp1cards | opp2cards | opp3cards | opp4cards | opp5cards | opp6cards, 2);
+                        ulong pocketmask = RandomHand( list, boardhand, 2);
+                        ulong boardmask = Hand.RandomHand( boardhand, pocketmask, 5);
+                        ulong opp1cards = Hand.RandomHand( 0UL, boardmask | pocketmask, 2);
+                        ulong opp2cards = Hand.RandomHand( 0UL, boardmask | pocketmask | opp1cards, 2);
+                        ulong opp3cards = Hand.RandomHand( 0UL, boardmask | pocketmask | opp1cards | opp2cards, 2);
+                        ulong opp4cards = Hand.RandomHand( 0UL, boardmask | pocketmask | opp1cards | opp2cards | opp3cards, 2);
+                        ulong opp5cards = Hand.RandomHand( 0UL, boardmask | pocketmask | opp1cards | opp2cards | opp3cards | opp4cards, 2);
+                        ulong opp6cards = Hand.RandomHand( 0UL, boardmask | pocketmask | opp1cards | opp2cards | opp3cards | opp4cards | opp5cards, 2);
+                        ulong opp7cards = Hand.RandomHand( 0UL, boardmask | pocketmask | opp1cards | opp2cards | opp3cards | opp4cards | opp5cards | opp6cards, 2);
                         uint playerHandVal = Evaluate(pocketmask | boardmask, 7);
                         uint opp1HandVal = Evaluate(opp1cards | boardmask, 7);
                         uint opp2HandVal = Evaluate(opp2cards | boardmask, 7);
@@ -3839,16 +3835,16 @@ namespace HoldemHand
                 case 8:
                     while ((CurrentTime - starttime) < duration)
                     {
-                        ulong pocketmask = RandomHand(rand, list, boardhand, 2);
-                        ulong boardmask = Hand.RandomHand(rand, boardhand, pocketmask, 5);
-                        ulong opp1cards = Hand.RandomHand(rand, 0UL, boardmask | pocketmask, 2);
-                        ulong opp2cards = Hand.RandomHand(rand, 0UL, boardmask | pocketmask | opp1cards, 2);
-                        ulong opp3cards = Hand.RandomHand(rand, 0UL, boardmask | pocketmask | opp1cards | opp2cards, 2);
-                        ulong opp4cards = Hand.RandomHand(rand, 0UL, boardmask | pocketmask | opp1cards | opp2cards | opp3cards, 2);
-                        ulong opp5cards = Hand.RandomHand(rand, 0UL, boardmask | pocketmask | opp1cards | opp2cards | opp3cards | opp4cards, 2);
-                        ulong opp6cards = Hand.RandomHand(rand, 0UL, boardmask | pocketmask | opp1cards | opp2cards | opp3cards | opp4cards | opp5cards, 2);
-                        ulong opp7cards = Hand.RandomHand(rand, 0UL, boardmask | pocketmask | opp1cards | opp2cards | opp3cards | opp4cards | opp5cards | opp6cards, 2);
-                        ulong opp8cards = Hand.RandomHand(rand, 0UL, boardmask | pocketmask | opp1cards | opp2cards | opp3cards | opp4cards | opp5cards | opp6cards | opp7cards, 2);
+                        ulong pocketmask = RandomHand( list, boardhand, 2);
+                        ulong boardmask = Hand.RandomHand( boardhand, pocketmask, 5);
+                        ulong opp1cards = Hand.RandomHand( 0UL, boardmask | pocketmask, 2);
+                        ulong opp2cards = Hand.RandomHand( 0UL, boardmask | pocketmask | opp1cards, 2);
+                        ulong opp3cards = Hand.RandomHand( 0UL, boardmask | pocketmask | opp1cards | opp2cards, 2);
+                        ulong opp4cards = Hand.RandomHand( 0UL, boardmask | pocketmask | opp1cards | opp2cards | opp3cards, 2);
+                        ulong opp5cards = Hand.RandomHand( 0UL, boardmask | pocketmask | opp1cards | opp2cards | opp3cards | opp4cards, 2);
+                        ulong opp6cards = Hand.RandomHand( 0UL, boardmask | pocketmask | opp1cards | opp2cards | opp3cards | opp4cards | opp5cards, 2);
+                        ulong opp7cards = Hand.RandomHand( 0UL, boardmask | pocketmask | opp1cards | opp2cards | opp3cards | opp4cards | opp5cards | opp6cards, 2);
+                        ulong opp8cards = Hand.RandomHand( 0UL, boardmask | pocketmask | opp1cards | opp2cards | opp3cards | opp4cards | opp5cards | opp6cards | opp7cards, 2);
                         uint playerHandVal = Evaluate(pocketmask | boardmask, 7);
                         uint opp1HandVal = Evaluate(opp1cards | boardmask, 7);
                         uint opp2HandVal = Evaluate(opp2cards | boardmask, 7);
@@ -3939,17 +3935,17 @@ namespace HoldemHand
                 case 9:
                     while ((CurrentTime - starttime) < duration)
                     {
-                        ulong pocketmask = RandomHand(rand, list, boardhand, 2);
-                        ulong boardmask = Hand.RandomHand(rand, boardhand, pocketmask, 5);
-                        ulong opp1cards = Hand.RandomHand(rand, 0UL, boardmask | pocketmask, 2);
-                        ulong opp2cards = Hand.RandomHand(rand, 0UL, boardmask | pocketmask | opp1cards, 2);
-                        ulong opp3cards = Hand.RandomHand(rand, 0UL, boardmask | pocketmask | opp1cards | opp2cards, 2);
-                        ulong opp4cards = Hand.RandomHand(rand, 0UL, boardmask | pocketmask | opp1cards | opp2cards | opp3cards, 2);
-                        ulong opp5cards = Hand.RandomHand(rand, 0UL, boardmask | pocketmask | opp1cards | opp2cards | opp3cards | opp4cards, 2);
-                        ulong opp6cards = Hand.RandomHand(rand, 0UL, boardmask | pocketmask | opp1cards | opp2cards | opp3cards | opp4cards | opp5cards, 2);
-                        ulong opp7cards = Hand.RandomHand(rand, 0UL, boardmask | pocketmask | opp1cards | opp2cards | opp3cards | opp4cards | opp5cards | opp6cards, 2);
-                        ulong opp8cards = Hand.RandomHand(rand, 0UL, boardmask | pocketmask | opp1cards | opp2cards | opp3cards | opp4cards | opp5cards | opp6cards | opp7cards, 2);
-                        ulong opp9cards = Hand.RandomHand(rand, 0UL, boardmask | pocketmask | opp1cards | opp2cards | opp3cards | opp4cards | opp5cards | opp6cards | opp7cards | opp8cards, 2);
+                        ulong pocketmask = RandomHand( list, boardhand, 2);
+                        ulong boardmask = Hand.RandomHand( boardhand, pocketmask, 5);
+                        ulong opp1cards = Hand.RandomHand( 0UL, boardmask | pocketmask, 2);
+                        ulong opp2cards = Hand.RandomHand( 0UL, boardmask | pocketmask | opp1cards, 2);
+                        ulong opp3cards = Hand.RandomHand( 0UL, boardmask | pocketmask | opp1cards | opp2cards, 2);
+                        ulong opp4cards = Hand.RandomHand( 0UL, boardmask | pocketmask | opp1cards | opp2cards | opp3cards, 2);
+                        ulong opp5cards = Hand.RandomHand( 0UL, boardmask | pocketmask | opp1cards | opp2cards | opp3cards | opp4cards, 2);
+                        ulong opp6cards = Hand.RandomHand( 0UL, boardmask | pocketmask | opp1cards | opp2cards | opp3cards | opp4cards | opp5cards, 2);
+                        ulong opp7cards = Hand.RandomHand( 0UL, boardmask | pocketmask | opp1cards | opp2cards | opp3cards | opp4cards | opp5cards | opp6cards, 2);
+                        ulong opp8cards = Hand.RandomHand( 0UL, boardmask | pocketmask | opp1cards | opp2cards | opp3cards | opp4cards | opp5cards | opp6cards | opp7cards, 2);
+                        ulong opp9cards = Hand.RandomHand( 0UL, boardmask | pocketmask | opp1cards | opp2cards | opp3cards | opp4cards | opp5cards | opp6cards | opp7cards | opp8cards, 2);
                         uint playerHandVal = Evaluate(pocketmask | boardmask, 7);
                         uint opp1HandVal = Evaluate(opp1cards | boardmask, 7);
                         uint opp2HandVal = Evaluate(opp2cards | boardmask, 7);
@@ -4248,7 +4244,7 @@ namespace HoldemHand
             const int ahead = 2;
             const int tied = 1;
             const int behind = 0;
-            Random rand = new Random();
+            
 
 #if DEBUG
             if (BitCount(pocket) != 2)
@@ -4273,7 +4269,7 @@ namespace HoldemHand
                 case 1:
                     while ((CurrentTime - start) < duration)
                     {
-                        ulong opp1Pocket = Hand.RandomHand(rand, 0UL, pocket | board, 2);
+                        ulong opp1Pocket = Hand.RandomHand( 0UL, pocket | board, 2);
                         uint opp1rank = Evaluate(opp1Pocket | board, ncards);
                         int index;
 
@@ -4290,7 +4286,7 @@ namespace HoldemHand
                             index = behind;
                         }
 
-                        ulong boardmask = Hand.RandomHand(rand, board, pocket | opp1Pocket, 5);
+                        ulong boardmask = Hand.RandomHand( board, pocket | opp1Pocket, 5);
                         ourbest = Evaluate(pocket | boardmask, 7);
                         uint opp1best = Evaluate(opp1Pocket | boardmask, 7);
                         if (ourbest > opp1best)
@@ -4317,8 +4313,8 @@ namespace HoldemHand
                 case 2:
                     while ((CurrentTime - start) < duration)
                     {
-                        ulong opp1Pocket = Hand.RandomHand(rand, 0UL, pocket | board, 2);
-                        ulong opp2Pocket = Hand.RandomHand(rand, 0UL, pocket | board | opp1Pocket, 2);
+                        ulong opp1Pocket = Hand.RandomHand( 0UL, pocket | board, 2);
+                        ulong opp2Pocket = Hand.RandomHand( 0UL, pocket | board | opp1Pocket, 2);
                         uint opp1rank = Evaluate(opp1Pocket | board);
                         uint opp2rank = Evaluate(opp2Pocket | board);
                         int index;
@@ -4336,7 +4332,7 @@ namespace HoldemHand
                             index = behind;
                         }
 
-                        ulong boardmask = Hand.RandomHand(rand, board, pocket | opp1Pocket | opp2Pocket, 5);
+                        ulong boardmask = Hand.RandomHand( board, pocket | opp1Pocket | opp2Pocket, 5);
                         ourbest = Evaluate(pocket | boardmask, 7);
                         uint opp1best = Evaluate(opp1Pocket | boardmask, 7);
                         uint opp2best = Evaluate(opp2Pocket | boardmask, 7);
@@ -4364,9 +4360,9 @@ namespace HoldemHand
                 case 3:
                     while ((CurrentTime - start) < duration)
                     {
-                        ulong opp1Pocket = Hand.RandomHand(rand, 0UL, pocket | board, 2);
-                        ulong opp2Pocket = Hand.RandomHand(rand, 0UL, pocket | board | opp1Pocket, 2);
-                        ulong opp3Pocket = Hand.RandomHand(rand, 0UL, pocket | board | opp1Pocket | opp2Pocket, 2);
+                        ulong opp1Pocket = Hand.RandomHand( 0UL, pocket | board, 2);
+                        ulong opp2Pocket = Hand.RandomHand( 0UL, pocket | board | opp1Pocket, 2);
+                        ulong opp3Pocket = Hand.RandomHand( 0UL, pocket | board | opp1Pocket | opp2Pocket, 2);
                         uint opp1rank = Evaluate(opp1Pocket | board);
                         uint opp2rank = Evaluate(opp2Pocket | board);
                         uint opp3rank = Evaluate(opp3Pocket | board);
@@ -4387,7 +4383,7 @@ namespace HoldemHand
                             index = behind;
                         }
 
-                        ulong boardmask = Hand.RandomHand(rand, board, pocket | opp1Pocket | opp2Pocket | opp3Pocket, 5);
+                        ulong boardmask = Hand.RandomHand( board, pocket | opp1Pocket | opp2Pocket | opp3Pocket, 5);
                         ourbest = Evaluate(pocket | boardmask, 7);
                         uint opp1best = Evaluate(opp1Pocket | boardmask, 7);
                         uint opp2best = Evaluate(opp2Pocket | boardmask, 7);
@@ -4418,10 +4414,10 @@ namespace HoldemHand
                 case 4:
                     while ((CurrentTime - start) < duration)
                     {
-                        ulong opp1Pocket = Hand.RandomHand(rand, 0UL, pocket | board, 2);
-                        ulong opp2Pocket = Hand.RandomHand(rand, 0UL, pocket | board | opp1Pocket, 2);
-                        ulong opp3Pocket = Hand.RandomHand(rand, 0UL, pocket | board | opp1Pocket | opp2Pocket, 2);
-                        ulong opp4Pocket = Hand.RandomHand(rand, 0UL, pocket | board | opp1Pocket | opp2Pocket | opp3Pocket, 2);
+                        ulong opp1Pocket = Hand.RandomHand( 0UL, pocket | board, 2);
+                        ulong opp2Pocket = Hand.RandomHand( 0UL, pocket | board | opp1Pocket, 2);
+                        ulong opp3Pocket = Hand.RandomHand( 0UL, pocket | board | opp1Pocket | opp2Pocket, 2);
+                        ulong opp4Pocket = Hand.RandomHand( 0UL, pocket | board | opp1Pocket | opp2Pocket | opp3Pocket, 2);
                         uint opp1rank = Evaluate(opp1Pocket | board);
                         uint opp2rank = Evaluate(opp2Pocket | board);
                         uint opp3rank = Evaluate(opp3Pocket | board);
@@ -4443,7 +4439,7 @@ namespace HoldemHand
                             index = behind;
                         }
 
-                        ulong boardmask = Hand.RandomHand(rand, board, pocket | opp1Pocket | opp2Pocket | opp3Pocket | opp4Pocket, 5);
+                        ulong boardmask = Hand.RandomHand( board, pocket | opp1Pocket | opp2Pocket | opp3Pocket | opp4Pocket, 5);
                         ourbest = Evaluate(pocket | boardmask, 7);
                         uint opp1best = Evaluate(opp1Pocket | boardmask, 7);
                         uint opp2best = Evaluate(opp2Pocket | boardmask, 7);
@@ -4475,11 +4471,11 @@ namespace HoldemHand
                 case 5:
                     while ((CurrentTime - start) < duration)
                     {
-                        ulong opp1Pocket = Hand.RandomHand(rand, 0UL, pocket | board, 2);
-                        ulong opp2Pocket = Hand.RandomHand(rand, 0UL, pocket | board | opp1Pocket, 2);
-                        ulong opp3Pocket = Hand.RandomHand(rand, 0UL, pocket | board | opp1Pocket | opp2Pocket, 2);
-                        ulong opp4Pocket = Hand.RandomHand(rand, 0UL, pocket | board | opp1Pocket | opp2Pocket | opp3Pocket, 2);
-                        ulong opp5Pocket = Hand.RandomHand(rand, 0UL, pocket | board | opp1Pocket | opp2Pocket | opp3Pocket | opp4Pocket, 2);
+                        ulong opp1Pocket = Hand.RandomHand( 0UL, pocket | board, 2);
+                        ulong opp2Pocket = Hand.RandomHand( 0UL, pocket | board | opp1Pocket, 2);
+                        ulong opp3Pocket = Hand.RandomHand( 0UL, pocket | board | opp1Pocket | opp2Pocket, 2);
+                        ulong opp4Pocket = Hand.RandomHand( 0UL, pocket | board | opp1Pocket | opp2Pocket | opp3Pocket, 2);
+                        ulong opp5Pocket = Hand.RandomHand( 0UL, pocket | board | opp1Pocket | opp2Pocket | opp3Pocket | opp4Pocket, 2);
                         uint opp1rank = Evaluate(opp1Pocket | board);
                         uint opp2rank = Evaluate(opp2Pocket | board);
                         uint opp3rank = Evaluate(opp3Pocket | board);
@@ -4504,7 +4500,7 @@ namespace HoldemHand
                             index = behind;
                         }
 
-                        ulong boardmask = Hand.RandomHand(rand, board, pocket | opp1Pocket | opp2Pocket | opp3Pocket | opp4Pocket | opp5Pocket, 5);
+                        ulong boardmask = Hand.RandomHand( board, pocket | opp1Pocket | opp2Pocket | opp3Pocket | opp4Pocket | opp5Pocket, 5);
                         ourbest = Evaluate(pocket | boardmask, 7);
                         uint opp1best = Evaluate(opp1Pocket | boardmask, 7);
                         uint opp2best = Evaluate(opp2Pocket | boardmask, 7);
@@ -4539,12 +4535,12 @@ namespace HoldemHand
                 case 6:
                     while ((CurrentTime - start) < duration)
                     {
-                        ulong opp1Pocket = Hand.RandomHand(rand, 0UL, pocket | board, 2);
-                        ulong opp2Pocket = Hand.RandomHand(rand, 0UL, pocket | board | opp1Pocket, 2);
-                        ulong opp3Pocket = Hand.RandomHand(rand, 0UL, pocket | board | opp1Pocket | opp2Pocket, 2);
-                        ulong opp4Pocket = Hand.RandomHand(rand, 0UL, pocket | board | opp1Pocket | opp2Pocket | opp3Pocket, 2);
-                        ulong opp5Pocket = Hand.RandomHand(rand, 0UL, pocket | board | opp1Pocket | opp2Pocket | opp3Pocket | opp4Pocket, 2);
-                        ulong opp6Pocket = Hand.RandomHand(rand, 0UL, pocket | board | opp1Pocket | opp2Pocket | opp3Pocket | opp4Pocket | opp5Pocket, 2);
+                        ulong opp1Pocket = Hand.RandomHand( 0UL, pocket | board, 2);
+                        ulong opp2Pocket = Hand.RandomHand( 0UL, pocket | board | opp1Pocket, 2);
+                        ulong opp3Pocket = Hand.RandomHand( 0UL, pocket | board | opp1Pocket | opp2Pocket, 2);
+                        ulong opp4Pocket = Hand.RandomHand( 0UL, pocket | board | opp1Pocket | opp2Pocket | opp3Pocket, 2);
+                        ulong opp5Pocket = Hand.RandomHand( 0UL, pocket | board | opp1Pocket | opp2Pocket | opp3Pocket | opp4Pocket, 2);
+                        ulong opp6Pocket = Hand.RandomHand( 0UL, pocket | board | opp1Pocket | opp2Pocket | opp3Pocket | opp4Pocket | opp5Pocket, 2);
                         uint opp1rank = Evaluate(opp1Pocket | board);
                         uint opp2rank = Evaluate(opp2Pocket | board);
                         uint opp3rank = Evaluate(opp3Pocket | board);
@@ -4570,7 +4566,7 @@ namespace HoldemHand
                             index = behind;
                         }
 
-                        ulong boardmask = Hand.RandomHand(rand, board, pocket | opp1Pocket | opp2Pocket | opp3Pocket | opp4Pocket | opp5Pocket | opp6Pocket, 5);
+                        ulong boardmask = Hand.RandomHand( board, pocket | opp1Pocket | opp2Pocket | opp3Pocket | opp4Pocket | opp5Pocket | opp6Pocket, 5);
                         ourbest = Evaluate(pocket | boardmask, 7);
                         uint opp1best = Evaluate(opp1Pocket | boardmask, 7);
                         uint opp2best = Evaluate(opp2Pocket | boardmask, 7);
@@ -4606,13 +4602,13 @@ namespace HoldemHand
                 case 7:
                     while ((CurrentTime - start) < duration)
                     {
-                        ulong opp1Pocket = Hand.RandomHand(rand, 0UL, pocket | board, 2);
-                        ulong opp2Pocket = Hand.RandomHand(rand, 0UL, pocket | board | opp1Pocket, 2);
-                        ulong opp3Pocket = Hand.RandomHand(rand, 0UL, pocket | board | opp1Pocket | opp2Pocket, 2);
-                        ulong opp4Pocket = Hand.RandomHand(rand, 0UL, pocket | board | opp1Pocket | opp2Pocket | opp3Pocket, 2);
-                        ulong opp5Pocket = Hand.RandomHand(rand, 0UL, pocket | board | opp1Pocket | opp2Pocket | opp3Pocket | opp4Pocket, 2);
-                        ulong opp6Pocket = Hand.RandomHand(rand, 0UL, pocket | board | opp1Pocket | opp2Pocket | opp3Pocket | opp4Pocket | opp5Pocket, 2);
-                        ulong opp7Pocket = Hand.RandomHand(rand, 0UL, pocket | board | opp1Pocket | opp2Pocket | opp3Pocket | opp4Pocket | opp5Pocket | opp6Pocket, 2);
+                        ulong opp1Pocket = Hand.RandomHand( 0UL, pocket | board, 2);
+                        ulong opp2Pocket = Hand.RandomHand( 0UL, pocket | board | opp1Pocket, 2);
+                        ulong opp3Pocket = Hand.RandomHand( 0UL, pocket | board | opp1Pocket | opp2Pocket, 2);
+                        ulong opp4Pocket = Hand.RandomHand( 0UL, pocket | board | opp1Pocket | opp2Pocket | opp3Pocket, 2);
+                        ulong opp5Pocket = Hand.RandomHand( 0UL, pocket | board | opp1Pocket | opp2Pocket | opp3Pocket | opp4Pocket, 2);
+                        ulong opp6Pocket = Hand.RandomHand( 0UL, pocket | board | opp1Pocket | opp2Pocket | opp3Pocket | opp4Pocket | opp5Pocket, 2);
+                        ulong opp7Pocket = Hand.RandomHand( 0UL, pocket | board | opp1Pocket | opp2Pocket | opp3Pocket | opp4Pocket | opp5Pocket | opp6Pocket, 2);
                         uint opp1rank = Evaluate(opp1Pocket | board);
                         uint opp2rank = Evaluate(opp2Pocket | board);
                         uint opp3rank = Evaluate(opp3Pocket | board);
@@ -4641,7 +4637,7 @@ namespace HoldemHand
                             index = behind;
                         }
 
-                        ulong boardmask = Hand.RandomHand(rand, board, pocket | opp1Pocket | opp2Pocket | opp3Pocket | opp4Pocket | opp5Pocket | opp6Pocket | opp7Pocket, 5);
+                        ulong boardmask = Hand.RandomHand( board, pocket | opp1Pocket | opp2Pocket | opp3Pocket | opp4Pocket | opp5Pocket | opp6Pocket | opp7Pocket, 5);
                         ourbest = Evaluate(pocket | boardmask, 7);
                         uint opp1best = Evaluate(opp1Pocket | boardmask, 7);
                         uint opp2best = Evaluate(opp2Pocket | boardmask, 7);
@@ -4680,14 +4676,14 @@ namespace HoldemHand
                 case 8:
                     while ((CurrentTime - start) < duration)
                     {
-                        ulong opp1Pocket = Hand.RandomHand(rand, 0UL, pocket | board, 2);
-                        ulong opp2Pocket = Hand.RandomHand(rand, 0UL, pocket | board | opp1Pocket, 2);
-                        ulong opp3Pocket = Hand.RandomHand(rand, 0UL, pocket | board | opp1Pocket | opp2Pocket, 2);
-                        ulong opp4Pocket = Hand.RandomHand(rand, 0UL, pocket | board | opp1Pocket | opp2Pocket | opp3Pocket, 2);
-                        ulong opp5Pocket = Hand.RandomHand(rand, 0UL, pocket | board | opp1Pocket | opp2Pocket | opp3Pocket | opp4Pocket, 2);
-                        ulong opp6Pocket = Hand.RandomHand(rand, 0UL, pocket | board | opp1Pocket | opp2Pocket | opp3Pocket | opp4Pocket | opp5Pocket, 2);
-                        ulong opp7Pocket = Hand.RandomHand(rand, 0UL, pocket | board | opp1Pocket | opp2Pocket | opp3Pocket | opp4Pocket | opp5Pocket | opp6Pocket, 2);
-                        ulong opp8Pocket = Hand.RandomHand(rand, 0UL, pocket | board | opp1Pocket | opp2Pocket | opp3Pocket | opp4Pocket | opp5Pocket | opp6Pocket | opp7Pocket, 2);
+                        ulong opp1Pocket = Hand.RandomHand( 0UL, pocket | board, 2);
+                        ulong opp2Pocket = Hand.RandomHand( 0UL, pocket | board | opp1Pocket, 2);
+                        ulong opp3Pocket = Hand.RandomHand( 0UL, pocket | board | opp1Pocket | opp2Pocket, 2);
+                        ulong opp4Pocket = Hand.RandomHand( 0UL, pocket | board | opp1Pocket | opp2Pocket | opp3Pocket, 2);
+                        ulong opp5Pocket = Hand.RandomHand( 0UL, pocket | board | opp1Pocket | opp2Pocket | opp3Pocket | opp4Pocket, 2);
+                        ulong opp6Pocket = Hand.RandomHand( 0UL, pocket | board | opp1Pocket | opp2Pocket | opp3Pocket | opp4Pocket | opp5Pocket, 2);
+                        ulong opp7Pocket = Hand.RandomHand( 0UL, pocket | board | opp1Pocket | opp2Pocket | opp3Pocket | opp4Pocket | opp5Pocket | opp6Pocket, 2);
+                        ulong opp8Pocket = Hand.RandomHand( 0UL, pocket | board | opp1Pocket | opp2Pocket | opp3Pocket | opp4Pocket | opp5Pocket | opp6Pocket | opp7Pocket, 2);
                         uint opp1rank = Evaluate(opp1Pocket | board);
                         uint opp2rank = Evaluate(opp2Pocket | board);
                         uint opp3rank = Evaluate(opp3Pocket | board);
@@ -4717,7 +4713,7 @@ namespace HoldemHand
                             index = behind;
                         }
 
-                        ulong boardmask = Hand.RandomHand(rand, board, pocket | opp1Pocket | opp2Pocket | opp3Pocket | opp4Pocket | opp5Pocket | opp6Pocket | opp7Pocket | opp8Pocket, 5);
+                        ulong boardmask = Hand.RandomHand( board, pocket | opp1Pocket | opp2Pocket | opp3Pocket | opp4Pocket | opp5Pocket | opp6Pocket | opp7Pocket | opp8Pocket, 5);
                         ourbest = Evaluate(pocket | boardmask, 7);
                         uint opp1best = Evaluate(opp1Pocket | boardmask, 7);
                         uint opp2best = Evaluate(opp2Pocket | boardmask, 7);
@@ -4757,15 +4753,15 @@ namespace HoldemHand
                 case 9:
                     while ((CurrentTime - start) < duration)
                     {
-                        ulong opp1Pocket = Hand.RandomHand(rand, 0UL, pocket | board, 2);
-                        ulong opp2Pocket = Hand.RandomHand(rand, 0UL, pocket | board | opp1Pocket, 2);
-                        ulong opp3Pocket = Hand.RandomHand(rand, 0UL, pocket | board | opp1Pocket | opp2Pocket, 2);
-                        ulong opp4Pocket = Hand.RandomHand(rand, 0UL, pocket | board | opp1Pocket | opp2Pocket | opp3Pocket, 2);
-                        ulong opp5Pocket = Hand.RandomHand(rand, 0UL, pocket | board | opp1Pocket | opp2Pocket | opp3Pocket | opp4Pocket, 2);
-                        ulong opp6Pocket = Hand.RandomHand(rand, 0UL, pocket | board | opp1Pocket | opp2Pocket | opp3Pocket | opp4Pocket | opp5Pocket, 2);
-                        ulong opp7Pocket = Hand.RandomHand(rand, 0UL, pocket | board | opp1Pocket | opp2Pocket | opp3Pocket | opp4Pocket | opp5Pocket | opp6Pocket, 2);
-                        ulong opp8Pocket = Hand.RandomHand(rand, 0UL, pocket | board | opp1Pocket | opp2Pocket | opp3Pocket | opp4Pocket | opp5Pocket | opp6Pocket | opp7Pocket, 2);
-                        ulong opp9Pocket = Hand.RandomHand(rand, 0UL, pocket | board | opp1Pocket | opp2Pocket | opp3Pocket | opp4Pocket | opp5Pocket | opp6Pocket | opp7Pocket | opp8Pocket, 2);
+                        ulong opp1Pocket = Hand.RandomHand( 0UL, pocket | board, 2);
+                        ulong opp2Pocket = Hand.RandomHand( 0UL, pocket | board | opp1Pocket, 2);
+                        ulong opp3Pocket = Hand.RandomHand( 0UL, pocket | board | opp1Pocket | opp2Pocket, 2);
+                        ulong opp4Pocket = Hand.RandomHand( 0UL, pocket | board | opp1Pocket | opp2Pocket | opp3Pocket, 2);
+                        ulong opp5Pocket = Hand.RandomHand( 0UL, pocket | board | opp1Pocket | opp2Pocket | opp3Pocket | opp4Pocket, 2);
+                        ulong opp6Pocket = Hand.RandomHand( 0UL, pocket | board | opp1Pocket | opp2Pocket | opp3Pocket | opp4Pocket | opp5Pocket, 2);
+                        ulong opp7Pocket = Hand.RandomHand( 0UL, pocket | board | opp1Pocket | opp2Pocket | opp3Pocket | opp4Pocket | opp5Pocket | opp6Pocket, 2);
+                        ulong opp8Pocket = Hand.RandomHand( 0UL, pocket | board | opp1Pocket | opp2Pocket | opp3Pocket | opp4Pocket | opp5Pocket | opp6Pocket | opp7Pocket, 2);
+                        ulong opp9Pocket = Hand.RandomHand( 0UL, pocket | board | opp1Pocket | opp2Pocket | opp3Pocket | opp4Pocket | opp5Pocket | opp6Pocket | opp7Pocket | opp8Pocket, 2);
                         uint opp1rank = Evaluate(opp1Pocket | board);
                         uint opp2rank = Evaluate(opp2Pocket | board);
                         uint opp3rank = Evaluate(opp3Pocket | board);
@@ -4798,7 +4794,7 @@ namespace HoldemHand
                             index = behind;
                         }
 
-                        ulong boardmask = Hand.RandomHand(rand, board, pocket | opp1Pocket | opp2Pocket | opp3Pocket | opp4Pocket | opp5Pocket | opp6Pocket | opp7Pocket | opp8Pocket | opp9Pocket, 5);
+                        ulong boardmask = Hand.RandomHand( board, pocket | opp1Pocket | opp2Pocket | opp3Pocket | opp4Pocket | opp5Pocket | opp6Pocket | opp7Pocket | opp8Pocket | opp9Pocket, 5);
                         ourbest = Evaluate(pocket | boardmask, 7);
                         uint opp1best = Evaluate(opp1Pocket | boardmask, 7);
                         uint opp2best = Evaluate(opp2Pocket | boardmask, 7);
@@ -4880,7 +4876,7 @@ namespace HoldemHand
             int     count = 0;
             int     ncards = BitCount(board)+2;
             uint    ourbest;
-            Random rand = new Random();
+            
             double  start = CurrentTime;
 
             switch (NOpponents)
@@ -4888,9 +4884,9 @@ namespace HoldemHand
                 case 1:
                     while ((CurrentTime - start) < duration)
                     {
-                        ulong pocket = RandomHand(rand, list, board, 2);
+                        ulong pocket = RandomHand( list, board, 2);
                         uint ourrank = Evaluate(pocket | board);
-                        ulong opp1Pocket = Hand.RandomHand(rand, 0UL, pocket | board, 2);
+                        ulong opp1Pocket = Hand.RandomHand( 0UL, pocket | board, 2);
                         uint opp1rank = Evaluate(opp1Pocket | board, ncards);
                         int index;
 
@@ -4907,7 +4903,7 @@ namespace HoldemHand
                             index = behind;
                         }
 
-                        ulong boardmask = Hand.RandomHand(rand, board, pocket | opp1Pocket, 5);
+                        ulong boardmask = Hand.RandomHand( board, pocket | opp1Pocket, 5);
                         ourbest = Evaluate(pocket | boardmask, 7);
                         uint opp1best = Evaluate(opp1Pocket | boardmask, 7);
                         if (ourbest > opp1best)
@@ -4934,10 +4930,10 @@ namespace HoldemHand
                 case 2:
                     while ((CurrentTime - start) < duration)
                     {
-                        ulong pocket = RandomHand(rand, list, board, 2);
+                        ulong pocket = RandomHand( list, board, 2);
                         uint ourrank = Evaluate(pocket | board);
-                        ulong opp1Pocket = Hand.RandomHand(rand, 0UL, pocket | board, 2);
-                        ulong opp2Pocket = Hand.RandomHand(rand, 0UL, pocket | board | opp1Pocket, 2);
+                        ulong opp1Pocket = Hand.RandomHand( 0UL, pocket | board, 2);
+                        ulong opp2Pocket = Hand.RandomHand( 0UL, pocket | board | opp1Pocket, 2);
                         uint opp1rank = Evaluate(opp1Pocket | board);
                         uint opp2rank = Evaluate(opp2Pocket | board);
                         int index;
@@ -4955,7 +4951,7 @@ namespace HoldemHand
                             index = behind;
                         }
 
-                        ulong boardmask = Hand.RandomHand(rand, board, pocket | opp1Pocket | opp2Pocket, 5);
+                        ulong boardmask = Hand.RandomHand( board, pocket | opp1Pocket | opp2Pocket, 5);
                         ourbest = Evaluate(pocket | boardmask, 7);
                         uint opp1best = Evaluate(opp1Pocket | boardmask, 7);
                         uint opp2best = Evaluate(opp2Pocket | boardmask, 7);
@@ -4983,11 +4979,11 @@ namespace HoldemHand
                 case 3:
                     while ((CurrentTime - start) < duration)
                     {
-                        ulong pocket = RandomHand(rand, list, board, 2);
+                        ulong pocket = RandomHand( list, board, 2);
                         uint ourrank = Evaluate(pocket | board);
-                        ulong opp1Pocket = Hand.RandomHand(rand, 0UL, pocket | board, 2);
-                        ulong opp2Pocket = Hand.RandomHand(rand, 0UL, pocket | board | opp1Pocket, 2);
-                        ulong opp3Pocket = Hand.RandomHand(rand, 0UL, pocket | board | opp1Pocket | opp2Pocket, 2);
+                        ulong opp1Pocket = Hand.RandomHand( 0UL, pocket | board, 2);
+                        ulong opp2Pocket = Hand.RandomHand( 0UL, pocket | board | opp1Pocket, 2);
+                        ulong opp3Pocket = Hand.RandomHand( 0UL, pocket | board | opp1Pocket | opp2Pocket, 2);
                         uint opp1rank = Evaluate(opp1Pocket | board);
                         uint opp2rank = Evaluate(opp2Pocket | board);
                         uint opp3rank = Evaluate(opp3Pocket | board);
@@ -5008,7 +5004,7 @@ namespace HoldemHand
                             index = behind;
                         }
 
-                        ulong boardmask = Hand.RandomHand(rand, board, pocket | opp1Pocket | opp2Pocket | opp3Pocket, 5);
+                        ulong boardmask = Hand.RandomHand( board, pocket | opp1Pocket | opp2Pocket | opp3Pocket, 5);
                         ourbest = Evaluate(pocket | boardmask, 7);
                         uint opp1best = Evaluate(opp1Pocket | boardmask, 7);
                         uint opp2best = Evaluate(opp2Pocket | boardmask, 7);
@@ -5039,12 +5035,12 @@ namespace HoldemHand
                 case 4:
                     while ((CurrentTime - start) < duration)
                     {
-                        ulong pocket = RandomHand(rand, list, board, 2);
+                        ulong pocket = RandomHand( list, board, 2);
                         uint ourrank = Evaluate(pocket | board);
-                        ulong opp1Pocket = Hand.RandomHand(rand, 0UL, pocket | board, 2);
-                        ulong opp2Pocket = Hand.RandomHand(rand, 0UL, pocket | board | opp1Pocket, 2);
-                        ulong opp3Pocket = Hand.RandomHand(rand, 0UL, pocket | board | opp1Pocket | opp2Pocket, 2);
-                        ulong opp4Pocket = Hand.RandomHand(rand, 0UL, pocket | board | opp1Pocket | opp2Pocket | opp3Pocket, 2);
+                        ulong opp1Pocket = Hand.RandomHand( 0UL, pocket | board, 2);
+                        ulong opp2Pocket = Hand.RandomHand( 0UL, pocket | board | opp1Pocket, 2);
+                        ulong opp3Pocket = Hand.RandomHand( 0UL, pocket | board | opp1Pocket | opp2Pocket, 2);
+                        ulong opp4Pocket = Hand.RandomHand( 0UL, pocket | board | opp1Pocket | opp2Pocket | opp3Pocket, 2);
                         uint opp1rank = Evaluate(opp1Pocket | board);
                         uint opp2rank = Evaluate(opp2Pocket | board);
                         uint opp3rank = Evaluate(opp3Pocket | board);
@@ -5066,7 +5062,7 @@ namespace HoldemHand
                             index = behind;
                         }
 
-                        ulong boardmask = Hand.RandomHand(rand, board, pocket | opp1Pocket | opp2Pocket | opp3Pocket | opp4Pocket, 5);
+                        ulong boardmask = Hand.RandomHand( board, pocket | opp1Pocket | opp2Pocket | opp3Pocket | opp4Pocket, 5);
                         ourbest = Evaluate(pocket | boardmask, 7);
                         uint opp1best = Evaluate(opp1Pocket | boardmask, 7);
                         uint opp2best = Evaluate(opp2Pocket | boardmask, 7);
@@ -5098,13 +5094,13 @@ namespace HoldemHand
                 case 5:
                     while ((CurrentTime - start) < duration)
                     {
-                        ulong pocket = RandomHand(rand, list, board, 2);
+                        ulong pocket = RandomHand( list, board, 2);
                         uint ourrank = Evaluate(pocket | board);
-                        ulong opp1Pocket = Hand.RandomHand(rand, 0UL, pocket | board, 2);
-                        ulong opp2Pocket = Hand.RandomHand(rand, 0UL, pocket | board | opp1Pocket, 2);
-                        ulong opp3Pocket = Hand.RandomHand(rand, 0UL, pocket | board | opp1Pocket | opp2Pocket, 2);
-                        ulong opp4Pocket = Hand.RandomHand(rand, 0UL, pocket | board | opp1Pocket | opp2Pocket | opp3Pocket, 2);
-                        ulong opp5Pocket = Hand.RandomHand(rand, 0UL, pocket | board | opp1Pocket | opp2Pocket | opp3Pocket | opp4Pocket, 2);
+                        ulong opp1Pocket = Hand.RandomHand( 0UL, pocket | board, 2);
+                        ulong opp2Pocket = Hand.RandomHand( 0UL, pocket | board | opp1Pocket, 2);
+                        ulong opp3Pocket = Hand.RandomHand( 0UL, pocket | board | opp1Pocket | opp2Pocket, 2);
+                        ulong opp4Pocket = Hand.RandomHand( 0UL, pocket | board | opp1Pocket | opp2Pocket | opp3Pocket, 2);
+                        ulong opp5Pocket = Hand.RandomHand( 0UL, pocket | board | opp1Pocket | opp2Pocket | opp3Pocket | opp4Pocket, 2);
                         uint opp1rank = Evaluate(opp1Pocket | board);
                         uint opp2rank = Evaluate(opp2Pocket | board);
                         uint opp3rank = Evaluate(opp3Pocket | board);
@@ -5129,7 +5125,7 @@ namespace HoldemHand
                             index = behind;
                         }
 
-                        ulong boardmask = Hand.RandomHand(rand, board, pocket | opp1Pocket | opp2Pocket | opp3Pocket | opp4Pocket | opp5Pocket, 5);
+                        ulong boardmask = Hand.RandomHand( board, pocket | opp1Pocket | opp2Pocket | opp3Pocket | opp4Pocket | opp5Pocket, 5);
                         ourbest = Evaluate(pocket | boardmask, 7);
                         uint opp1best = Evaluate(opp1Pocket | boardmask, 7);
                         uint opp2best = Evaluate(opp2Pocket | boardmask, 7);
@@ -5164,14 +5160,14 @@ namespace HoldemHand
                 case 6:
                     while ((CurrentTime - start) < duration)
                     {
-                        ulong pocket = RandomHand(rand, list, board, 2);
+                        ulong pocket = RandomHand( list, board, 2);
                         uint ourrank = Evaluate(pocket | board);
-                        ulong opp1Pocket = Hand.RandomHand(rand, 0UL, pocket | board, 2);
-                        ulong opp2Pocket = Hand.RandomHand(rand, 0UL, pocket | board | opp1Pocket, 2);
-                        ulong opp3Pocket = Hand.RandomHand(rand, 0UL, pocket | board | opp1Pocket | opp2Pocket, 2);
-                        ulong opp4Pocket = Hand.RandomHand(rand, 0UL, pocket | board | opp1Pocket | opp2Pocket | opp3Pocket, 2);
-                        ulong opp5Pocket = Hand.RandomHand(rand, 0UL, pocket | board | opp1Pocket | opp2Pocket | opp3Pocket | opp4Pocket, 2);
-                        ulong opp6Pocket = Hand.RandomHand(rand, 0UL, pocket | board | opp1Pocket | opp2Pocket | opp3Pocket | opp4Pocket | opp5Pocket, 2);
+                        ulong opp1Pocket = Hand.RandomHand( 0UL, pocket | board, 2);
+                        ulong opp2Pocket = Hand.RandomHand( 0UL, pocket | board | opp1Pocket, 2);
+                        ulong opp3Pocket = Hand.RandomHand( 0UL, pocket | board | opp1Pocket | opp2Pocket, 2);
+                        ulong opp4Pocket = Hand.RandomHand( 0UL, pocket | board | opp1Pocket | opp2Pocket | opp3Pocket, 2);
+                        ulong opp5Pocket = Hand.RandomHand( 0UL, pocket | board | opp1Pocket | opp2Pocket | opp3Pocket | opp4Pocket, 2);
+                        ulong opp6Pocket = Hand.RandomHand( 0UL, pocket | board | opp1Pocket | opp2Pocket | opp3Pocket | opp4Pocket | opp5Pocket, 2);
                         uint opp1rank = Evaluate(opp1Pocket | board);
                         uint opp2rank = Evaluate(opp2Pocket | board);
                         uint opp3rank = Evaluate(opp3Pocket | board);
@@ -5197,7 +5193,7 @@ namespace HoldemHand
                             index = behind;
                         }
 
-                        ulong boardmask = Hand.RandomHand(rand, board, pocket | opp1Pocket | opp2Pocket | opp3Pocket | opp4Pocket | opp5Pocket | opp6Pocket, 5);
+                        ulong boardmask = Hand.RandomHand( board, pocket | opp1Pocket | opp2Pocket | opp3Pocket | opp4Pocket | opp5Pocket | opp6Pocket, 5);
                         ourbest = Evaluate(pocket | boardmask, 7);
                         uint opp1best = Evaluate(opp1Pocket | boardmask, 7);
                         uint opp2best = Evaluate(opp2Pocket | boardmask, 7);
@@ -5233,15 +5229,15 @@ namespace HoldemHand
                 case 7:
                     while ((CurrentTime - start) < duration)
                     {
-                        ulong pocket = RandomHand(rand, list, board, 2);
+                        ulong pocket = RandomHand( list, board, 2);
                         uint ourrank = Evaluate(pocket | board);
-                        ulong opp1Pocket = Hand.RandomHand(rand, 0UL, pocket | board, 2);
-                        ulong opp2Pocket = Hand.RandomHand(rand, 0UL, pocket | board | opp1Pocket, 2);
-                        ulong opp3Pocket = Hand.RandomHand(rand, 0UL, pocket | board | opp1Pocket | opp2Pocket, 2);
-                        ulong opp4Pocket = Hand.RandomHand(rand, 0UL, pocket | board | opp1Pocket | opp2Pocket | opp3Pocket, 2);
-                        ulong opp5Pocket = Hand.RandomHand(rand, 0UL, pocket | board | opp1Pocket | opp2Pocket | opp3Pocket | opp4Pocket, 2);
-                        ulong opp6Pocket = Hand.RandomHand(rand, 0UL, pocket | board | opp1Pocket | opp2Pocket | opp3Pocket | opp4Pocket | opp5Pocket, 2);
-                        ulong opp7Pocket = Hand.RandomHand(rand, 0UL, pocket | board | opp1Pocket | opp2Pocket | opp3Pocket | opp4Pocket | opp5Pocket | opp6Pocket, 2);
+                        ulong opp1Pocket = Hand.RandomHand( 0UL, pocket | board, 2);
+                        ulong opp2Pocket = Hand.RandomHand( 0UL, pocket | board | opp1Pocket, 2);
+                        ulong opp3Pocket = Hand.RandomHand( 0UL, pocket | board | opp1Pocket | opp2Pocket, 2);
+                        ulong opp4Pocket = Hand.RandomHand( 0UL, pocket | board | opp1Pocket | opp2Pocket | opp3Pocket, 2);
+                        ulong opp5Pocket = Hand.RandomHand( 0UL, pocket | board | opp1Pocket | opp2Pocket | opp3Pocket | opp4Pocket, 2);
+                        ulong opp6Pocket = Hand.RandomHand( 0UL, pocket | board | opp1Pocket | opp2Pocket | opp3Pocket | opp4Pocket | opp5Pocket, 2);
+                        ulong opp7Pocket = Hand.RandomHand( 0UL, pocket | board | opp1Pocket | opp2Pocket | opp3Pocket | opp4Pocket | opp5Pocket | opp6Pocket, 2);
                         uint opp1rank = Evaluate(opp1Pocket | board);
                         uint opp2rank = Evaluate(opp2Pocket | board);
                         uint opp3rank = Evaluate(opp3Pocket | board);
@@ -5270,7 +5266,7 @@ namespace HoldemHand
                             index = behind;
                         }
 
-                        ulong boardmask = Hand.RandomHand(rand, board, pocket | opp1Pocket | opp2Pocket | opp3Pocket | opp4Pocket | opp5Pocket | opp6Pocket | opp7Pocket, 5);
+                        ulong boardmask = Hand.RandomHand( board, pocket | opp1Pocket | opp2Pocket | opp3Pocket | opp4Pocket | opp5Pocket | opp6Pocket | opp7Pocket, 5);
                         ourbest = Evaluate(pocket | boardmask, 7);
                         uint opp1best = Evaluate(opp1Pocket | boardmask, 7);
                         uint opp2best = Evaluate(opp2Pocket | boardmask, 7);
@@ -5309,16 +5305,16 @@ namespace HoldemHand
                 case 8:
                     while ((CurrentTime - start) < duration)
                     {
-                        ulong pocket = RandomHand(rand, list, board, 2);
+                        ulong pocket = RandomHand( list, board, 2);
                         uint ourrank = Evaluate(pocket | board);
-                        ulong opp1Pocket = Hand.RandomHand(rand, 0UL, pocket | board, 2);
-                        ulong opp2Pocket = Hand.RandomHand(rand, 0UL, pocket | board | opp1Pocket, 2);
-                        ulong opp3Pocket = Hand.RandomHand(rand, 0UL, pocket | board | opp1Pocket | opp2Pocket, 2);
-                        ulong opp4Pocket = Hand.RandomHand(rand, 0UL, pocket | board | opp1Pocket | opp2Pocket | opp3Pocket, 2);
-                        ulong opp5Pocket = Hand.RandomHand(rand, 0UL, pocket | board | opp1Pocket | opp2Pocket | opp3Pocket | opp4Pocket, 2);
-                        ulong opp6Pocket = Hand.RandomHand(rand, 0UL, pocket | board | opp1Pocket | opp2Pocket | opp3Pocket | opp4Pocket | opp5Pocket, 2);
-                        ulong opp7Pocket = Hand.RandomHand(rand, 0UL, pocket | board | opp1Pocket | opp2Pocket | opp3Pocket | opp4Pocket | opp5Pocket | opp6Pocket, 2);
-                        ulong opp8Pocket = Hand.RandomHand(rand, 0UL, pocket | board | opp1Pocket | opp2Pocket | opp3Pocket | opp4Pocket | opp5Pocket | opp6Pocket | opp7Pocket, 2);
+                        ulong opp1Pocket = Hand.RandomHand( 0UL, pocket | board, 2);
+                        ulong opp2Pocket = Hand.RandomHand( 0UL, pocket | board | opp1Pocket, 2);
+                        ulong opp3Pocket = Hand.RandomHand( 0UL, pocket | board | opp1Pocket | opp2Pocket, 2);
+                        ulong opp4Pocket = Hand.RandomHand( 0UL, pocket | board | opp1Pocket | opp2Pocket | opp3Pocket, 2);
+                        ulong opp5Pocket = Hand.RandomHand( 0UL, pocket | board | opp1Pocket | opp2Pocket | opp3Pocket | opp4Pocket, 2);
+                        ulong opp6Pocket = Hand.RandomHand( 0UL, pocket | board | opp1Pocket | opp2Pocket | opp3Pocket | opp4Pocket | opp5Pocket, 2);
+                        ulong opp7Pocket = Hand.RandomHand( 0UL, pocket | board | opp1Pocket | opp2Pocket | opp3Pocket | opp4Pocket | opp5Pocket | opp6Pocket, 2);
+                        ulong opp8Pocket = Hand.RandomHand( 0UL, pocket | board | opp1Pocket | opp2Pocket | opp3Pocket | opp4Pocket | opp5Pocket | opp6Pocket | opp7Pocket, 2);
                         uint opp1rank = Evaluate(opp1Pocket | board);
                         uint opp2rank = Evaluate(opp2Pocket | board);
                         uint opp3rank = Evaluate(opp3Pocket | board);
@@ -5348,7 +5344,7 @@ namespace HoldemHand
                             index = behind;
                         }
 
-                        ulong boardmask = Hand.RandomHand(rand, board, pocket | opp1Pocket | opp2Pocket | opp3Pocket | opp4Pocket | opp5Pocket | opp6Pocket | opp7Pocket | opp8Pocket, 5);
+                        ulong boardmask = Hand.RandomHand( board, pocket | opp1Pocket | opp2Pocket | opp3Pocket | opp4Pocket | opp5Pocket | opp6Pocket | opp7Pocket | opp8Pocket, 5);
                         ourbest = Evaluate(pocket | boardmask, 7);
                         uint opp1best = Evaluate(opp1Pocket | boardmask, 7);
                         uint opp2best = Evaluate(opp2Pocket | boardmask, 7);
@@ -5388,17 +5384,17 @@ namespace HoldemHand
                 case 9:
                     while ((CurrentTime - start) < duration)
                     {
-                        ulong pocket = RandomHand(rand, list, board, 2);
+                        ulong pocket = RandomHand( list, board, 2);
                         uint ourrank = Evaluate(pocket | board);
-                        ulong opp1Pocket = Hand.RandomHand(rand, 0UL, pocket | board, 2);
-                        ulong opp2Pocket = Hand.RandomHand(rand, 0UL, pocket | board | opp1Pocket, 2);
-                        ulong opp3Pocket = Hand.RandomHand(rand, 0UL, pocket | board | opp1Pocket | opp2Pocket, 2);
-                        ulong opp4Pocket = Hand.RandomHand(rand, 0UL, pocket | board | opp1Pocket | opp2Pocket | opp3Pocket, 2);
-                        ulong opp5Pocket = Hand.RandomHand(rand, 0UL, pocket | board | opp1Pocket | opp2Pocket | opp3Pocket | opp4Pocket, 2);
-                        ulong opp6Pocket = Hand.RandomHand(rand, 0UL, pocket | board | opp1Pocket | opp2Pocket | opp3Pocket | opp4Pocket | opp5Pocket, 2);
-                        ulong opp7Pocket = Hand.RandomHand(rand, 0UL, pocket | board | opp1Pocket | opp2Pocket | opp3Pocket | opp4Pocket | opp5Pocket | opp6Pocket, 2);
-                        ulong opp8Pocket = Hand.RandomHand(rand, 0UL, pocket | board | opp1Pocket | opp2Pocket | opp3Pocket | opp4Pocket | opp5Pocket | opp6Pocket | opp7Pocket, 2);
-                        ulong opp9Pocket = Hand.RandomHand(rand, 0UL, pocket | board | opp1Pocket | opp2Pocket | opp3Pocket | opp4Pocket | opp5Pocket | opp6Pocket | opp7Pocket | opp8Pocket, 2);
+                        ulong opp1Pocket = Hand.RandomHand( 0UL, pocket | board, 2);
+                        ulong opp2Pocket = Hand.RandomHand( 0UL, pocket | board | opp1Pocket, 2);
+                        ulong opp3Pocket = Hand.RandomHand( 0UL, pocket | board | opp1Pocket | opp2Pocket, 2);
+                        ulong opp4Pocket = Hand.RandomHand( 0UL, pocket | board | opp1Pocket | opp2Pocket | opp3Pocket, 2);
+                        ulong opp5Pocket = Hand.RandomHand( 0UL, pocket | board | opp1Pocket | opp2Pocket | opp3Pocket | opp4Pocket, 2);
+                        ulong opp6Pocket = Hand.RandomHand( 0UL, pocket | board | opp1Pocket | opp2Pocket | opp3Pocket | opp4Pocket | opp5Pocket, 2);
+                        ulong opp7Pocket = Hand.RandomHand( 0UL, pocket | board | opp1Pocket | opp2Pocket | opp3Pocket | opp4Pocket | opp5Pocket | opp6Pocket, 2);
+                        ulong opp8Pocket = Hand.RandomHand( 0UL, pocket | board | opp1Pocket | opp2Pocket | opp3Pocket | opp4Pocket | opp5Pocket | opp6Pocket | opp7Pocket, 2);
+                        ulong opp9Pocket = Hand.RandomHand( 0UL, pocket | board | opp1Pocket | opp2Pocket | opp3Pocket | opp4Pocket | opp5Pocket | opp6Pocket | opp7Pocket | opp8Pocket, 2);
                         uint opp1rank = Evaluate(opp1Pocket | board);
                         uint opp2rank = Evaluate(opp2Pocket | board);
                         uint opp3rank = Evaluate(opp3Pocket | board);
@@ -5431,7 +5427,7 @@ namespace HoldemHand
                             index = behind;
                         }
 
-                        ulong boardmask = Hand.RandomHand(rand, board, pocket | opp1Pocket | opp2Pocket | opp3Pocket | opp4Pocket | opp5Pocket | opp6Pocket | opp7Pocket | opp8Pocket | opp9Pocket, 5);
+                        ulong boardmask = Hand.RandomHand( board, pocket | opp1Pocket | opp2Pocket | opp3Pocket | opp4Pocket | opp5Pocket | opp6Pocket | opp7Pocket | opp8Pocket | opp9Pocket, 5);
                         ourbest = Evaluate(pocket | boardmask, 7);
                         uint opp1best = Evaluate(opp1Pocket | boardmask, 7);
                         uint opp2best = Evaluate(opp2Pocket | boardmask, 7);
@@ -5492,7 +5488,7 @@ namespace HoldemHand
         public static void HandPlayerMultiOpponentOdds(ulong ourcards, ulong board, int numOpponents, double duration, ref double[] player, ref double[] opponent)
         {
             long playerCount = 0, OpponentCount = 0;
-            Random rand = new Random();
+            
 
             for (int i = 0; i < 9; i++)
             {
@@ -5509,7 +5505,7 @@ namespace HoldemHand
                 case 1:
                     foreach (ulong boardmask in Hand.RandomHands(board, ourcards, 5, duration))
                     {
-                        ulong opp1 = Hand.RandomHand(rand, 0UL, ourcards | boardmask, 2);
+                        ulong opp1 = Hand.RandomHand( 0UL, ourcards | boardmask, 2);
                         uint playerHandVal = Hand.Evaluate(ourcards | boardmask, 7);
                         uint opp1HandVal = Hand.Evaluate(opp1 | boardmask, 7);
 
@@ -5535,8 +5531,8 @@ namespace HoldemHand
                 case 2:
                     foreach (ulong boardmask in Hand.RandomHands(board, ourcards, 5, duration))
                     {
-                        ulong opp1 = Hand.RandomHand(rand, 0UL, ourcards | boardmask, 2);
-                        ulong opp2 = Hand.RandomHand(rand, 0UL, ourcards | boardmask | opp1, 2);
+                        ulong opp1 = Hand.RandomHand( 0UL, ourcards | boardmask, 2);
+                        ulong opp2 = Hand.RandomHand( 0UL, ourcards | boardmask | opp1, 2);
                         uint playerHandVal = Hand.Evaluate(ourcards | boardmask, 7);
                         uint opp1HandVal = Hand.Evaluate(opp1 | boardmask, 7);
                         uint opp2HandVal = Hand.Evaluate(opp2 | boardmask, 7);
@@ -5570,9 +5566,9 @@ namespace HoldemHand
                 case 3:
                     foreach (ulong boardmask in Hand.RandomHands(board, ourcards, 5, duration))
                     {
-                        ulong opp1 = Hand.RandomHand(rand, 0UL, ourcards | boardmask, 2);
-                        ulong opp2 = Hand.RandomHand(rand, 0UL, ourcards | boardmask | opp1, 2);
-                        ulong opp3 = Hand.RandomHand(rand, 0UL, ourcards | boardmask | opp1 | opp2, 2);
+                        ulong opp1 = Hand.RandomHand( 0UL, ourcards | boardmask, 2);
+                        ulong opp2 = Hand.RandomHand( 0UL, ourcards | boardmask | opp1, 2);
+                        ulong opp3 = Hand.RandomHand( 0UL, ourcards | boardmask | opp1 | opp2, 2);
                         uint playerHandVal = Hand.Evaluate(ourcards | boardmask, 7);
                         uint opp1HandVal = Hand.Evaluate(opp1 | boardmask, 7);
                         uint opp2HandVal = Hand.Evaluate(opp2 | boardmask, 7);
@@ -5613,10 +5609,10 @@ namespace HoldemHand
                 case 4:
                     foreach (ulong boardmask in Hand.RandomHands(board, ourcards, 5, duration))
                     {
-                        ulong opp1 = Hand.RandomHand(rand, 0UL, ourcards | boardmask, 2);
-                        ulong opp2 = Hand.RandomHand(rand, 0UL, ourcards | boardmask | opp1, 2);
-                        ulong opp3 = Hand.RandomHand(rand, 0UL, ourcards | boardmask | opp1 | opp2, 2);
-                        ulong opp4 = Hand.RandomHand(rand, 0UL, ourcards | boardmask | opp1 | opp2 | opp3, 2);
+                        ulong opp1 = Hand.RandomHand( 0UL, ourcards | boardmask, 2);
+                        ulong opp2 = Hand.RandomHand( 0UL, ourcards | boardmask | opp1, 2);
+                        ulong opp3 = Hand.RandomHand( 0UL, ourcards | boardmask | opp1 | opp2, 2);
+                        ulong opp4 = Hand.RandomHand( 0UL, ourcards | boardmask | opp1 | opp2 | opp3, 2);
                         uint playerHandVal = Hand.Evaluate(ourcards | boardmask, 7);
                         uint opp1HandVal = Hand.Evaluate(opp1 | boardmask, 7);
                         uint opp2HandVal = Hand.Evaluate(opp2 | boardmask, 7);
@@ -5665,11 +5661,11 @@ namespace HoldemHand
                 case 5:
                     foreach (ulong boardmask in Hand.RandomHands(board, ourcards, 5, duration))
                     {
-                        ulong opp1 = Hand.RandomHand(rand, 0UL, ourcards | boardmask, 2);
-                        ulong opp2 = Hand.RandomHand(rand, 0UL, ourcards | boardmask | opp1, 2);
-                        ulong opp3 = Hand.RandomHand(rand, 0UL, ourcards | boardmask | opp1 | opp2, 2);
-                        ulong opp4 = Hand.RandomHand(rand, 0UL, ourcards | boardmask | opp1 | opp2 | opp3, 2);
-                        ulong opp5 = Hand.RandomHand(rand, 0UL, ourcards | boardmask | opp1 | opp2 | opp3 | opp4, 2);
+                        ulong opp1 = Hand.RandomHand( 0UL, ourcards | boardmask, 2);
+                        ulong opp2 = Hand.RandomHand( 0UL, ourcards | boardmask | opp1, 2);
+                        ulong opp3 = Hand.RandomHand( 0UL, ourcards | boardmask | opp1 | opp2, 2);
+                        ulong opp4 = Hand.RandomHand( 0UL, ourcards | boardmask | opp1 | opp2 | opp3, 2);
+                        ulong opp5 = Hand.RandomHand( 0UL, ourcards | boardmask | opp1 | opp2 | opp3 | opp4, 2);
                         uint playerHandVal = Hand.Evaluate(ourcards | boardmask, 7);
                         uint opp1HandVal = Hand.Evaluate(opp1 | boardmask, 7);
                         uint opp2HandVal = Hand.Evaluate(opp2 | boardmask, 7);
@@ -5726,12 +5722,12 @@ namespace HoldemHand
                 case 6:
                     foreach (ulong boardmask in Hand.RandomHands(board, ourcards, 5, duration))
                     {
-                        ulong opp1 = Hand.RandomHand(rand, 0UL, ourcards | boardmask, 2);
-                        ulong opp2 = Hand.RandomHand(rand, 0UL, ourcards | boardmask | opp1, 2);
-                        ulong opp3 = Hand.RandomHand(rand, 0UL, ourcards | boardmask | opp1 | opp2, 2);
-                        ulong opp4 = Hand.RandomHand(rand, 0UL, ourcards | boardmask | opp1 | opp2 | opp3, 2);
-                        ulong opp5 = Hand.RandomHand(rand, 0UL, ourcards | boardmask | opp1 | opp2 | opp3 | opp4, 2);
-                        ulong opp6 = Hand.RandomHand(rand, 0UL, ourcards | boardmask | opp1 | opp2 | opp3 | opp4 | opp5, 2);
+                        ulong opp1 = Hand.RandomHand( 0UL, ourcards | boardmask, 2);
+                        ulong opp2 = Hand.RandomHand( 0UL, ourcards | boardmask | opp1, 2);
+                        ulong opp3 = Hand.RandomHand( 0UL, ourcards | boardmask | opp1 | opp2, 2);
+                        ulong opp4 = Hand.RandomHand( 0UL, ourcards | boardmask | opp1 | opp2 | opp3, 2);
+                        ulong opp5 = Hand.RandomHand( 0UL, ourcards | boardmask | opp1 | opp2 | opp3 | opp4, 2);
+                        ulong opp6 = Hand.RandomHand( 0UL, ourcards | boardmask | opp1 | opp2 | opp3 | opp4 | opp5, 2);
                         uint playerHandVal = Hand.Evaluate(ourcards | boardmask, 7);
                         uint opp1HandVal = Hand.Evaluate(opp1 | boardmask, 7);
                         uint opp2HandVal = Hand.Evaluate(opp2 | boardmask, 7);
@@ -5795,13 +5791,13 @@ namespace HoldemHand
                 case 7:
                     foreach (ulong boardmask in Hand.RandomHands(board, ourcards, 5, duration))
                     {
-                        ulong opp1 = Hand.RandomHand(rand, 0UL, ourcards | boardmask, 2);
-                        ulong opp2 = Hand.RandomHand(rand, 0UL, ourcards | boardmask | opp1, 2);
-                        ulong opp3 = Hand.RandomHand(rand, 0UL, ourcards | boardmask | opp1 | opp2, 2);
-                        ulong opp4 = Hand.RandomHand(rand, 0UL, ourcards | boardmask | opp1 | opp2 | opp3, 2);
-                        ulong opp5 = Hand.RandomHand(rand, 0UL, ourcards | boardmask | opp1 | opp2 | opp3 | opp4, 2);
-                        ulong opp6 = Hand.RandomHand(rand, 0UL, ourcards | boardmask | opp1 | opp2 | opp3 | opp4 | opp5, 2);
-                        ulong opp7 = Hand.RandomHand(rand, 0UL, ourcards | boardmask | opp1 | opp2 | opp3 | opp4 | opp5 | opp6, 2);
+                        ulong opp1 = Hand.RandomHand( 0UL, ourcards | boardmask, 2);
+                        ulong opp2 = Hand.RandomHand( 0UL, ourcards | boardmask | opp1, 2);
+                        ulong opp3 = Hand.RandomHand( 0UL, ourcards | boardmask | opp1 | opp2, 2);
+                        ulong opp4 = Hand.RandomHand( 0UL, ourcards | boardmask | opp1 | opp2 | opp3, 2);
+                        ulong opp5 = Hand.RandomHand( 0UL, ourcards | boardmask | opp1 | opp2 | opp3 | opp4, 2);
+                        ulong opp6 = Hand.RandomHand( 0UL, ourcards | boardmask | opp1 | opp2 | opp3 | opp4 | opp5, 2);
+                        ulong opp7 = Hand.RandomHand( 0UL, ourcards | boardmask | opp1 | opp2 | opp3 | opp4 | opp5 | opp6, 2);
                         uint playerHandVal = Hand.Evaluate(ourcards | boardmask, 7);
                         uint opp1HandVal = Hand.Evaluate(opp1 | boardmask, 7);
                         uint opp2HandVal = Hand.Evaluate(opp2 | boardmask, 7);
@@ -5873,14 +5869,14 @@ namespace HoldemHand
                 case 8:
                     foreach (ulong boardmask in Hand.RandomHands(board, ourcards, 5, duration))
                     {
-                        ulong opp1 = Hand.RandomHand(rand, 0UL, ourcards | boardmask, 2);
-                        ulong opp2 = Hand.RandomHand(rand, 0UL, ourcards | boardmask | opp1, 2);
-                        ulong opp3 = Hand.RandomHand(rand, 0UL, ourcards | boardmask | opp1 | opp2, 2);
-                        ulong opp4 = Hand.RandomHand(rand, 0UL, ourcards | boardmask | opp1 | opp2 | opp3, 2);
-                        ulong opp5 = Hand.RandomHand(rand, 0UL, ourcards | boardmask | opp1 | opp2 | opp3 | opp4, 2);
-                        ulong opp6 = Hand.RandomHand(rand, 0UL, ourcards | boardmask | opp1 | opp2 | opp3 | opp4 | opp5, 2);
-                        ulong opp7 = Hand.RandomHand(rand, 0UL, ourcards | boardmask | opp1 | opp2 | opp3 | opp4 | opp5 | opp6, 2);
-                        ulong opp8 = Hand.RandomHand(rand, 0UL, ourcards | boardmask | opp1 | opp2 | opp3 | opp4 | opp5 | opp6 | opp7, 2);
+                        ulong opp1 = Hand.RandomHand( 0UL, ourcards | boardmask, 2);
+                        ulong opp2 = Hand.RandomHand( 0UL, ourcards | boardmask | opp1, 2);
+                        ulong opp3 = Hand.RandomHand( 0UL, ourcards | boardmask | opp1 | opp2, 2);
+                        ulong opp4 = Hand.RandomHand( 0UL, ourcards | boardmask | opp1 | opp2 | opp3, 2);
+                        ulong opp5 = Hand.RandomHand( 0UL, ourcards | boardmask | opp1 | opp2 | opp3 | opp4, 2);
+                        ulong opp6 = Hand.RandomHand( 0UL, ourcards | boardmask | opp1 | opp2 | opp3 | opp4 | opp5, 2);
+                        ulong opp7 = Hand.RandomHand( 0UL, ourcards | boardmask | opp1 | opp2 | opp3 | opp4 | opp5 | opp6, 2);
+                        ulong opp8 = Hand.RandomHand( 0UL, ourcards | boardmask | opp1 | opp2 | opp3 | opp4 | opp5 | opp6 | opp7, 2);
                         uint playerHandVal = Hand.Evaluate(ourcards | boardmask, 7);
                         uint opp1HandVal = Hand.Evaluate(opp1 | boardmask, 7);
                         uint opp2HandVal = Hand.Evaluate(opp2 | boardmask, 7);
@@ -5959,15 +5955,15 @@ namespace HoldemHand
                 case 9:
                     foreach (ulong boardmask in Hand.RandomHands(board, ourcards, 5, duration))
                     {
-                        ulong opp1 = Hand.RandomHand(rand, 0UL, ourcards | boardmask, 2);
-                        ulong opp2 = Hand.RandomHand(rand, 0UL, ourcards | boardmask | opp1, 2);
-                        ulong opp3 = Hand.RandomHand(rand, 0UL, ourcards | boardmask | opp1 | opp2, 2);
-                        ulong opp4 = Hand.RandomHand(rand, 0UL, ourcards | boardmask | opp1 | opp2 | opp3, 2);
-                        ulong opp5 = Hand.RandomHand(rand, 0UL, ourcards | boardmask | opp1 | opp2 | opp3 | opp4, 2);
-                        ulong opp6 = Hand.RandomHand(rand, 0UL, ourcards | boardmask | opp1 | opp2 | opp3 | opp4 | opp5, 2);
-                        ulong opp7 = Hand.RandomHand(rand, 0UL, ourcards | boardmask | opp1 | opp2 | opp3 | opp4 | opp5 | opp6, 2);
-                        ulong opp8 = Hand.RandomHand(rand, 0UL, ourcards | boardmask | opp1 | opp2 | opp3 | opp4 | opp5 | opp6 | opp7, 2);
-                        ulong opp9 = Hand.RandomHand(rand, 0UL, ourcards | boardmask | opp1 | opp2 | opp3 | opp4 | opp5 | opp6 | opp7 | opp8, 2);
+                        ulong opp1 = Hand.RandomHand( 0UL, ourcards | boardmask, 2);
+                        ulong opp2 = Hand.RandomHand( 0UL, ourcards | boardmask | opp1, 2);
+                        ulong opp3 = Hand.RandomHand( 0UL, ourcards | boardmask | opp1 | opp2, 2);
+                        ulong opp4 = Hand.RandomHand( 0UL, ourcards | boardmask | opp1 | opp2 | opp3, 2);
+                        ulong opp5 = Hand.RandomHand( 0UL, ourcards | boardmask | opp1 | opp2 | opp3 | opp4, 2);
+                        ulong opp6 = Hand.RandomHand( 0UL, ourcards | boardmask | opp1 | opp2 | opp3 | opp4 | opp5, 2);
+                        ulong opp7 = Hand.RandomHand( 0UL, ourcards | boardmask | opp1 | opp2 | opp3 | opp4 | opp5 | opp6, 2);
+                        ulong opp8 = Hand.RandomHand( 0UL, ourcards | boardmask | opp1 | opp2 | opp3 | opp4 | opp5 | opp6 | opp7, 2);
+                        ulong opp9 = Hand.RandomHand( 0UL, ourcards | boardmask | opp1 | opp2 | opp3 | opp4 | opp5 | opp6 | opp7 | opp8, 2);
                         uint playerHandVal = Hand.Evaluate(ourcards | boardmask, 7);
                         uint opp1HandVal = Hand.Evaluate(opp1 | boardmask, 7);
                         uint opp2HandVal = Hand.Evaluate(opp2 | boardmask, 7);

@@ -19,12 +19,9 @@
 // Written (ported) by Keith Rule - Sept 2005, updated May 2007
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Threading;
 using System.Diagnostics;
-using System.Runtime.InteropServices;
+using System.Security.Cryptography;
 
 namespace HoldemHand
 {
@@ -34,7 +31,7 @@ namespace HoldemHand
         /// <summary>
         /// 1326 ulong cards masks for all hold cards.
         /// </summary>
-        public static readonly ulong[] TwoCardMaskTable = {
+        private static readonly ulong[] TwoCardMaskTable = {
             0xc000000000000, 0xa000000000000, 0x9000000000000, 0x8800000000000, 0x8400000000000, 
             0x8200000000000, 0x8100000000000, 0x8080000000000, 0x8040000000000, 0x8020000000000, 
             0x8010000000000, 0x8008000000000, 0x8004000000000, 0x8002000000000, 0x8001000000000, 
@@ -314,26 +311,27 @@ namespace HoldemHand
         /// The 1326 possible pocket cards ordered by the 169 unique holdem combinations. The
         /// index is equivalent to the number value of Hand.PocketPairType.
         /// </summary>
-        internal static readonly ulong[][] Pocket169Table = {
-	        new ulong [] {0x8004000000000, 0x8000002000000, 0x8000000001000, 0x4002000000, 0x4000001000, 0x2001000},
-	        new ulong [] {0x4002000000000, 0x4000001000000, 0x4000000000800, 0x2001000000, 0x2000000800, 0x1000800},
-	        new ulong [] {0x2001000000000, 0x2000000800000, 0x2000000000400, 0x1000800000, 0x1000000400, 0x800400},
-	        new ulong [] {0x1000800000000, 0x1000000400000, 0x1000000000200, 0x800400000, 0x800000200, 0x400200},
-	        new ulong [] {0x800400000000, 0x800000200000, 0x800000000100, 0x400200000, 0x400000100, 0x200100},
-	        new ulong [] {0x400200000000, 0x400000100000, 0x400000000080, 0x200100000, 0x200000080, 0x100080},
-	        new ulong [] {0x200100000000, 0x200000080000, 0x200000000040, 0x100080000, 0x100000040, 0x80040},
-	        new ulong [] {0x100080000000, 0x100000040000, 0x100000000020, 0x80040000, 0x80000020, 0x40020},
-	        new ulong [] {0x80040000000, 0x80000020000, 0x80000000010, 0x40020000, 0x40000010, 0x20010},
-	        new ulong [] {0x40020000000, 0x40000010000, 0x40000000008, 0x20010000, 0x20000008, 0x10008},
-	        new ulong [] {0x20010000000, 0x20000008000, 0x20000000004, 0x10008000, 0x10000004, 0x8004},
-	        new ulong [] {0x10008000000, 0x10000004000, 0x10000000002, 0x8004000, 0x8000002, 0x4002},
-	        new ulong [] {0x8004000000, 0x8000002000, 0x8000000001, 0x4002000, 0x4000001, 0x2001},
-	        new ulong [] {0xC000000000000, 0x6000000000, 0x3000000, 0x1800},
-	        new ulong [] {0x8002000000000, 0x8000001000000, 0x8000000000800, 0x4004000000000, 0x4000002000000, 0x4000000001000, 0x4001000000, 0x4000000800, 0x2002000000, 0x2000001000, 0x2000800, 0x1001000},
-	        new ulong [] {0xA000000000000, 0x5000000000, 0x2800000, 0x1400},
-	        new ulong [] {0x8001000000000, 0x8000000800000, 0x8000000000400, 0x2004000000000, 0x2000002000000, 0x2000000001000, 0x4000800000, 0x4000000400, 0x1002000000, 0x1000001000, 0x2000400, 0x801000},
-	        new ulong [] {0x9000000000000, 0x4800000000, 0x2400000, 0x1200},
-	        new ulong [] {0x8000800000000, 0x8000000400000, 0x8000000000200, 0x1004000000000, 0x1000002000000, 0x1000000001000, 0x4000400000, 0x4000000200, 0x802000000, 0x800001000, 0x2000200, 0x401000},
+        internal static readonly ulong[][] Pocket169Table =
+        [
+            [0x8004000000000, 0x8000002000000, 0x8000000001000, 0x4002000000, 0x4000001000, 0x2001000],
+            [0x4002000000000, 0x4000001000000, 0x4000000000800, 0x2001000000, 0x2000000800, 0x1000800],
+            [0x2001000000000, 0x2000000800000, 0x2000000000400, 0x1000800000, 0x1000000400, 0x800400],
+            [0x1000800000000, 0x1000000400000, 0x1000000000200, 0x800400000, 0x800000200, 0x400200],
+            [0x800400000000, 0x800000200000, 0x800000000100, 0x400200000, 0x400000100, 0x200100],
+            [0x400200000000, 0x400000100000, 0x400000000080, 0x200100000, 0x200000080, 0x100080],
+            [0x200100000000, 0x200000080000, 0x200000000040, 0x100080000, 0x100000040, 0x80040],
+            [0x100080000000, 0x100000040000, 0x100000000020, 0x80040000, 0x80000020, 0x40020],
+            [0x80040000000, 0x80000020000, 0x80000000010, 0x40020000, 0x40000010, 0x20010],
+            [0x40020000000, 0x40000010000, 0x40000000008, 0x20010000, 0x20000008, 0x10008],
+            [0x20010000000, 0x20000008000, 0x20000000004, 0x10008000, 0x10000004, 0x8004],
+	        [0x10008000000, 0x10000004000, 0x10000000002, 0x8004000, 0x8000002, 0x4002],
+	        [0x8004000000, 0x8000002000, 0x8000000001, 0x4002000, 0x4000001, 0x2001],
+	        [0xC000000000000, 0x6000000000, 0x3000000, 0x1800],
+	        [0x8002000000000, 0x8000001000000, 0x8000000000800, 0x4004000000000, 0x4000002000000, 0x4000000001000, 0x4001000000, 0x4000000800, 0x2002000000, 0x2000001000, 0x2000800, 0x1001000],
+	        [0xA000000000000, 0x5000000000, 0x2800000, 0x1400],
+	        [0x8001000000000, 0x8000000800000, 0x8000000000400, 0x2004000000000, 0x2000002000000, 0x2000000001000, 0x4000800000, 0x4000000400, 0x1002000000, 0x1000001000, 0x2000400, 0x801000],
+	        [0x9000000000000, 0x4800000000, 0x2400000, 0x1200],
+	        [0x8000800000000, 0x8000000400000, 0x8000000000200, 0x1004000000000, 0x1000002000000, 0x1000000001000, 0x4000400000, 0x4000000200, 0x802000000, 0x800001000, 0x2000200, 0x401000],
 	        new ulong [] {0x8800000000000, 0x4400000000, 0x2200000, 0x1100},
 	        new ulong [] {0x8000400000000, 0x8000000200000, 0x8000000000100, 0x804000000000, 0x800002000000, 0x800000001000, 0x4000200000, 0x4000000100, 0x402000000, 0x400001000, 0x2000100, 0x201000},
 	        new ulong [] {0x8400000000000, 0x4200000000, 0x2100000, 0x1080},
@@ -484,7 +482,7 @@ namespace HoldemHand
 	        new ulong [] {0x20004000000, 0x20000002000, 0x20000000001, 0x8010000000, 0x8000008000, 0x8000000004, 0x10002000, 0x10000001, 0x4008000, 0x4000004, 0x8001, 0x2004},
 	        new ulong [] {0x18000000000, 0xC000000, 0x6000, 0x3},
 	        new ulong [] {0x10004000000, 0x10000002000, 0x10000000001, 0x8008000000, 0x8000004000, 0x8000000002, 0x8002000, 0x8000001, 0x4004000, 0x4000002, 0x4001, 0x2002}
-        };
+        ];
 
         #endregion
 
@@ -1670,7 +1668,7 @@ namespace HoldemHand
                 //QueryPerformanceCounter(out current);
                 current = Stopwatch.GetTimestamp();
 
-                return ((double)current) / ((double)QueryFrequency);
+                return current / (double)QueryFrequency;
             }
         }
         #endregion
@@ -1680,7 +1678,7 @@ namespace HoldemHand
         /// <summary>
         /// 
         /// </summary>
-        static private Random srand = new Random();
+        // private static Random srand = new Random();
 
         /// <summary>
         /// This method randomly picks from a list of possible masks.
@@ -1689,13 +1687,13 @@ namespace HoldemHand
         /// <param name="dead">A mask containing cards that must not be chosen</param>
         /// <param name="ncards">The number of cards to return</param>
         /// <returns></returns>
-        static public ulong RandomHand(ulong[] list, ulong dead, int ncards)
-        {
-            lock (srand)
-            {
-                return RandomHand(srand, list, dead, ncards);
-            }
-        }
+        // static public ulong RandomHand(ulong[] list, ulong dead, int ncards)
+        // {
+        //     // lock (srand)
+        //     // {
+        //     return RandomHand(list, dead, ncards);
+        //     // }
+        // }
 
         /// <summary>
         /// This method randomly picks from a list of possible masks. 
@@ -1705,21 +1703,21 @@ namespace HoldemHand
         /// <param name="dead">A mask containing cards that must not be chosen</param>
         /// <param name="ncards">The number of cards to return</param>
         /// <returns></returns>
-        static public ulong RandomHand(Random rand, ulong[] list, ulong dead, int ncards)
+        public static ulong RandomHand(ulong[] list, ulong dead, int ncards)
         {
-            ulong mask = 0UL;
+            var mask = 0UL;
 #if DEBUG
             if (list == null || list.Length == 0) throw new ArgumentException("list");
-            if (ncards <= 1 || ncards > 7) throw new ArgumentException("ncards");
+            if (ncards is <= 1 or > 7) throw new ArgumentException("ncards");
 #endif
             do
             {
-                mask = list[rand.Next(list.Length - 1)];
+                mask = list[Random.Shared.Next(list.Length - 1)];
             } while ((mask & dead) != 0);
 #if DEBUG
             if (BitCount(mask) > ncards) throw new ArgumentException("ncards");
 #endif
-            return RandomHand(rand, mask, dead, ncards);
+            return RandomHand(mask, dead, ncards);
         }
 
         /// <summary>
@@ -1732,15 +1730,48 @@ namespace HoldemHand
         /// <param name="dead">A set of cards that may not be used in the generated mask as a mask mask</param>
         /// <param name="ncards">The number of cards that must be in the final mask.</param>
         /// <returns>A randomly chosen mask mask that meets the input criterion</returns>
-        static public ulong RandomHand(Random rand, string query, ulong dead, int ncards)
+        public static ulong RandomHand(string query, ulong dead, int ncards)
         {
-            return RandomHand(rand, PocketHands.Query(query), dead, ncards);
+            return RandomHand(PocketHands.Query(query), dead, ncards);
         }
 
         /// <summary>
         /// Returns a rand mask with the specified number of cards and constrained
         /// to not contain any of the passed dead cards. This method is not thread safe!
         /// </summary>
+        /// <param name="shared"></param>
+        /// <param name="dead">Mask for the cards that must not be returned.</param>
+        /// <param name="ncards">The number of cards to return in this mask.</param>
+        /// <returns>A randomly chosen mask containing the number of cards requested.</returns>
+        // static public ulong RandomHand(ulong shared, ulong dead, int ncards)
+        // {
+        //     // Return a random mask.
+        //     ulong mask = shared;
+        //     ulong card;
+        //     int count = ncards - BitCount(shared);
+        //
+        //     // Random is not thread safe,
+        //     // this should fix that
+        //     // lock (srand)
+        //     // {
+        //         for (var i = 0; i < count; i++)
+        //         {
+        //             do
+        //             {
+        //                 card = (1UL << Random.Shared.Next(52));
+        //             } while (((dead | mask) & card) != 0);
+        //             mask |= card;
+        //         }
+        //     // }
+        //
+        //     return mask | shared;
+        // }
+
+        /// <summary>
+        /// Returns a rand mask with the specified number of cards and constrained
+        /// to not contain any of the passed dead cards.
+        /// </summary>
+        /// <param name="rand">Random number generator</param>
         /// <param name="shared"></param>
         /// <param name="dead">Mask for the cards that must not be returned.</param>
         /// <param name="ncards">The number of cards to return in this mask.</param>
@@ -1752,44 +1783,11 @@ namespace HoldemHand
             ulong card;
             int count = ncards - BitCount(shared);
 
-            // Random is not thread safe,
-            // this should fix that
-            lock (srand)
-            {
-                for (int i = 0; i < count; i++)
-                {
-                    do
-                    {
-                        card = (1UL << srand.Next(52));
-                    } while (((dead | mask) & card) != 0);
-                    mask |= card;
-                }
-            }
-
-            return mask | shared;
-        }
-
-        /// <summary>
-        /// Returns a rand mask with the specified number of cards and constrained
-        /// to not contain any of the passed dead cards.
-        /// </summary>
-        /// <param name="rand">Random number generator</param>
-        /// <param name="shared"></param>
-        /// <param name="dead">Mask for the cards that must not be returned.</param>
-        /// <param name="ncards">The number of cards to return in this mask.</param>
-        /// <returns>A randomly chosen mask containing the number of cards requested.</returns>
-        static public ulong RandomHand(Random rand, ulong shared, ulong dead, int ncards)
-        {
-            // Return a random mask.
-            ulong mask = shared;
-            ulong card;
-            int count = ncards - BitCount(shared);
-
-            for (int i = 0; i < count; i++)
+            for (var i = 0; i < count; i++)
             {
                 do
                 {
-                    card = (1UL << rand.Next(52));
+                    card = (1UL << Random.Shared.Next(52));
                 } while (((dead | mask) & card) != 0);
                 mask |= card;
             }
@@ -1805,10 +1803,10 @@ namespace HoldemHand
         /// <param name="dead">The mask of cards that may not be used in the generated mask</param>
         /// <param name="ncards">The number of cards to return in the generated mask</param>
         /// <returns>The generated mask as a mask mask</returns>
-        static public ulong RandomHand(Random rand, ulong dead, int ncards)
-        {
-            return RandomHand(rand, 0UL, dead, ncards);
-        }
+        // static public ulong RandomHand(ulong dead, int ncards)
+        // {
+        //     return RandomHand(0UL, dead, ncards);
+        // }
 
         /// <summary>
         /// 
@@ -1818,10 +1816,7 @@ namespace HoldemHand
         /// <returns></returns>
         static public ulong RandomHand(ulong dead, int ncards)
         {
-            lock (srand)
-            {
-                return RandomHand(srand, 0UL, dead, ncards);
-            }
+            return RandomHand(0UL, dead, ncards);
         }
 
         /// <summary>
@@ -1830,9 +1825,9 @@ namespace HoldemHand
         /// <param name="rand">Random number generator.</param>
         /// <param name="ncards">The number of cards to return</param>
         /// <returns>A randomly chosen mask returned as a mask mask</returns>
-        static public ulong RandomHand(Random rand, int ncards)
+        static public ulong RandomHand(int ncards)
         {
-            return RandomHand(rand, 0UL, 0UL, ncards);
+            return RandomHand(0UL, 0UL, ncards);
         } 
 
         /// <summary>
@@ -1851,13 +1846,12 @@ namespace HoldemHand
             if (ncards < 0 || ncards > 7)
                 throw new ArgumentOutOfRangeException("ncards");
 #endif
-            Random rand = new Random();
             ulong deadmask = dead | shared;
             int cardcount = ncards - Hand.BitCount(shared);
         
-            for (int count = 0; count < trials; count++)
+            for (var count = 0; count < trials; count++)
             {
-                yield return RandomHand(rand, deadmask, cardcount) | shared;
+                yield return RandomHand(deadmask, cardcount) | shared;
             }
         }
 
@@ -1902,18 +1896,17 @@ namespace HoldemHand
         /// <returns></returns>
         public static IEnumerable<ulong> RandomHands(ulong [] list, ulong dead, int ncards, double duration)
         {
-            double start = CurrentTime;
-            Random rand = new Random();
+            var start = CurrentTime;
 
 #if DEBUG
             // Check Preconditions
-            if (ncards < 0 || ncards > 7) throw new ArgumentOutOfRangeException("ncards");
+            if (ncards is < 0 or > 7) throw new ArgumentOutOfRangeException("ncards");
             if (duration < 0.0) throw new ArgumentOutOfRangeException("duration");
 #endif
 
             do
             {
-                yield return RandomHand(rand, list, dead, ncards);
+                yield return RandomHand(list, dead, ncards);
             } while ((CurrentTime - start) < duration);
         }
 
@@ -1932,17 +1925,16 @@ namespace HoldemHand
         /// <returns>A mask mask</returns>
         public static IEnumerable<ulong> RandomHands(ulong shared, ulong dead, int ncards, double duration)
         {
-            double start = CurrentTime;
-            Random rand = new Random();
+            var start = CurrentTime;
 #if DEBUG
             // Check Preconditions
-            if (ncards < 0 || ncards > 7) throw new ArgumentOutOfRangeException("ncards");
+            if (ncards is < 0 or > 7) throw new ArgumentOutOfRangeException("ncards");
             if (duration < 0.0) throw new ArgumentOutOfRangeException("duration");
 #endif
           
             do
             {
-                yield return RandomHand(rand, shared, dead, ncards);
+                yield return RandomHand(shared, dead, ncards);
             } while ((CurrentTime - start) < duration);
         }
 
