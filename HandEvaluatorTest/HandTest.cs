@@ -1,5 +1,6 @@
 using System;
 using System.Diagnostics;
+using System.Linq;
 using System.Runtime.InteropServices;
 using Xunit;
 using HoldemHand;
@@ -47,11 +48,11 @@ namespace HandEvaluatorTest
         [Fact]
         public void Test7CardHands()
         {
-            int[] handtypes = { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+            int[] handtypes = [0, 0, 0, 0, 0, 0, 0, 0, 0];
             int count = 0;
 
             // Iterate through all possible 7 card hands
-            foreach (ulong mask in Hand.Hands(7))
+            foreach (var mask in Hand.Hands(7))
             {
                 handtypes[(int)Hand.EvaluateType(mask, 7)]++;
                 count++;
@@ -74,17 +75,17 @@ namespace HandEvaluatorTest
         [Fact]
         public void TestParserWith5Cards()
         {
-            int count = 0;
+            var count = 0;
 
-            for (int i = 0; i < 52; i++)
+            for (var i = 0; i < 52; i++)
             {
                 Assert.True(Hand.ParseCard(Hand.CardTable[i]) == i, "Make sure parser and text match");
             }
 
-            foreach (ulong mask in Hand.Hands(5))
+            foreach (var mask in Hand.Hands(5))
             {
-                string hand = Hand.MaskToString(mask);
-                ulong testmask = Hand.ParseHand(hand);
+                var hand = Hand.MaskToString(mask);
+                var testmask = Hand.ParseHand(hand);
                 Assert.True(Hand.BitCount(testmask) == 5, "Parsed Results should be 5 cards");
  
                 //System.Diagnostics.Debug.Assert(mask == testmask);
@@ -100,10 +101,10 @@ namespace HandEvaluatorTest
         [Fact]
         public void TestParserWith7Cards()
         {
-            foreach (ulong mask in Hand.RandomHands(7, 20.0))
+            foreach (var mask in Hand.RandomHands(7, 20.0))
             {
-                string hand = Hand.MaskToString(mask);
-                ulong testmask = Hand.ParseHand(hand);
+                var hand = Hand.MaskToString(mask);
+                var testmask = Hand.ParseHand(hand);
                 Assert.True(Hand.BitCount(testmask) == 7, "Parsed Results should be 7 cards");
                 Assert.True(mask == testmask, "Make sure that MaskToString() and ParseHand() return consistant results");
             }
@@ -135,30 +136,15 @@ namespace HandEvaluatorTest
         public void TestRandomIterators()
         {
             long freq;
-            int count = 0;
+            var count = Hand.RandomHands(7, 20000).Count();
             // Test Random Hand Trials Iteration
-            foreach (ulong mask in Hand.RandomHands(7, 20000))
-            {
-                count++;
-            }
             Assert.True(count == 20000, "Should match the requested number of hands");
-
-            //QueryPerformanceFrequency(out freq);
-            //QueryPerformanceCounter(out start);
-            freq = Stopwatch.Frequency;
-            var stopWatch = new Stopwatch();
             
-            stopWatch.Start();
-
-            count = 0;
-            foreach (ulong mask in Hand.RandomHands(7, 2.5))
-            {
-                count++;
-            }
-            //QueryPerformanceCounter(out curtime);
-            stopWatch.Stop();
-
-            Assert.True((stopWatch.ElapsedTicks/ ((double)freq)) > 2.5, "Make sure ran the correct amount of time");
+            freq = Stopwatch.Frequency;
+            var sw = Stopwatch.StartNew();
+            count = Hand.RandomHands(7, 2.5).Count();
+            sw.Stop();
+            Assert.True((sw.ElapsedTicks/ ((double)freq)) > 2.5, "Make sure ran the correct amount of time");
         }
 
         /// <summary>
